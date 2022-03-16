@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import {Link} from "react-router-dom"
 // import { firebase } from "../../utils/firebaseConfig";
 // import { verifConnexion } from '../../utils/db';
 
@@ -15,16 +16,17 @@ const Ul = styled.ul`
         padding: 15% 10px;
     }
 
-    a {
+    .link {
         text-decoration: none;
         outline: none;
         user-select: none;
         font-size: 1.1rem;
     }
 
-    a {color: #0D2538;}         /* Unvisited link  */
-    a:visited {color: #0D2538;} /* Visited link    */
-    a:hover {color: red;}   /* Mouse over link */
+    
+    .link {color: #0D2538;}         /* Unvisited link  */
+    .link:visited {color: #0D2538;} /* Visited link    */
+    .link:hover {color: red;}   /* Mouse over link */
 
     @media (max-width : 768px){
         flex-flow: column nowrap;
@@ -37,9 +39,9 @@ const Ul = styled.ul`
         padding-right: 50px;
         transition: transform 0.3s ease-in-out;
 
-        a {color: white;}         /* Unvisited link  */
-        a:visited {color: white;} /* Visited link    */
-        a:hover {color: red;}   /* Mouse over link */
+        .link {color: white;}         /* Unvisited link  */
+        .link:visited {color: white;} /* Visited link    */
+        .link:hover {color: red;}   /* Mouse over link */
     }
 
 
@@ -57,8 +59,10 @@ const RightNav = ( props ) => {
     return (
         <div>
             <Ul open={props.open}>
-                <li><a href="home" >Accueil</a></li>
-                <li><a href="">Contact</a></li>
+                <li><Link className='link' to="/" >Animaux</Link></li>
+                <li><Link className='link' to="/">Sorties</Link></li>
+                <li><Link className='link' to="/">Connexion</Link></li>
+                <li><Link className='link' to="/">Inscription</Link></li>
                 {/* {(verifConnexion() ? 
                         <li><a href="home" onClick={() => deconnexion()}>Déconnexion</a></li>
                          :

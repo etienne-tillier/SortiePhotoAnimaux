@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 // import { useHistory } from 'react-router-dom';
 // import { useLocation } from "react-router-dom";
-import Footer from '../Footer/Footer';
-import Navbar from '../Nav/Navbar';
+import Footer from '../../components/Footer/Footer';
+import Navbar from '../../components/Nav/Navbar';
 import styled from 'styled-components';
-import ListeAnimaux from '../ListeAnimaux/ListeAnimaux';
+import ListeAnimaux from '../../components/ListeAnimaux/ListeAnimaux';
 
 
 const StyledHome = styled.div`
     height: 100vh;
     width: 100%;
     display: grid;
-    grid-template-rows: 15% 75% 10%;
+    grid-template-rows: 10% 85% 5%;
 `
 
 
@@ -34,14 +34,11 @@ const Home = () => {
     //   }, [reload])
 
 
-      useEffect(() => { 
-          console.log("test props connexion : " + localStorage.getItem("connexion"))
-       }, [])
  
     return (
         (isMount ? (
             <React.Fragment>
-                <StyledHome>
+                <StyledHome className='bg-secondary'>
                     <Navbar></Navbar>
                     {/* {(sessionStorage.getItem("admin") == "true" ?
                         <React.Fragment>

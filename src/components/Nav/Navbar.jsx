@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Burger from './Burger'
+import {Link} from "react-router-dom"
 
 
 const Nav = styled.nav`
@@ -8,7 +9,6 @@ const Nav = styled.nav`
     height: 100%;
     display: flex;
     justify-content: space-between;
-    background-color: skyblue;
 
 
     .emplacementLogo{
@@ -25,16 +25,12 @@ const Nav = styled.nav`
         left: 10%;
         padding: 20px 20px;
         user-select: none;
-        transition: 0.3s;
     }
 
     .logo:visited {
         color: black;
     }
 
-    .logo:hover{
-        color: yellow;
-    }
 
 
 `
@@ -43,11 +39,11 @@ const Nav = styled.nav`
 
 const Navbar = () => {
     return (
-        <Nav>
+        <Nav className='bg-light'>
             <div className='emplacementLogo'>
-                <a href='/' className="logo">
+                <Link to='/' className="logo">
                     SortiePhoto
-                </a>
+                </Link>
             </div>
             <Burger/>
         </Nav>
