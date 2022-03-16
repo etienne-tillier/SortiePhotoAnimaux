@@ -8,10 +8,8 @@ import ListeAnimaux from '../../components/ListeAnimaux/ListeAnimaux';
 
 
 const StyledHome = styled.div`
-    height: 100vh;
+    height: 100%;
     width: 100%;
-    display: grid;
-    grid-template-rows: 10% 85% 5%;
 `
 
 
@@ -39,7 +37,6 @@ const Home = () => {
         (isMount ? (
             <React.Fragment>
                 <StyledHome className='bg-secondary'>
-                    <Navbar></Navbar>
                     {/* {(sessionStorage.getItem("admin") == "true" ?
                         <React.Fragment>
                         <div className="creerRestaurant" onClick={() => goTo("FormulaireRestaurant", {create : true})}>Nouveau Restaurant</div>
@@ -49,7 +46,6 @@ const Home = () => {
                         " "
                     )} */}
                     <ListeAnimaux></ListeAnimaux>
-                    <Footer></Footer>
                 </StyledHome>
             </React.Fragment>
         ) : null)

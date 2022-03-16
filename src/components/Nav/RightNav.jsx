@@ -1,8 +1,11 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import styled from 'styled-components'
 import {Link} from "react-router-dom"
+import { UtilisateurContext } from '../../context/userContext'
 // import { firebase } from "../../utils/firebaseConfig";
 // import { verifConnexion } from '../../utils/db';
+
+
 
 const Ul = styled.ul`
 
@@ -21,6 +24,7 @@ const Ul = styled.ul`
         outline: none;
         user-select: none;
         font-size: 1.1rem;
+        cursor: pointer;
     }
 
     
@@ -50,19 +54,17 @@ const Ul = styled.ul`
 
 const RightNav = ( props ) => {
 
-    // const deconnexion = () => {
-    //     firebase.auth().signOut();
-    //     sessionStorage.setItem("connexion",false);
-    //     sessionStorage.setItem("admin",false);
-    // }
+    const {toggleModals} = useContext(UtilisateurContext)
+
+
 
     return (
         <div>
             <Ul open={props.open}>
                 <li><Link className='link' to="/" >Animaux</Link></li>
                 <li><Link className='link' to="/">Sorties</Link></li>
-                <li><Link className='link' to="/">Connexion</Link></li>
-                <li><Link className='link' to="/">Inscription</Link></li>
+                <li><div className='link' onClick={() => console.log("piooo")}>Connexion</div></li>
+                <li><div className='link'  onClick={() => toggleModals("signUp")}>S'inscrire</div></li>
                 {/* {(verifConnexion() ? 
                         <li><a href="home" onClick={() => deconnexion()}>Déconnexion</a></li>
                          :

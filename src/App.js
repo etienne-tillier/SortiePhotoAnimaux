@@ -1,16 +1,41 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home/Home.jsx";
+import ListeAnimaux from "./components/ListeAnimaux/ListeAnimaux.jsx";
+import Inscription from "./pages/Home/Inscription/Inscription.jsx";
+import Navbar from "./components/Nav/Navbar.jsx";
+import Footer from "./components/Footer/Footer.jsx";
 import "./App.css";
+import styled from "styled-components";
+
+
+const StyledApp = styled.div`
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 15% 80% 5%;
+
+  .containerApp{
+    width: 100%;
+    height: 100%;
+  }
+
+`
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home></Home>} />
-        <Route path="/home" element={<Home></Home>} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <StyledApp>
+      <Inscription/>
+      <Navbar/>
+        <div className="containerApp">
+          <Routes>
+            <Route path="/" element={<ListeAnimaux></ListeAnimaux>} />
+            <Route path="/listeAnimaux" element={<ListeAnimaux></ListeAnimaux>} />
+          </Routes>
+        </div>
+        <Footer></Footer>
+      </StyledApp>
+    </>
   );
 };
 

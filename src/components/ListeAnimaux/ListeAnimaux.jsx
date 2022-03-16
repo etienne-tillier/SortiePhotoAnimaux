@@ -7,8 +7,9 @@ import loupeLogo from "../../assets/img/searchIcon.png"
 
 const StyledListeAimaux = styled.div`
 
-    height: 80%;
+    height: 100%;
     width: 100%;
+    background-color: gray;
 
     header{
         width: 100%;
