@@ -49,10 +49,8 @@ const ListeAnimaux = () => {
     return (
         (isMount ? 
         <StyledListeAimaux>
-            <div>
                 <p>test animaux</p>
                 <div className='liste'>{afficherAnimaux()}</div>
-            </div>
         </StyledListeAimaux>
         : null)
     );

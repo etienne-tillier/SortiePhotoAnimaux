@@ -20,7 +20,7 @@ const Nav = styled.nav`
     .logo{
         position: relative;
         text-decoration: none;
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         top: 25%;
         left: 10%;
         padding: 20px 20px;

@@ -13,9 +13,9 @@ const FicheAnimal = (props) => {
     const afficherCategories = () => {
         return (
             Object.keys(props.categories).map((key) => (
-                <li className='categorie' value={props.categories[key]}/>
+                <li className='categorie'>{props.categories[key].nomcategorie}</li>
         ))
-    }
+    )}
 
 
     return (
@@ -24,7 +24,7 @@ const FicheAnimal = (props) => {
             <p className='couleur'>{props.couleur}</p>
             <p className='taille'>{props.taille}</p>
             <p className='poids'>{props.poids}</p>
-            <ul><React.Fragment>{afficherCategories}</React.Fragment></ul>
+            <ul><React.Fragment>{afficherCategories()}</React.Fragment></ul>
         </StyledFicheAnimal>
     );
 };

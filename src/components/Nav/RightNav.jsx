@@ -19,6 +19,7 @@ const Ul = styled.ul`
         text-decoration: none;
         outline: none;
         user-select: none;
+        font-size: 1.1rem;
     }
 
     a {color: #0D2538;}         /* Unvisited link  */
