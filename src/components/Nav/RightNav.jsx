@@ -8,6 +8,7 @@ const Ul = styled.ul`
     list-style: none;
     display: flex;
     flex-flow: row nowrap;
+    padding-right: 60px;
     /* transition: 0.3s linear; */
     z-index: 19;
     li {
@@ -17,6 +18,7 @@ const Ul = styled.ul`
     a {
         text-decoration: none;
         outline: none;
+        user-select: none;
     }
 
     a {color: #0D2538;}         /* Unvisited link  */

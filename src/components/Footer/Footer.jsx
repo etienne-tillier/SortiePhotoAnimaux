@@ -5,14 +5,20 @@ const StyledFooter = styled.div`
     height: 100%;
     color: blue;
     background-color: red;
+    text-align: center;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 `
 
 const Footer = () => {
     return (
         <StyledFooter>
-            <div className="text">
-                Copyright...
-            </div>
+            <p className="text">
+                Copyright Tillier Etienne
+            </p>
         </StyledFooter>
     );
 };

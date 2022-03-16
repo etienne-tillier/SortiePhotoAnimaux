@@ -10,9 +10,33 @@ const Nav = styled.nav`
     justify-content: space-between;
     background-color: skyblue;
 
-    .logo{
-        padding: 20px 20px;
+
+    .emplacementLogo{
+        height: 100%;
+        width: 25%;
     }
+
+
+    .logo{
+        position: relative;
+        text-decoration: none;
+        font-size: 1.3rem;
+        top: 25%;
+        left: 10%;
+        padding: 20px 20px;
+        user-select: none;
+        transition: 0.3s;
+    }
+
+    .logo:visited {
+        color: black;
+    }
+
+    .logo:hover{
+        color: yellow;
+    }
+
+
 `
 
 
@@ -20,8 +44,10 @@ const Nav = styled.nav`
 const Navbar = () => {
     return (
         <Nav>
-            <div className="logo">
-                NavBar
+            <div className='emplacementLogo'>
+                <a href='/' className="logo">
+                    SortiePhoto
+                </a>
             </div>
             <Burger/>
         </Nav>
