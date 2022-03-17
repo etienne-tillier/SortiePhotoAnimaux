@@ -2,8 +2,10 @@ import React, {useContext} from 'react'
 import styled from 'styled-components'
 import {Link} from "react-router-dom"
 import { UtilisateurContext } from '../../context/userContext'
-// import { firebase } from "../../utils/firebaseConfig";
-// import { verifConnexion } from '../../utils/db';
+import { auth } from '../../firebase-config'
+import { useNavigate } from 'react-router-dom'
+import { signOut } from 'firebase/auth'
+
 
 
 
@@ -54,23 +56,28 @@ const Ul = styled.ul`
 
 const RightNav = ( props ) => {
 
-    const {toggleModals} = useContext(UtilisateurContext)
+    const {toggleModals,currentUser} = useContext(UtilisateurContext)
 
+    const navigate = useNavigate()
 
+    const deconnexion = async () => {
+        await signOut(auth)
+        navigate("/")
+    }
 
     return (
-        <div>
+        <>
             <Ul open={props.open}>
                 <li><Link className='link' to="/" >Animaux</Link></li>
-                <li><Link className='link' to="/">Sorties</Link></li>
+                <li><Link className='link' to="/prive/sorties">Sorties</Link></li>
+                {!currentUser ?
+                <>
                 <li><div className='link' onClick={() => toggleModals("signIn")}>Connexion</div></li>
                 <li><div className='link'  onClick={() => toggleModals("signUp")}>S'inscrire</div></li>
-                {/* {(verifConnexion() ? 
-                        <li><a href="home" onClick={() => deconnexion()}>Déconnexion</a></li>
-                         :
-                         <li><a href="connexion">Connexion</a></li>)} */}
+                </>
+            :   <li><div className='link'  onClick={() => deconnexion()}>Déconnexion</div></li> }
             </Ul>
-        </div>
+        </>
     )
 }
 

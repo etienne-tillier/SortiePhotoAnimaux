@@ -38,6 +38,8 @@ const Nav = styled.nav`
 
 
 const Navbar = () => {
+
+
     return (
         <Nav className='bg-light'>
             <div className='emplacementLogo'>

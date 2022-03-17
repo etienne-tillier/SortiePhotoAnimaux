@@ -1,16 +1,54 @@
-import React, {useContext} from 'react';
+import React, { useState,useContext, useRef} from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UtilisateurContext } from '../../context/userContext';
 
 const Connexion = () => {
 
-    const {modalState, toggleModals} = useContext(UtilisateurContext)
+    const {modalState, toggleModals, connexion} = useContext(UtilisateurContext)
+    const [validation, setvalidation] = useState("")
+
+    const inputs = useRef([])
+    const formRef = useRef()
+
+    const navigate = useNavigate()
+
+    const addInputs = (el) => {
+      if (!inputs.current.includes(el)){
+        inputs.current.push(el)
+      }
+    }
+
+
+
+    const handleForm = async (e) => {
+      e.preventDefault()
+        try {
+          const creds = await connexion(inputs.current[0].value,inputs.current[1].value)
+          //vide les champs du form
+          formRef.current.reset()
+          setvalidation("")
+          toggleModals("close")
+          navigate("/prive/sorties")
+
+        } catch (err) {
+          setvalidation("Le mot de passe ou l'email est invalide (ou les deux)")
+        }
+      
+      }
+
+    
+    const closeModal = () => {
+      setvalidation("")
+      toggleModals("close")
+    }
+
 
     return (
         <>
         {modalState.signInModal && (
         <div className="position-fixed top-0 vw-100 vh-100">
           <div
-          onClick={() => toggleModals("close")}
+          onClick={() => closeModal()}
           className="w-100 h-100 bg-dark bg-opacity-75">
           </div>
             <div
@@ -22,14 +60,14 @@ const Connexion = () => {
                   <div className="modal-header">
                     <h5 className="modal-title">Se connecter</h5>
                     <button 
-                    onClick={() => toggleModals("close")}
+                    onClick={() => closeModal()}
                     className="btn-close"></button>
                   </div>
 
                   <div className="modal-body">
                     <form 
-                    //ref={formRef}
-                    //onSubmit={handleForm}
+                    ref={formRef}
+                    onSubmit={handleForm}
                     className="sign-in-form">
 
                       <div className="mb-3">
@@ -37,7 +75,7 @@ const Connexion = () => {
                           Adresse email
                         </label>
                         <input
-                         // ref={addInputs}
+                          ref={addInputs}
                           name="email"
                           required
                           type="email"
@@ -51,7 +89,7 @@ const Connexion = () => {
                           Mot de passe
                         </label>
                         <input
-                          //ref={addInputs}
+                          ref={addInputs}
                           name="mdp"
                           required
                           type="password"
@@ -59,7 +97,7 @@ const Connexion = () => {
                           id="connexionMdp"
                         />
                       </div>
-
+                      <p className="text-danger mt-1">{validation}</p>
                       <button className="btn btn-primary">Se connecter</button>
                     </form>
                   </div>
