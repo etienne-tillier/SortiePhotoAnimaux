@@ -7,7 +7,7 @@ function UtilisateurContextProvider(props) {
   // modal
 
   const [modalState, setModalState] = useState({
-    signUpModal: true,
+    signUpModal: false,
     signInModal: false,
   });
 

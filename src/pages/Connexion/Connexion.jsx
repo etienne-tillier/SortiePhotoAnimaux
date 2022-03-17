@@ -1,14 +1,13 @@
 import React, {useContext} from 'react';
-import { UtilisateurContext } from '../../../context/userContext';
-
+import { UtilisateurContext } from '../../context/userContext';
 
 const Connexion = () => {
 
     const {modalState, toggleModals} = useContext(UtilisateurContext)
 
     return (
-        <React.Fragment>
-{modalState.signUpModal && (
+        <>
+        {modalState.signInModal && (
         <div className="position-fixed top-0 vw-100 vh-100">
           <div
           onClick={() => toggleModals("close")}
@@ -21,7 +20,7 @@ const Connexion = () => {
               <div className="modal-dialog">
                 <div className="modal-content">
                   <div className="modal-header">
-                    <h5 className="modal-title">S'inscrire</h5>
+                    <h5 className="modal-title">Se connecter</h5>
                     <button 
                     onClick={() => toggleModals("close")}
                     className="btn-close"></button>
@@ -31,9 +30,10 @@ const Connexion = () => {
                     <form 
                     //ref={formRef}
                     //onSubmit={handleForm}
-                    className="sign-up-form">
+                    className="sign-in-form">
+
                       <div className="mb-3">
-                        <label htmlFor="inscriptionEmail" className="form-label">
+                        <label htmlFor="connexionEmail" className="form-label">
                           Adresse email
                         </label>
                         <input
@@ -42,12 +42,12 @@ const Connexion = () => {
                           required
                           type="email"
                           className="form-control"
-                          id="inscriptionEmail"
+                          id="connexionEmail"
                         />
                       </div>
 
                       <div className="mb-3">
-                        <label htmlFor="inscriptionMdp" className="form-label">
+                        <label htmlFor="connexionMdp" className="form-label">
                           Mot de passe
                         </label>
                         <input
@@ -56,26 +56,11 @@ const Connexion = () => {
                           required
                           type="password"
                           className="form-control"
-                          id="inscriptionMdp"
+                          id="connexionMdp"
                         />
                       </div>
 
-                      <div className="mb-3">
-                        <label htmlFor="verifMdp" className="form-label">
-                          Vérification du mot de passe
-                        </label>
-                        <input
-                          //ref={}
-                          name="mdp"
-                          required
-                          type="password"
-                          className="form-control"
-                          id="verifMdp"
-                        />
-                        <p className="text-danger mt-1">{}</p>
-                      </div>
-
-                      <button className="btn btn-primary">S'inscrire</button>
+                      <button className="btn btn-primary">Se connecter</button>
                     </form>
                   </div>
                 </div>
@@ -84,7 +69,7 @@ const Connexion = () => {
 
         </div>
      )}
-        </React.Fragment>
+        </>
     );
 };
 

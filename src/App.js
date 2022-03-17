@@ -1,7 +1,9 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ListeAnimaux from "./components/ListeAnimaux/ListeAnimaux.jsx";
-import Inscription from "./pages/Home/Inscription/Inscription.jsx";
+import Inscription from "./pages/Inscription/Inscription.jsx";
+import Connexion from "./pages/Connexion/Connexion.jsx"
+import FormulaireAnimaux from "./pages/FormulaireAnimaux/FormulaireAnimaux.jsx";
 import Navbar from "./components/Nav/Navbar.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import "./App.css";
@@ -25,12 +27,14 @@ const App = () => {
   return (
     <>
       <StyledApp>
-      <Inscription/>
-      <Navbar/>
+        <Navbar/>
+        <Connexion/>
+        <Inscription/>
         <div className="containerApp">
           <Routes>
             <Route path="/" element={<ListeAnimaux></ListeAnimaux>} />
             <Route path="/listeAnimaux" element={<ListeAnimaux></ListeAnimaux>} />
+            <Route path="/FormulaireAnimaux" element={<FormulaireAnimaux></FormulaireAnimaux>}/>
           </Routes>
         </div>
         <Footer></Footer>

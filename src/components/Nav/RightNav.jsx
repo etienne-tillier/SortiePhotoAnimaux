@@ -63,7 +63,7 @@ const RightNav = ( props ) => {
             <Ul open={props.open}>
                 <li><Link className='link' to="/" >Animaux</Link></li>
                 <li><Link className='link' to="/">Sorties</Link></li>
-                <li><div className='link' onClick={() => console.log("piooo")}>Connexion</div></li>
+                <li><div className='link' onClick={() => toggleModals("signIn")}>Connexion</div></li>
                 <li><div className='link'  onClick={() => toggleModals("signUp")}>S'inscrire</div></li>
                 {/* {(verifConnexion() ? 
                         <li><a href="home" onClick={() => deconnexion()}>Déconnexion</a></li>
