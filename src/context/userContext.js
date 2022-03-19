@@ -18,12 +18,21 @@ function UtilisateurContextProvider(props) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setcurrentUser(currentUser)
-      setloadingData(false)
+        setcurrentUser(currentUser)
+        console.log(currentUser)
+        setloadingData(false)
     })
 
     return unsubscribe
   }, [])
+
+  const updateUtilisateurData = async (currentUser) => {
+    const sorties = await axios.get("http://localhost:5000/sorties/utilisateur/" + currentUser.uid)
+    console.log(JSON.stringify(sorties.data))
+    currentUser.sorties = sorties.data;
+    setcurrentUser(currentUser)
+    console.log(currentUser)
+  }
 
 
   const inscription = async (email, mdp) => {

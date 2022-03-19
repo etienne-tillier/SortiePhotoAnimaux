@@ -10,6 +10,7 @@ const StyledListeAimaux = styled.div`
     height: 100%;
     width: 100%;
     background-color: gray;
+    overflow-y: scroll;
 
     header{
         width: 100%;
@@ -49,6 +50,7 @@ const ListeAnimaux = () => {
     const [animaux, setanimaux] = useState("")
     const [animauxSorted, setanimauxSorted] = useState("")
     const [categories, setcategories] = useState("")
+    const [reload, setreload] = useState(0)
 
     useEffect(() => {
         //load animaux
@@ -67,7 +69,7 @@ const ListeAnimaux = () => {
                 setcategories(listeCategorie)
             })
         })
-      }, [])
+      }, [reload])
 
     const afficherAnimaux = () => {
         return (
@@ -79,6 +81,9 @@ const ListeAnimaux = () => {
                     poids={animauxSorted[key].poidsmoyen}
                     taille={animauxSorted[key].taille}
                     categories={animauxSorted[key].categories}
+                    image={"http://localhost:5000/" + animauxSorted[key].image}
+                    setreload={setreload}
+                    reload={reload}
                 />
             ))
         )

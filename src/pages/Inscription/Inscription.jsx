@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { UtilisateurContext } from '../../context/userContext';
 
 
-const Connexion = () => {
+const Inscription = () => {
 
     const {modalState, toggleModals, inscription, inscriptionBD} = useContext(UtilisateurContext)
     const [validation, setvalidation] = useState("")
@@ -165,4 +165,4 @@ const Connexion = () => {
     );
 };
 
-export default Connexion;
+export default Inscription;
