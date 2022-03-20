@@ -3,11 +3,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ListeAnimaux from "./components/ListeAnimaux/ListeAnimaux.jsx";
 import Inscription from "./pages/Inscription/Inscription.jsx";
 import Connexion from "./pages/Connexion/Connexion.jsx"
-import FormulaireAnimaux from "./pages/Prive/FormulaireAnimaux/FormulaireAnimaux.jsx";
+import FormulaireAnimaux from "./pages/Admin/FormulaireAnimaux/FormulaireAnimaux.jsx";
+import FormulaireSortie from "./pages/Prive/FormulaireSortie/FormulaireSortie.jsx";
 import Sorties from "./pages/Prive/Sorties/Sorties.jsx";
 import Prive from "./pages/Prive/Prive.jsx";
 import Navbar from "./components/Nav/Navbar.jsx";
 import Footer from "./components/Footer/Footer.jsx";
+import Admin from "./pages/Admin/Admin.jsx";
 import "./App.css";
 import styled from "styled-components";
 
@@ -37,10 +39,13 @@ const App = () => {
             <Route path="/" element={<ListeAnimaux></ListeAnimaux>} />
             <Route path="/listeAnimaux" element={<ListeAnimaux></ListeAnimaux>} />
             <Route path="/prive" element={<Prive></Prive>}>
-              <Route path="/prive/formulaireAnimaux" element={<FormulaireAnimaux create="true"></FormulaireAnimaux>}>
-                <Route path="/prive/formulaireAnimaux/:id" element={<FormulaireAnimaux create="false"></FormulaireAnimaux>}/>
-              </Route>
               <Route path="/prive/sorties" element={<Sorties></Sorties>}/>
+              <Route path="/prive/formulaireSortie" element={<FormulaireSortie></FormulaireSortie>}/>
+            </Route>
+            <Route path="/admin" element={<Admin></Admin>}>
+              <Route path="/admin/formulaireAnimaux" element={<FormulaireAnimaux create="true"></FormulaireAnimaux>}>
+                <Route path="/admin/formulaireAnimaux/:id" element={<FormulaireAnimaux create="false"></FormulaireAnimaux>}/>
+              </Route>
             </Route>
           </Routes>
         </div>

@@ -38,6 +38,7 @@ const FormulaireAnimaux = (props) => {
     const navigate = useNavigate()
 
     useEffect(() => {
+        //categorie pour le select
         axios.get("http://localhost:5000/categorieanimal").then((categories) => {
             setcategories(categories.data)
             console.log(categories.data)
@@ -49,8 +50,8 @@ const FormulaireAnimaux = (props) => {
                 })
             }
             setoptions(options)
+            //si c'est un uptdate alors on prérempli les catégorie pour l'animal en question
             if (id){
-                console.log("test id" + id)
                 axios.get("http://localhost:5000/especeanimal/" + id).then((animal) => {
                     setnomespece(animal.data.nomespece)
                     setcouleur(animal.data.couleur)
@@ -58,9 +59,12 @@ const FormulaireAnimaux = (props) => {
                     setpoids(animal.data.poidsmoyen)
                     setimage(animal.data.image)
                     let categoriesArray = []
+                    console.log(animal.data.categories)
                     for (let categorie of options){
-                        if (!animal.data.categories.includes(categorie.label)){
-                            categoriesArray.push(categorie)
+                        for (let categorieAnimal of animal.data.categories){
+                            if (categorieAnimal.nomcategorie === categorie.label){
+                                categoriesArray.push(categorie)
+                            }
                         }
                     }
                     setcategoriesChoisies(categoriesArray)
@@ -83,7 +87,6 @@ const FormulaireAnimaux = (props) => {
     }
 
     const handleChangeFile = (event) => {
-        console.log(event.target.files[0])
         setfile(event.target.files[0])
     }
 
@@ -118,7 +121,7 @@ const FormulaireAnimaux = (props) => {
                 fd.append("poidsmoyen",poids)
                 fd.append("couleur",couleur)
                 fd.append("taille",taille)
-                fd.append("categories",idCategories)
+                fd.append("categories",JSON.stringify(idCategories))
             //update
             if (id){
                 if (file){

@@ -1,8 +1,11 @@
-import React , { useEffect, useState } from 'react';
+import React , { useEffect, useState, useContext } from 'react';
 import axios from "axios"
 import FicheAnimal from '../FicheAnimal/FicheAnimal';
 import styled from 'styled-components';
 import loupeLogo from "../../assets/img/searchIcon.png"
+import { UtilisateurContext } from '../../context/userContext';
+import { Link } from 'react-router-dom';
+
 
 
 const StyledListeAimaux = styled.div`
@@ -89,6 +92,8 @@ const ListeAnimaux = () => {
         )
     }
 
+    const {isAdmin} = useContext(UtilisateurContext)
+
     const sortAnimaux = (chaine) => {
         let sort = []
         if (categories.includes(chaine)){
@@ -115,6 +120,13 @@ const ListeAnimaux = () => {
         (isMount ? 
         <StyledListeAimaux>
                 <header>
+                    {(isAdmin &&
+                        <>
+                            <Link to="/admin/formulaireAnimaux/">
+                                <div className="btn btn-primary">Nouvel Animal</div>
+                            </Link>
+                        </>
+                    )}
                     <input id='searchAnimal' onChange={(e) => {sortAnimaux(e.target.value)}} type="text" />
                     <img className='searchIcon' src={loupeLogo} alt="loupe" />
                 </header>

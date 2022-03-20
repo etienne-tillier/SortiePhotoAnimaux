@@ -1,7 +1,8 @@
 import axios from 'axios';
-import React from 'react';
+import React,  { useContext } from 'react';
 import styled from "styled-components"
 import { Link } from 'react-router-dom';
+import { UtilisateurContext } from '../../context/userContext';
 
 const StyledFicheAnimal = styled.div`
     width: 100%;
@@ -36,9 +37,9 @@ const FicheAnimal = (props) => {
         })
     }
 
-    const updateEspece = () => {
+    const {isAdmin} = useContext(UtilisateurContext)
 
-    }
+
 
 
     return (
@@ -49,10 +50,14 @@ const FicheAnimal = (props) => {
             <p className='taille'>{props.taille}</p>
             <p className='poids'>{props.poids}</p>
             <ul><React.Fragment>{afficherCategories()}</React.Fragment></ul>
-            <Link to={"/prive/formulaireAnimaux/" + props.id}>
-                <div onClick={updateEspece} className="btn btn-secondary">Mettre à jour</div>
-            </Link>
-            <div onClick={supprimerEspece} className="btn btn-secondary">Supprimer</div>
+            {(isAdmin && 
+                <>
+                    <Link to={"/admin/formulaireAnimaux/" + props.id}>
+                        <div className="btn btn-secondary">Mettre à jour</div>
+                    </Link>
+                    <div onClick={supprimerEspece} className="btn btn-secondary">Supprimer</div>
+                </>
+            )}
         </StyledFicheAnimal>
     );
 };

@@ -15,24 +15,37 @@ function UtilisateurContextProvider(props) {
 
   const [currentUser, setcurrentUser] = useState()
   const [loadingData, setloadingData] = useState(true)
+  const [isAdmin, setisAdmin] = useState(false)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
         setcurrentUser(currentUser)
         console.log(currentUser)
-        setloadingData(false)
     })
 
     return unsubscribe
   }, [])
 
-  const updateUtilisateurData = async (currentUser) => {
-    const sorties = await axios.get("http://localhost:5000/sorties/utilisateur/" + currentUser.uid)
-    console.log(JSON.stringify(sorties.data))
-    currentUser.sorties = sorties.data;
-    setcurrentUser(currentUser)
-    console.log(currentUser)
+  useEffect(() => {
+    if (currentUser){
+      let user = currentUser
+      axios.get("http://localhost:5000/sorties/utilisateur/" + currentUser.uid).then((sorties) => {
+        user.sorties = sorties.data
+        axios.get("http://localhost:5000/utilisateurs/" + currentUser.uid).then((userInfo) => {
+          user.info = userInfo.data
+          console.log("new user = " + JSON.stringify(user))
+          console.log("userInfo " + JSON.stringify(user.info))
+          setisAdmin(user.info.isadmin)
+          setcurrentUser(user)
+        })
+      })
+      setloadingData(false)
   }
+  else {
+    setisAdmin(false)
+    setloadingData(false)
+  }
+  }, [currentUser])
 
 
   const inscription = async (email, mdp) => {
@@ -92,7 +105,7 @@ function UtilisateurContextProvider(props) {
   //props.children = tous les enfants
   //attendre que l'utilisateur connecté soit bien pris en compte avant d'envoyer
   return(
-    <UtilisateurContext.Provider value={{modalState, toggleModals, inscription, inscriptionBD, currentUser, connexion}}>
+    <UtilisateurContext.Provider value={{modalState, toggleModals, inscription, inscriptionBD, currentUser, connexion, isAdmin}}>
       {!loadingData && props.children}
     </UtilisateurContext.Provider>
   )}
