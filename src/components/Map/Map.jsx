@@ -75,12 +75,6 @@ const Map = (props) => {
     if (loadError) return "Erreur charmement de la carte"
 
     if (!isLoaded) return "La carte est en chargement"
-    const google = window.google
-
-
-     const onClickMarker = (sortie) => {
-         props.setselectedSortie(sortie)
-     }
 
     return (
         <>
@@ -108,36 +102,6 @@ const Map = (props) => {
                     >
                     </Marker>
                 ))}
-                {/* { Object.keys(props.sorties).map((key) => {
-                    return (
-                        <Marker
-                        id={key}
-                        position={{ lat: props.sorties[key].latitude, lng: props.sorties[key].longitude }}
-                        onClick={() => onClickMarker(props.sorties[key])}
-                        icon={{
-                            //url: icone,
-                            scaledSize: new google.maps.Size(50, 50)
-                        }}
-                        >
-                        </Marker>
-                    )
-                    })
-                } */}
-                {/* {selectedSortie && (
-                        <InfoWindow
-                            position={{lat: selectedSortie.latitude, lng: selectedSortie.longitude}}
-                            onCloseClick={() => {
-                                setselectedSortie(null);
-                            }}
-                        >
-                                <SortieDetail
-                                    idutilisateur={selectedSortie.idutilisateur}
-                                    description={selectedSortie.Adresse}
-                                    id={selectedSortie.id}
-                                    date={selectedSortie.date}
-                                />
-                        </InfoWindow>
-                        )} */}
             </GoogleMap>
             </StyledMap>
         </>
