@@ -60,7 +60,7 @@ const FormulaireSortie = () => {
   const handleFileChange = (event, index) => {
     console.log(event.target)
     const list = [...inputList]
-    list[index]["lienfichier"] = event.target.files[0]
+    list[index]["imagePhoto"] = event.target.files[0]
     setInputList(list)
   }
  
@@ -183,7 +183,6 @@ const FormulaireSortie = () => {
             }
              //create
             else {
-                console.log("oui")
                 axios.post("http://localhost:5000/sorties",{
                     idutilisateur: currentUser.uid,
                     date: dateValue,
@@ -199,15 +198,16 @@ const FormulaireSortie = () => {
                             const fd = new FormData()
                             fd.append("idespeceanimal",photo.espece.value)
                             fd.append("iso",photo.iso)
-                            fd.append("imagePhoto",photo.imagePhoto)
+                            fd.append("uid",currentUser.uid)
                             fd.append("description",photo.descriptionPhoto)
                             fd.append("camera",photo.camera)
                             fd.append("objectif",photo.objectif)
                             fd.append("ouverture",photo.ouverture)
                             fd.append("vitesse",photo.vitesse)
-                            fd.append("longitude",photo.longitude)
-                            fd.append("latitude",photo.latitude)
+                            fd.append("longitude",photo.longitudePhoto)
+                            fd.append("latitude",photo.latitudePhoto)
                             fd.append("idsortie",resp.data.id)
+                            fd.append("imagePhoto",photo.imagePhoto)
                             axios.post("http://localhost:5000/photos",fd)
                         }
                         navigate("/")
@@ -319,9 +319,9 @@ const FormulaireSortie = () => {
                                         <input accept=".jpg, .jpeg, .png" onChange={e => handleFileChange(e, index)} type="file" name="imagePhoto" className="form-control" required/>
                                     </div>
                                         <div className="btn-box">
-                                        {inputList.length !== 1 && <div
+                                        <div
                                             className="btn btn-warning"
-                                            onClick={() => handleRemoveClick(index)}>Remove</div>}
+                                            onClick={() => handleRemoveClick(index)}>Remove</div>
                                         </div>
                                     </div>
                                 </>

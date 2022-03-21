@@ -29,7 +29,7 @@ const StyledApp = styled.div`
 
 const App = () => {
   return (
-    <>
+    <React.StrictMode>
       <StyledApp>
         <Navbar/>
         <Connexion/>
@@ -51,7 +51,7 @@ const App = () => {
         </div>
         <Footer></Footer>
       </StyledApp>
-    </>
+    </React.StrictMode>
   );
 };
 
