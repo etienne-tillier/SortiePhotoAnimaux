@@ -10,6 +10,7 @@ import Map from '../../../components/Map/Map';
 const StyledSorties = styled.div`
     width: 100%;
     height: 100%;
+    overflow-y: scroll;
 
     .containerMapSortie{
         width:100%;
@@ -24,32 +25,13 @@ const StyledSorties = styled.div`
 const Sorties = () => {
 
     const {isAdmin} = useContext(UtilisateurContext)
-    const [isMount, setisMount] = useState(false)
-    const [sortiesData, setsortiesData] = useState()
+    const [isMount, setisMount] = useState(true)
     const [selectedSortie, setselectedSortie] = useState()
-    const [latitude, setlatitude] = useState(48.856);
-    const [longitude, setlongitude] = useState(2.352);
 
-    useEffect(() => {
-        axios.get("http://localhost:5000/sorties").then((sorties) => {
-            setsortiesData(sorties.data)
-            console.log(sorties.data)
-            setisMount(true)
-        })
-      }, [])
 
-      
-    useEffect(() => { 
-        navigator.geolocation.getCurrentPosition((position) => {
-            setlatitude(position.coords.latitude);
-            setlongitude(position.coords.longitude);
-        })
-     }, [])
-
-      const miseAJourSortie = (sortie) => {
+      const miseAJourSortieCote = (sortie) => {
         setselectedSortie(sortie)
-        setlatitude(sortie.latitude)
-        setlongitude(sortie.longitude)
+        console.log(sortie)
       }
 
 
@@ -61,19 +43,17 @@ const Sorties = () => {
                 <div className="containerMapSortie">
                 <div className="map">
                     <Map 
-                    latitude={parseFloat(latitude)}
-                    longitude={parseFloat(longitude)}
-                    sorties={sortiesData}
                    // restaurants={(filtreSelectionnes.length == 0 ? props.restaurants : restaurantsTri)}
-                    setselectedSortie={miseAJourSortie}
+                    setselectedSortie={miseAJourSortieCote}
                     />
                 </div>
                 {(selectedSortie ?
                 <SortieDetail
                     idutilisateur={selectedSortie.idutilisateur}
-                    description={selectedSortie.Adresse}
+                    description={selectedSortie.description}
                     id={selectedSortie.id}
                     date={selectedSortie.date}
+                    photos={selectedSortie.photos}
                     >
                 </SortieDetail>
                 : <div> 
