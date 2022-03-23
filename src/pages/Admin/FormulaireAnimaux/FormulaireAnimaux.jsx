@@ -23,6 +23,7 @@ const FormulaireAnimaux = (props) => {
     const formRef = useRef()
     const [isMount, setisMount] = useState(false)
     const [categories, setcategories] = useState()
+    const [categoriesSupp, setcategoriesSupp] = useState()
     const [options, setoptions] = useState()
     const [categoriesChoisies, setcategoriesChoisies] = useState(null)
     const [file, setfile] = useState()
@@ -158,6 +159,40 @@ const FormulaireAnimaux = (props) => {
         }
     }
 
+    const ajouterCategorie = () => {
+        const categorie = document.getElementById("newCategorie").value
+        console.log(document.getElementById("newCategorie").value)
+        axios.post(process.env.REACT_APP_API + "categorieAnimal",{
+            nomcategorie: categorie
+        }).then((categorieData) => {
+            if (categorieData){
+                setoptions((current) => [...current,{
+                    value: categorieData.data.id,
+                    label: categorieData.data.nomcategorie
+                }])
+            }
+            else {
+                console.error("La création de catégorie n'a pas eu lieu")
+            }
+        })
+    }
+
+    const supprimerCategories = async () => {
+        console.log(categoriesSupp)
+        for (let categorie of categoriesSupp){
+           await axios.delete(process.env.REACT_APP_API + "categorieAnimal/" + categorie.value)
+           const index = options.indexOf(categorie);
+           const copieListe = options
+           console.log(copieListe)
+           console.log(index)
+           if (index > -1) {
+           copieListe.splice(index, 1); // 2nd parameter means remove one item only
+           setoptions(copieListe)
+       }
+        }
+        setcategoriesSupp(null);
+    }
+
 
 
     return (
@@ -207,6 +242,25 @@ const FormulaireAnimaux = (props) => {
                         <p className="text-danger mt-1">{validation}</p>
                         <button className="btn btn-primary">Créer</button>
                     </form>
+                    <div className="categories">
+                        <div className="form-group ajoutCategorie">
+                                <label htmlFor="newCategorie">Ajouter une catégorie</label>
+                                <input type="text" className="form-control" id="newCategorie" placeholder="Mamifère" required/>
+                                <div onClick={() => ajouterCategorie()} className="btn btn-primary">Nouvelle catégorie</div>
+                        </div>
+                        <div className="form-group supprimerCategorie">
+                            <Select
+                                    defaultValue ={categoriesSupp}
+                                    isMulti
+                                    name="categoriesSupp"
+                                    options={options}
+                                    onChange={setcategoriesSupp}
+                                    className="basic-multi-select"
+                                    classNamePrefix="select"
+                                />
+                            <div onClick={() => supprimerCategories()} className="btn btn-primary">Supprimer les catégories</div>
+                        </div>
+                    </div>
                 </div>
             </StyledFormulaireAnimaux>
          )}

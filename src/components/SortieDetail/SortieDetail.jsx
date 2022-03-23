@@ -12,7 +12,7 @@ const StyledSortieDetail = styled.div`
     width: 100%;
     background-color: purple;
     display: grid;
-    grid-template-rows:5% 40% 55%;
+    grid-template-rows:5% 40% 50% 5%;
     gap: 10px;
 
     .containerGalerie{
@@ -103,6 +103,10 @@ useEffect(() => {
                     </div>
                 </div>
                 )}
+                <div className="modification">
+                    <div className="btn btn-primary">Modifier</div>
+                    <div className="btn btn-warning">Supprimer</div>
+                </div>
             </StyledSortieDetail>
          )}
         </>
