@@ -27,6 +27,7 @@ const Sorties = () => {
     const {isAdmin} = useContext(UtilisateurContext)
     const [isMount, setisMount] = useState(true)
     const [selectedSortie, setselectedSortie] = useState()
+    const [updateComponent, setupdateComponent] = useState(0)
 
 
       const miseAJourSortieCote = (sortie) => {
@@ -45,6 +46,7 @@ const Sorties = () => {
                     <Map 
                    // restaurants={(filtreSelectionnes.length == 0 ? props.restaurants : restaurantsTri)}
                     setselectedSortie={miseAJourSortieCote}
+                    updateComponent={updateComponent}
                     />
                 </div>
                 {(selectedSortie ?
@@ -54,6 +56,7 @@ const Sorties = () => {
                     id={selectedSortie.id}
                     date={selectedSortie.date}
                     photos={selectedSortie.photos}
+                    setupdateComponent={setupdateComponent}
                     >
                 </SortieDetail>
                 : <div> 

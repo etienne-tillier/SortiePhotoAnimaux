@@ -97,7 +97,7 @@ const Map = (props) => {
             }
             setisMount(true)
         })
-      }, [])
+      }, [props.updateComponent])
 
       
     useEffect(() => { 

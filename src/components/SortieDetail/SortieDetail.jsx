@@ -12,7 +12,7 @@ const StyledSortieDetail = styled.div`
     width: 100%;
     background-color: purple;
     display: grid;
-    grid-template-rows:5% 40% 50% 5%;
+    grid-template-rows:5% 40% 43% 5%;
     gap: 10px;
 
     .containerGalerie{
@@ -70,6 +70,17 @@ useEffect(() => {
     setvitesse(props.photos[index].vitesse)
   }
 
+  const supprimerSortie = async () => {
+    await axios.delete(process.env.REACT_APP_API + "sorties/" + props.id)
+    props.setupdateComponent((current) => current + 1)
+  }
+
+
+  const mettreAJourSortie = () => {
+
+
+  }
+
     return (
         <>
         {(isMount && 
@@ -105,7 +116,7 @@ useEffect(() => {
                 )}
                 <div className="modification">
                     <div className="btn btn-primary">Modifier</div>
-                    <div className="btn btn-warning">Supprimer</div>
+                    <div onClick={() => supprimerSortie()} className="btn btn-warning">Supprimer</div>
                 </div>
             </StyledSortieDetail>
          )}
