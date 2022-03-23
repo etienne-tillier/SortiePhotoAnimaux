@@ -46,7 +46,7 @@ const [ouverture, setouverture] = useState()
 const [vitesse, setvitesse] = useState()
 
 useEffect(() => {
-    axios.get("http://localhost:5000/utilisateurs/" + props.idutilisateur).then((utilisateur) => {
+    axios.get(process.env.REACT_APP_API+ "utilisateurs/" + props.idutilisateur).then((utilisateur) => {
         setutilisateur(utilisateur.data)
         if (props.photos.length > 0){
             setdescription(props.photos[0].description)
@@ -89,7 +89,7 @@ useEffect(() => {
                       >
                         {props.photos.map((photo) => (
                             <div>
-                                <img className="imgCarousel" src={"http://localhost:5000/" + photo.lienfichier}/>
+                                <img className="imgCarousel" src={process.env.REACT_APP_API + photo.lienfichier}/>
                             </div>
                         ))}
                     </Carousel>

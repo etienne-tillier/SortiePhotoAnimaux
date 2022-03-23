@@ -39,7 +39,7 @@ const FormulaireAnimaux = (props) => {
 
     useEffect(() => {
         //categorie pour le select
-        axios.get("http://localhost:5000/categorieanimal").then((categories) => {
+        axios.get(process.env.REACT_APP_API+ "categorieanimal").then((categories) => {
             setcategories(categories.data)
             console.log(categories.data)
             let options = []
@@ -52,7 +52,7 @@ const FormulaireAnimaux = (props) => {
             setoptions(options)
             //si c'est un uptdate alors on prérempli les catégorie pour l'animal en question
             if (id){
-                axios.get("http://localhost:5000/especeanimal/" + id).then((animal) => {
+                axios.get(process.env.REACT_APP_API+ "especeanimal/" + id).then((animal) => {
                     setnomespece(animal.data.nomespece)
                     setcouleur(animal.data.couleur)
                     settaille(animal.data.taille)
@@ -135,7 +135,7 @@ const FormulaireAnimaux = (props) => {
                 else {
                     fd.append("imageEspece", image)
                 }
-                axios.put("http://localhost:5000/especeAnimal/" + id,fd).then((resp) => {
+                axios.put(process.env.REACT_APP_API+ "especeAnimal/" + id,fd).then((resp) => {
                     if (resp){
                         navigate("/")
                     }
@@ -148,7 +148,7 @@ const FormulaireAnimaux = (props) => {
                 }
                 else {
                     fd.append("imageEspece", file, file.name)
-                    axios.post("http://localhost:5000/especeAnimal",fd).then((resp) => {
+                    axios.post(process.env.REACT_APP_API+ "especeAnimal",fd).then((resp) => {
                         if (resp){
                             navigate("/")
                         }

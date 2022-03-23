@@ -27,7 +27,7 @@ const FicheAnimal = (props) => {
 
 
     const supprimerEspece = () => {
-        axios.delete("http://localhost:5000/especeAnimal/" + props.id).then((res) => {
+        axios.delete(process.env.REACT_APP_API+ "especeAnimal/" + props.id).then((res) => {
             if (res){
                 props.setreload(props.reload + 1)
             }   

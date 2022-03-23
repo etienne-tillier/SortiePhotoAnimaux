@@ -64,7 +64,7 @@ const Map = (props) => {
     const { isAdmin, currentUser } = useContext(UtilisateurContext)
 
     useEffect(() => {
-        axios.get("http://localhost:5000/sorties").then((sorties) => {
+        axios.get(process.env.REACT_APP_API+ "sorties").then((sorties) => {
             setsortiesData(sorties.data)
             console.log(sorties.data)
             for (let sortie of sorties.data){
@@ -108,7 +108,7 @@ const Map = (props) => {
      }, [])
 
      useEffect(() => {
-        axios.get("http://localhost:5000/especeAnimal").then((especes) => {
+        axios.get(process.env.REACT_APP_API+"especeAnimal").then((especes) => {
             setAnimaux(especes.data)
             for (let animal of especes.data){
                 setoptionSelect((current) => [...current,

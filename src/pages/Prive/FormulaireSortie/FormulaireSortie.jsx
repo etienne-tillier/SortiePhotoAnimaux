@@ -78,7 +78,7 @@ const FormulaireSortie = () => {
   };
 
     useEffect(() => { 
-        axios.get("http://localhost:5000/especeAnimal").then((animaux) => {
+        axios.get(process.env.REACT_APP_API+ "especeAnimal").then((animaux) => {
             console.log(animaux.data)
             let options = []
             for (let animal of animaux.data){
@@ -183,7 +183,7 @@ const FormulaireSortie = () => {
             }
              //create
             else {
-                axios.post("http://localhost:5000/sorties",{
+                axios.post(process.env.REACT_APP_API+ "sorties",{
                     idutilisateur: currentUser.uid,
                     date: dateValue,
                     description: descriptionValue,
@@ -208,7 +208,7 @@ const FormulaireSortie = () => {
                             fd.append("latitude",photo.latitudePhoto)
                             fd.append("idsortie",resp.data.id)
                             fd.append("imagePhoto",photo.imagePhoto)
-                            axios.post("http://localhost:5000/photos",fd)
+                            axios.post(process.env.REACT_APP_API+ "photos",fd)
                         }
                         navigate("/")
                     }

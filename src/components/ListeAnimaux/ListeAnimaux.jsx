@@ -57,13 +57,13 @@ const ListeAnimaux = () => {
 
     useEffect(() => {
         //load animaux
-        axios.get("http://localhost:5000/especeanimal").then((animaux) => {
+        axios.get(process.env.REACT_APP_API+ "especeanimal").then((animaux) => {
             console.log(animaux.data)
             setanimaux(animaux.data)
             setanimauxSorted(animaux.data)
             setisMount(true)
             //load categories
-            axios.get("http://localhost:5000/categorieAnimal").then((categoriesData) => {
+            axios.get(process.env.REACT_APP_API+ "categorieAnimal").then((categoriesData) => {
                 console.log(categoriesData.data)
                 let listeCategorie = []
                 for (let categorie of categoriesData.data){
@@ -84,7 +84,7 @@ const ListeAnimaux = () => {
                     poids={animauxSorted[key].poidsmoyen}
                     taille={animauxSorted[key].taille}
                     categories={animauxSorted[key].categories}
-                    image={"http://localhost:5000/" + animauxSorted[key].image}
+                    image={process.env.REACT_APP_API + animauxSorted[key].image}
                     setreload={setreload}
                     reload={reload}
                 />

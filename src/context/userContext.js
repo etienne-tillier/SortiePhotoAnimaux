@@ -29,9 +29,9 @@ function UtilisateurContextProvider(props) {
   useEffect(() => {
     if (currentUser){
       let user = currentUser
-      axios.get("http://localhost:5000/sorties/utilisateur/" + currentUser.uid).then((sorties) => {
+      axios.get(process.env.REACT_APP_API+ "sorties/utilisateur/" + currentUser.uid).then((sorties) => {
         user.sorties = sorties.data
-        axios.get("http://localhost:5000/utilisateurs/" + currentUser.uid).then((userInfo) => {
+        axios.get(process.env.REACT_APP_API+ "utilisateurs/" + currentUser.uid).then((userInfo) => {
           user.info = userInfo.data
           console.log("new user = " + JSON.stringify(user))
           console.log("userInfo " + JSON.stringify(user.info))
@@ -57,7 +57,7 @@ function UtilisateurContextProvider(props) {
   }
 
   const inscriptionBD = (id,pseudo,email) => {
-    axios.post('http://localhost:5000/utilisateurs', {
+    axios.post(process.env.REACT_APP_API+ "utilisateurs", {
       id: id,
       pseudo: pseudo,
       email: email
