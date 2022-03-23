@@ -25,7 +25,7 @@ const StyledFormulaireSortie = styled.div`
 
 `
 
-const FormulaireSortie = () => {
+const FormulaireSortie = (props) => {
 
 
     const [inputList, setInputList] = useState([]);
@@ -42,6 +42,8 @@ const FormulaireSortie = () => {
     const [date, setdate] = useState()
     const [validation, setvalidation] = useState("")
 
+    
+    const {currentUser, idAdmin} = useContext(UtilisateurContext)
 
  // handle input change
  const handleInputChange = (e, index) => {
@@ -77,9 +79,11 @@ const FormulaireSortie = () => {
     console.log(inputList)
   };
 
+
     useEffect(() => { 
         axios.get(process.env.REACT_APP_API+ "especeAnimal").then((animaux) => {
             console.log(animaux.data)
+            console.log(props.create)
             let options = []
             for (let animal of animaux.data){
                 options.push({
@@ -88,11 +92,36 @@ const FormulaireSortie = () => {
                 })
             }
             setespeces(options)
+            if (id){
+                axios.get(process.env.REACT_APP_API+ "sorties/" + id).then((sortie) => {
+                    //verif access 
+                    if (currentUser.uid !== sortie.data.idutilisateur && !idAdmin){
+                        navigate("/")//erreur
+                    }
+                    else {
+                        setdescription(sortie.data.description)
+                        setdate(new Date(sortie.data.date).toISOString().split('T')[0])
+                        setlatitude(sortie.data.latitude)
+                        setlongitude(sortie.data.longitude)
+                        setprive(sortie.data.prive)
+                        let especesArray = []
+                        for (let espece of options){
+                            for (let especeSortie of sortie.data.especes){
+                                if (especeSortie.nomespece === espece.label){
+                                    especesArray.push(espece)
+                                }
+                            }
+                        }
+                        setespecesChoisies(especesArray)
+                        setisMount(true)
+                    }
+                })
+            }
+            else {
+                setisMount(true)
+            }
         })
-        setisMount(true)
      }, [])
-
-    const {currentUser, idAdmin} = useContext(UtilisateurContext)
         
     const addInputs = (el) => {
         if (!inputs.current.includes(el)){
@@ -103,6 +132,25 @@ const FormulaireSortie = () => {
 
     const { id } = useParams();
     const navigate = useNavigate()
+
+
+    
+    const ajouterPhoto = (idSortie,photo) => {
+        const fd = new FormData()
+        fd.append("idespeceanimal",photo.espece.value)
+        fd.append("iso",photo.iso)
+        fd.append("uid",currentUser.uid)
+        fd.append("description",photo.descriptionPhoto)
+        fd.append("camera",photo.camera)
+        fd.append("objectif",photo.objectif)
+        fd.append("ouverture",photo.ouverture)
+        fd.append("vitesse",photo.vitesse)
+        fd.append("longitude",photo.longitudePhoto)
+        fd.append("latitude",photo.latitudePhoto)
+        fd.append("idsortie",idSortie)
+        fd.append("imagePhoto",photo.imagePhoto)
+        axios.post(process.env.REACT_APP_API+ "photos",fd)
+    }
 
     const handleForm = async (e) => {
         e.preventDefault()
@@ -164,22 +212,23 @@ const FormulaireSortie = () => {
              //update
             if (id){
                 console.log("id ? : " + id)
-            //     if (file){
-            //         if (file.type !== "image/jpeg" && file.type !== "image/png"){
-            //             setvalidation("Le format de l'image n'est pas bon")
-            //         }
-            //         else {
-            //             fd.append("imageEspece", file, file.name)
-            //         }
-            //     }
-            //     else {
-            //         fd.append("imageEspece", image)
-            //     }
-            //     axios.put("http://localhost:5000/especeAnimal/" + id,fd).then((resp) => {
-            //         if (resp){
-            //             navigate("/")
-            //         }
-            //     })
+                axios.put(process.env.REACT_APP_API + "sorties/" + id,
+                {
+                    idutilisateur: currentUser.uid,
+                    date: dateValue,
+                    description: descriptionValue,
+                    latitude: latitudeValue,
+                    longitude: longitudeValue,
+                    prive: priveValue,
+                    especes: idEspeces
+                }).then((resp) => {
+                    if (resp){
+                        for (let photo of inputList){
+                            ajouterPhoto(id, photo)
+                        }
+                        navigate("/")
+                    }
+                })
             }
              //create
             else {
@@ -194,21 +243,7 @@ const FormulaireSortie = () => {
                   }).then((resp) => {
                     if (resp){
                         for (let photo of inputList){
-                            console.log(photo)
-                            const fd = new FormData()
-                            fd.append("idespeceanimal",photo.espece.value)
-                            fd.append("iso",photo.iso)
-                            fd.append("uid",currentUser.uid)
-                            fd.append("description",photo.descriptionPhoto)
-                            fd.append("camera",photo.camera)
-                            fd.append("objectif",photo.objectif)
-                            fd.append("ouverture",photo.ouverture)
-                            fd.append("vitesse",photo.vitesse)
-                            fd.append("longitude",photo.longitudePhoto)
-                            fd.append("latitude",photo.latitudePhoto)
-                            fd.append("idsortie",resp.data.id)
-                            fd.append("imagePhoto",photo.imagePhoto)
-                            axios.post(process.env.REACT_APP_API+ "photos",fd)
+                            ajouterPhoto(resp.data.id, photo)
                         }
                         navigate("/")
                     }
@@ -216,6 +251,7 @@ const FormulaireSortie = () => {
             }
         }
     }
+
 
     return (
         <>
@@ -260,7 +296,7 @@ const FormulaireSortie = () => {
                         </div>
                         <div className="form-group">
                             <label htmlFor="prive">Prive</label>
-                            <input defaultValue={prive} ref={addInputs} type="checkbox" id="prive" />
+                            <input defaultChecked={prive} ref={addInputs} type="checkbox" id="prive" />
                         </div>
                         <section className="containerPhoto">
                             {inputList.map((element, index) => {
@@ -331,7 +367,7 @@ const FormulaireSortie = () => {
                         </section>
                         <p className="text-danger mt-1">{validation}</p>
                         <div className="btn btn-primary" onClick={handleAddClick}>Ajouter une photo</div>
-                        <button className="btn btn-primary">Créer</button>
+                        <button className="btn btn-primary">{id ? "Modifier" : "Créer"}</button>
                     </form>
                 </div>
             </StyledFormulaireSortie>

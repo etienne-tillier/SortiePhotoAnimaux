@@ -1,21 +1,29 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {GoogleMap, useLoadScript, Marker, InfoWindow} from "@react-google-maps/api"
 //import icone from "../../assets/img/restaurantIcone.jpg" flag
-import SortieDetail from '../SortieDetail/SortieDetail'
+import SortieDetail from '../../../components/SortieDetail/SortieDetail'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { UtilisateurContext } from '../../context/userContext'
-import utilisateurIcon from "../../assets/img/utilisateur-map.png"
-import publiqueIcon from "../../assets/img/public-map.png"
-import icone from "../../assets/img/icone.png"
+import { UtilisateurContext } from '../../../context/userContext'
+import utilisateurIcon from "../../../assets/img/utilisateur-map.png"
+import publiqueIcon from "../../../assets/img/public-map.png"
+import icone from "../../../assets/img/icone.png"
 import Select from 'react-select'
 
 
 const StyledMap = styled.div`
     height: 100%;
     width: 100%;
+    overflow-y: scroll;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
 
+    .containerMapSortie{
+        width:100%;
+        height: 100%;
+
+    }
 
     .icone{
         width: 80px;
@@ -59,6 +67,8 @@ const Map = (props) => {
     const [optionSelect, setoptionSelect] = useState([])
     const [optionSelected, setoptionSelected] = useState([])
     const [ libraries ] = useState(['places']);
+    const [reload, setreload] = useState(null)
+    const [markerClicked, setmarkerClicked] = useState(null)
 
 
     const { isAdmin, currentUser } = useContext(UtilisateurContext)
@@ -86,18 +96,18 @@ const Map = (props) => {
                         lat: parseFloat(sortie.latitude),
                         lng: parseFloat(sortie.longitude),
                         key: sortie.id,
-                        sortie}
+                        sortie: sortie}
                 ])
                     setmarkerPublique((current) => [...current,{
                         lat: parseFloat(sortie.latitude),
                         lng: parseFloat(sortie.longitude),
                         key: sortie.id,
-                        sortie}
+                        sortie: sortie}
                 ])}
             }
-            setisMount(true)
         })
-      }, [props.updateComponent])
+        setisMount(true)
+      }, [reload])
 
       
     useEffect(() => { 
@@ -136,11 +146,20 @@ const Map = (props) => {
       }, [optionSelected])
 
 
-      const miseAJourSortie = (sortie) => {
-        setselectedSortie(sortie)
-        setlatitude(sortie.latitude)
-        setlongitude(sortie.longitude)
-        props.setselectedSortie(sortie)
+        const onDeleteSortie = async (sortie) => {
+            await axios.delete(process.env.REACT_APP_API + "sorties/" + sortie.id)
+            setmarkerPrive([])
+            setmarkerPublique([])
+            setreload(sortie)
+            setselectedSortie(null)
+          }
+
+
+      const miseAJourSortie = (marker) => {
+        setselectedSortie(marker.sortie)
+        setmarkerClicked(marker)
+        setlatitude(marker.sortie.latitude)
+        setlongitude(marker.sortie.longitude)
       }
 
       const handleCheckBox = (e) => {
@@ -166,6 +185,7 @@ const Map = (props) => {
         }
         return returnList;
       }
+
 
     const {isLoaded, loadError} = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
@@ -225,7 +245,7 @@ const Map = (props) => {
                     <Marker
                         key={marker.key}
                         position={{lat: marker.lat, lng: marker.lng}}
-                        onClick={() => miseAJourSortie(marker.sortie)}
+                        onClick={() => miseAJourSortie(marker)}
                         icon={{
                             url: publiqueIcon,
                             scaledSize: new window.google.maps.Size(30, 30),
@@ -241,7 +261,7 @@ const Map = (props) => {
                     <Marker
                         key={marker.key}
                         position={{lat: marker.lat, lng: marker.lng}}
-                        onClick={() => miseAJourSortie(marker.sortie)}
+                        onClick={() => miseAJourSortie(marker)}
                         icon={{
                             url: utilisateurIcon,
                             scaledSize: new window.google.maps.Size(30, 30),
@@ -252,6 +272,20 @@ const Map = (props) => {
                     </Marker>
                 ))}
             </GoogleMap>
+            {(selectedSortie ?
+                <SortieDetail
+                    idutilisateur={selectedSortie.idutilisateur}
+                    description={selectedSortie.description}
+                    id={selectedSortie.id}
+                    date={selectedSortie.date}
+                    photos={selectedSortie.photos}
+                    sortie={selectedSortie}
+                    onDeleteComponent={onDeleteSortie}
+                    >
+                </SortieDetail>
+                : <div> 
+                    <p>En attente</p>
+                </div>)}
             </StyledMap>
             )}
         </>

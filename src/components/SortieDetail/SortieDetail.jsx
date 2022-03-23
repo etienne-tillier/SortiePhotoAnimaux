@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import moment from 'moment'
+import { Link } from 'react-router-dom';
 
 
 const StyledSortieDetail = styled.div`
@@ -45,6 +46,8 @@ const [iso, setiso] = useState()
 const [ouverture, setouverture] = useState()
 const [vitesse, setvitesse] = useState()
 
+const {isAdmin, currentUser} = useContext(UtilisateurContext)
+
 useEffect(() => {
     axios.get(process.env.REACT_APP_API+ "utilisateurs/" + props.idutilisateur).then((utilisateur) => {
         setutilisateur(utilisateur.data)
@@ -70,10 +73,7 @@ useEffect(() => {
     setvitesse(props.photos[index].vitesse)
   }
 
-  const supprimerSortie = async () => {
-    await axios.delete(process.env.REACT_APP_API + "sorties/" + props.id)
-    props.setupdateComponent((current) => current + 1)
-  }
+
 
 
   const mettreAJourSortie = () => {
@@ -114,10 +114,14 @@ useEffect(() => {
                     </div>
                 </div>
                 )}
+                {((currentUser.uid === utilisateur.id || isAdmin) &&
                 <div className="modification">
-                    <div className="btn btn-primary">Modifier</div>
-                    <div onClick={() => supprimerSortie()} className="btn btn-warning">Supprimer</div>
+                    <Link to={"/prive/formulaireSortie/" + props.id}>
+                        <div className="btn btn-primary">Modifier</div>
+                    </Link>
+                    <div onClick={() => props.onDeleteComponent(props.sortie)} className="btn btn-warning">Supprimer</div>
                 </div>
+                )}
             </StyledSortieDetail>
          )}
         </>
