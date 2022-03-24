@@ -9,6 +9,7 @@ const Nav = styled.nav`
     height: 100%;
     display: flex;
     justify-content: space-between;
+    background-color: #FFCE89 !important;
 
 
     .emplacementLogo{

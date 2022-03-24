@@ -12,7 +12,7 @@ const StyledListeAimaux = styled.div`
 
     height: 100%;
     width: 100%;
-    background-color: gray;
+    background-color: #ADCE74;
     overflow-y: scroll;
 
     header{
@@ -22,25 +22,33 @@ const StyledListeAimaux = styled.div`
         flex-direction: row;
         justify-content: center;
         align-items: center;
+        place-items: center;
         gap: 10px;
     }
 
-    input{
+    .form-outline{
         width: 30%;
-        height: 25px;
     }
 
-    .searchIcon{
+
+    /* .searchIcon{
         width: 30px;
         height: 30px;
+    } */
+
+    .btn {
+        background-color: #61B15A;
+        border: 1px solid #FFF76A;
     }
 
     .liste{
         width: 100%;
         height: 90%;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         grid-gap: 10px;
+        /* justify-content: center;
+        align-content: center; */
     }
     @media (max-width: 768px) {
         
@@ -127,8 +135,9 @@ const ListeAnimaux = () => {
                             </Link>
                         </>
                     )}
-                    <input id='searchAnimal' onChange={(e) => {sortAnimaux(e.target.value)}} type="text" />
-                    <img className='searchIcon' src={loupeLogo} alt="loupe" />
+                    <div class="form-outline">
+                    <input onChange={(e) => sortAnimaux(e.target.value)} type="search" id="form1" class="form-control" placeholder="Rechercher un animal" aria-label="Search" />
+                    </div>
                 </header>
                 <div className='liste'>{afficherAnimaux()}</div>
         </StyledListeAimaux>

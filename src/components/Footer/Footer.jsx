@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const StyledFooter = styled.div`
     height: 100%;
     color: blue;
-    background-color: red;
+    background-color: #FFF76A;
     text-align: center;
     user-select: none;
     display: flex;
