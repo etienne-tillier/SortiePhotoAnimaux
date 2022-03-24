@@ -13,11 +13,53 @@ import Select from 'react-select'
 
 
 const StyledMap = styled.div`
+
+
     height: 100%;
     width: 100%;
     overflow-y: scroll;
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: ${({selectedSortie}) => selectedSortie ? "2fr 1fr" : "1fr"};
+    background-color: #ADCE74;
+    padding: 2%;
+    gap: 3%;
+
+    #googleMap{
+        display: block;
+        border: solid black 1px;
+    }
+
+    .sortie {
+        display: block;
+        width: fit-content;
+        height: fit-content;
+    }
+
+
+    #googleMap header .btn {
+        width: 100%;
+    }
+
+    .btn {
+        display: block;
+        margin: 15px auto;
+        border: 1px solid #FFF76A;
+        grid-area: button;
+    }
+
+    .btn-primary {
+        background-color: #61B15A;
+    }
+
+    .basic-multi-select {
+        width: 75%;
+    }
+
+    .lien {
+        width: 30%;
+        text-decoration: none;
+        grid-area: button;
+    }
 
     .containerMapSortie{
         width:100%;
@@ -25,16 +67,39 @@ const StyledMap = styled.div`
 
     }
 
+    .form-group{
+        margin-top: 0.9rem;
+    }
+
+    .form-group > label {
+        font-weight: bold;
+    }
+
+    #select{
+        grid-area: search;
+    }
+
+    .checkbox {
+        width: 15%;
+        margin-top: 1.1rem;
+        grid-area: checkbox; 
+    }
+
+    .checkbox input {
+        margin-left: 0.5rem;
+    }
+
     .icone{
         width: 80px;
+        grid-area: icon;
     }
 
     header{
-        width: 50%;
+        width: 60%;
         display: flex;
-        gap: 2rem;
+        gap: 2%;
         position: absolute;
-        top: 9rem;
+        top: 1rem;
         left: 1rem;
         z-index: 10;
         margin: 0;
@@ -44,6 +109,70 @@ const StyledMap = styled.div`
     h1{
         color: #281414;
         user-select: none;
+    }
+
+    @media (max-width: 1270px) {
+        header{
+            width: 95%;
+        }
+
+        .lien {
+            width: 40%;
+        }
+
+        .basic-multi-select {
+            width: 65%;
+         }
+
+    }
+
+    @media (max-width: 730px) {
+        .lien {
+            width: 35%;
+        }
+
+        .basic-multi-select {
+            width: 55%;
+         }
+         
+
+         grid-template-rows: ${({selectedSortie}) => selectedSortie ? "1fr 1fr" : "1fr"} !important;
+
+         #googleMap{
+         }
+
+         
+        
+
+    }
+    @media (max-width: 584px) {
+
+        header{
+            display: grid;
+            gap: 0;
+            grid-template-areas: 'icon search search search'
+                                'icon button button checkbox';
+        }
+
+        .form-group{
+            margin: 0;
+        }
+
+        .lien {
+            width: 100%;
+        }
+
+        .basic-multi-select {
+            width: 90%;
+        }
+
+        .checkbox {
+            margin-top: 1.3rem;
+            width: 90%;
+            margin-left: 1rem;
+        }
+
+
     }
 
 `
@@ -215,31 +344,33 @@ const Map = (props) => {
     return (
         <>
         {( isMount &&
-        <StyledMap>
-            <header>
-                <img className="icone" src={icone} alt="test"></img>
-                <Link to="/prive/formulaireSortie">
-                    <div className="btn btn-primary">Nouvelle Sortie</div>
-                </Link>
-                <Select
-                options={optionSelect}
-                isMulti
-                onChange={setoptionSelected}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                >
-                </Select>
-                <div className="form-group">
-                            <label htmlFor="prive">Prive</label>
-                            <input onChange={(e) => handleCheckBox(e)} type="checkbox" id="prive" />
-                        </div>
-                </header>
+        <StyledMap selectedSortie={selectedSortie}>
             <GoogleMap
+                id="googleMap"
                 mapContainerStyle={mapContainerStyle}
                 zoom={8}
                 center={center}
                 options={options}
-            >{(!prive &&
+            >
+                <header>
+                    <img className="icone" src={icone} alt="test"></img>
+                    <Link className="lien" to="/prive/formulaireSortie">
+                        <div className="btn btn-primary">Nouvelle Sortie</div>
+                    </Link>
+                    <Select
+                    id="select"
+                    options={optionSelect}
+                    isMulti
+                    onChange={setoptionSelected}
+                    className="basic-multi-select form-group"
+                    classNamePrefix="select"
+                    >
+                    </Select>
+                    <div className="form-group checkbox">
+                        <label htmlFor="prive">Prive</label>
+                        <input onChange={(e) => handleCheckBox(e)} type="checkbox" id="prive" />
+                    </div>
+                </header>{(!prive &&
                 <>
                 {markerPublique.map((marker) => (
                     <Marker
@@ -272,20 +403,19 @@ const Map = (props) => {
                     </Marker>
                 ))}
             </GoogleMap>
-            {(selectedSortie ?
-                <SortieDetail
-                    idutilisateur={selectedSortie.idutilisateur}
-                    description={selectedSortie.description}
-                    id={selectedSortie.id}
-                    date={selectedSortie.date}
-                    photos={selectedSortie.photos}
-                    sortie={selectedSortie}
-                    onDeleteComponent={onDeleteSortie}
-                    >
-                </SortieDetail>
-                : <div> 
-                    <p>En attente</p>
-                </div>)}
+            {(selectedSortie &&
+            <SortieDetail
+                className="sortie"
+                idutilisateur={selectedSortie.idutilisateur}
+                description={selectedSortie.description}
+                id={selectedSortie.id}
+                date={selectedSortie.date}
+                photos={selectedSortie.photos}
+                sortie={selectedSortie}
+                onDeleteComponent={onDeleteSortie}
+                >
+            </SortieDetail>
+            )}
             </StyledMap>
             )}
         </>

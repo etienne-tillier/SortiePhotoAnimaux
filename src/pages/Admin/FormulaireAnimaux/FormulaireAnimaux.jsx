@@ -9,7 +9,7 @@ import FormData from 'form-data';
 const StyledFormulaireAnimaux = styled.div`
     width: 100%;
     height: 100%;
-    padding-top: 15%;
+    padding-top: 5%;
     background-color: #ADCE74;
     overflow-y: scroll;
     display: flex;
@@ -47,21 +47,40 @@ const StyledFormulaireAnimaux = styled.div`
     }
 
     @media (max-width: 1100px) {
-        padding-top: 25%;
+        padding-top: 10%;
+    }
+
+    @media (max-width: 1100px) {
+        padding-top: 10%;
     }
 
     @media (max-width: 900px) {
-        padding-top: 35%;
-    }
-
-    @media (max-width: 700px) {
-        padding-top: 45%;
-
-        .form-container {
-            height: 100%;
-            width: 200px !important;
+        padding-top: 15%;
+        form{
+            height: 50%;
         }
     }
+
+    @media (max-width: 500px) {
+        padding-top: 30%;
+    }
+
+    @media (max-height: 800px) {
+
+        @media (max-width: 1500px){
+            padding-top: 21%;
+        }
+    }
+
+    @media (max-height: 600px) {
+
+        @media (max-width: 1100px){
+            padding-top: 35%;
+        }
+    }
+
+    
+
 
 `
 

@@ -13,10 +13,40 @@ const StyledFormulaireSortie = styled.div`
     display: flex;
     justify-content: center;     
     overflow-y: scroll;
+    background-color: #ADCE74;
+
+    #prive {
+        margin-left: 12px;
+    }
+
+    label{
+        font-weight: bold;
+    }
+
+    input {
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        display: block;
+        margin: 15px auto;
+        width: 50%;
+        border: 1px solid #FFF76A;
+    }
+
+    .btn-primary {
+        background-color: #61B15A;
+    }
+
+
+    h3 {
+        text-align: center;
+    }
 
     .containerPhoto {
         display: grid;
         grid-template-columns: 1fr 1fr ;
+        gap: 10px;
     }
 
     textarea{
@@ -43,7 +73,7 @@ const FormulaireSortie = (props) => {
     const [validation, setvalidation] = useState("")
 
     
-    const {currentUser, idAdmin} = useContext(UtilisateurContext)
+    const {currentUser, isAdmin} = useContext(UtilisateurContext)
 
  // handle input change
  const handleInputChange = (e, index) => {
@@ -95,7 +125,7 @@ const FormulaireSortie = (props) => {
             if (id){
                 axios.get(process.env.REACT_APP_API+ "sorties/" + id).then((sortie) => {
                     //verif access 
-                    if (currentUser.uid !== sortie.data.idutilisateur && !idAdmin){
+                    if (currentUser.uid !== sortie.data.idutilisateur && !isAdmin){
                         navigate("/")//erreur
                     }
                     else {
@@ -200,16 +230,6 @@ const FormulaireSortie = (props) => {
             for (let espece of especesChoisies){
                 idEspeces.push(espece.value)
             }
-            // const fd = new FormData()
-            // fd.append("idutilisateur",utilisateurIdValue)
-            // fd.append("date",dateValue)
-            // fd.append("description",descriptionValue)
-            // fd.append("latitude",latitudeValue)
-            // fd.append("longitude",longitudeValue)
-            // fd.append("prive",priveValue)
-            // fd.append("especes",JSON.stringify(idEspeces))
-
-             //update
             if (id){
                 console.log("id ? : " + id)
                 axios.put(process.env.REACT_APP_API + "sorties/" + id,
@@ -324,31 +344,31 @@ const FormulaireSortie = (props) => {
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="camera">Appareil photo</label>
-                                        <input minLength={3} value={element.camera} onChange={e => handleInputChange(e, index)} name="camera" type="text" className="form-control" required/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="iso">ISO</label>
-                                        <input  value={element.iso} onChange={e => handleInputChange(e, index)} name="iso" type="text" className="form-control" required/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="ouverture">Ouverture</label>
-                                        <input  value={element.ouverture} onChange={e => handleInputChange(e, index)} name="ouverture" type="text" className="form-control" required/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="vitesse">Vitesse</label>
-                                        <input  value={element.vitesse} onChange={e => handleInputChange(e, index)} name="vitesse" type="text" className="form-control" required/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="longitudePhoto">Longitude</label>
-                                        <input  value={element.longitudePhoto} onChange={e => handleInputChange(e, index)} name="longitudePhoto" type="text" className="form-control" required/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="latitudePhoto">Latitutde</label>
-                                        <input  value={element.latitudePhoto} onChange={e => handleInputChange(e, index)} name="latitudePhoto" type="text" className="form-control" required/>
+                                        <input placeholder='Nikon D90' minLength={3} value={element.camera} onChange={e => handleInputChange(e, index)} name="camera" type="text" className="form-control" required/>
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="objectif">Objectif</label>
-                                        <input minLength={3} value={element.objectif} onChange={e => handleInputChange(e, index)} name="objectif" type="text" className="form-control" required/>
+                                        <input placeholder='500mm' minLength={3} value={element.objectif} onChange={e => handleInputChange(e, index)} name="objectif" type="text" className="form-control" required/>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="iso">ISO</label>
+                                        <input placeholder='200' value={element.iso} onChange={e => handleInputChange(e, index)} name="iso" type="text" className="form-control" required/>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="ouverture">Ouverture</label>
+                                        <input placeholder='f4' value={element.ouverture} onChange={e => handleInputChange(e, index)} name="ouverture" type="text" className="form-control" required/>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="vitesse">Vitesse</label>
+                                        <input placeholder='450' value={element.vitesse} onChange={e => handleInputChange(e, index)} name="vitesse" type="text" className="form-control" required/>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="longitudePhoto">Longitude</label>
+                                        <input placeholder='42.6' value={element.longitudePhoto} onChange={e => handleInputChange(e, index)} name="longitudePhoto" type="text" className="form-control" required/>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="latitudePhoto">Latitutde</label>
+                                        <input placeholder='2.5' value={element.latitudePhoto} onChange={e => handleInputChange(e, index)} name="latitudePhoto" type="text" className="form-control" required/>
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="imagePhoto">Photo</label>
@@ -357,7 +377,7 @@ const FormulaireSortie = (props) => {
                                         <div className="btn-box">
                                         <div
                                             className="btn btn-warning"
-                                            onClick={() => handleRemoveClick(index)}>Remove</div>
+                                            onClick={() => handleRemoveClick(index)}>Supprimer</div>
                                         </div>
                                     </div>
                                 </>
