@@ -11,6 +11,11 @@ const StyledFooter = styled.div`
     align-items: center;
     justify-content: center;
 
+    p{
+        padding-top: 10px;
+        color: black;
+    }
+
 `
 
 const Footer = () => {

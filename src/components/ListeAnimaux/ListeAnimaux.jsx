@@ -51,8 +51,33 @@ const StyledListeAimaux = styled.div`
         grid-gap: 10px;
         
     }
-    @media (max-width: 768px) {
-        
+    @media (max-width: 1490px) {
+        .liste {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+
+    @media (max-width: 1100px) {
+        .liste {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @media (max-width: 750px) {
+        .liste {
+            grid-template-columns: 1fr;
+        }
+    }
+
+
+    @media (max-width: 500px) {
+        .liste {
+            padding: 20px 0;
+        }
+
+        header{
+            padding-top: 20px;
+        }
     }
 `
 

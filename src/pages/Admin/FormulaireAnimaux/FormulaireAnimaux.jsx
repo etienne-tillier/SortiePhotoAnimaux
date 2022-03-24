@@ -9,6 +9,7 @@ import FormData from 'form-data';
 const StyledFormulaireAnimaux = styled.div`
     width: 100%;
     height: 100%;
+    padding-top: 15%;
     background-color: #ADCE74;
     overflow-y: scroll;
     display: flex;
@@ -18,6 +19,48 @@ const StyledFormulaireAnimaux = styled.div`
     .btn {
         background-color: #61B15A;
         border: 1px solid #FFF76A;
+        width: 50%;
+        display: block;
+        margin: 15px auto;
+    }
+
+    .formContainer {
+        height: 100%;
+        width: 100%;
+    }
+
+    form{
+        width: 100%;
+        height: 100%;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    .custom-file{
+        margin-top: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    @media (max-width: 1100px) {
+        padding-top: 25%;
+    }
+
+    @media (max-width: 900px) {
+        padding-top: 35%;
+    }
+
+    @media (max-width: 700px) {
+        padding-top: 45%;
+
+        .form-container {
+            height: 100%;
+            width: 200px !important;
+        }
     }
 
 `
@@ -206,7 +249,7 @@ const FormulaireAnimaux = (props) => {
         {(isMount &&
             <StyledFormulaireAnimaux>
                 <div
-                className=""
+                className="form-container"
                 style={{ minWidth: "400px" }}
                 >
                     <form
@@ -255,6 +298,7 @@ const FormulaireAnimaux = (props) => {
                                 <div onClick={() => ajouterCategorie()} className="btn btn-primary">Nouvelle catégorie</div>
                         </div>
                         <div className="form-group supprimerCategorie">
+                        <label htmlFor="categoriesSupp">Supprimer une catégorie</label>
                             <Select
                                     defaultValue ={categoriesSupp}
                                     isMulti

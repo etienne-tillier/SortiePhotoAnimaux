@@ -55,6 +55,10 @@ const StyledFicheAnimal = styled.div`
         background-color: #61B15A;
     }
 
+    .caracteristiques{
+        padding-left: 20px;
+    }
+
 
 
 `
@@ -89,9 +93,11 @@ const FicheAnimal = (props) => {
         <StyledFicheAnimal>
             <h3 className='nomespece'>{props.nomespece}</h3>
             <img src={props.image}/>
-            <p className='couleur'><span>Couleur(s)</span> {props.couleur}</p>
-            <p className='taille'><span>Taille</span> {props.taille} cm</p>
-            <p className='poids'><span>Poids</span> {props.poids} kg</p>
+            <div className="caracteristiques">
+                <p className='couleur'><span>Couleur(s)</span> {props.couleur}</p>
+                <p className='taille'><span>Taille</span> {props.taille} cm</p>
+                <p className='poids'><span>Poids</span> {props.poids} kg</p>
+            </div>
             <p className='headerCategorie'><span>Catégories</span></p>
             <ul><React.Fragment>{afficherCategories()}</React.Fragment></ul>
             {(isAdmin && 
