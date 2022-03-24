@@ -1,3 +1,4 @@
+
 import React , { useEffect, useState, useContext } from 'react';
 import axios from "axios"
 import FicheAnimal from '../FicheAnimal/FicheAnimal';
@@ -45,10 +46,10 @@ const StyledListeAimaux = styled.div`
         width: 100%;
         height: 90%;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        padding: 0 10%;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-gap: 10px;
-        /* justify-content: center;
-        align-content: center; */
+        
     }
     @media (max-width: 768px) {
         

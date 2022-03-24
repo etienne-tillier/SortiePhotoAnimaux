@@ -9,10 +9,16 @@ import FormData from 'form-data';
 const StyledFormulaireAnimaux = styled.div`
     width: 100%;
     height: 100%;
+    background-color: #ADCE74;
+    overflow-y: scroll;
     display: flex;
     justify-content: center;
     align-items: center;
 
+    .btn {
+        background-color: #61B15A;
+        border: 1px solid #FFF76A;
+    }
 
 `
 

@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import { UtilisateurContext } from '../../context/userContext';
 
 const StyledFicheAnimal = styled.div`
-    width: 400px;
+    height: 100%;
+    width: 100%;
     border: 1px solid black;
     border-radius: 10px;
 
@@ -14,6 +15,7 @@ const StyledFicheAnimal = styled.div`
     }
 
     .nomespece{
+        padding-top: 10px;
         text-align: center;
     }
 
@@ -29,8 +31,12 @@ const StyledFicheAnimal = styled.div`
     }
 
     ul {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        padding: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
         list-style: none;
     }
 
@@ -38,6 +44,7 @@ const StyledFicheAnimal = styled.div`
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
+        margin-bottom: 10px;
     }
 
     .headerCategorie{
