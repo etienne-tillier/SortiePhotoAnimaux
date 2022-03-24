@@ -136,8 +136,9 @@ const StyledMap = styled.div`
          }
          
 
-         grid-template-rows: ${({selectedSortie}) => selectedSortie ? "1fr 1fr" : "1fr"} !important;
-
+         /* grid-template-rows: ${({selectedSortie}) => selectedSortie ? "1fr 1fr" : "1fr"} !important; */
+         display: flex;
+         flex-direction: column;
          #googleMap{
          }
 
