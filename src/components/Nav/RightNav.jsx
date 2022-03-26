@@ -61,8 +61,12 @@ const RightNav = ( props ) => {
     const navigate = useNavigate()
 
     const deconnexion = async () => {
-        await signOut(auth)
-        navigate("/")
+        signOut(auth).then((res) => {
+            if (res){
+                navigate("/")
+            }
+        })
+
     }
 
     return (

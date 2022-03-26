@@ -47,9 +47,13 @@ const Inscription = () => {
           console.log(creds.user.uid)
           formRef.current.reset()
           setvalidation("")
-          inscriptionBD(creds.user.uid,pseudo,email)
-          toggleModals("close")
-          navigate("/prive/sorties")
+          try {
+            inscriptionBD(creds.user.uid,pseudo,email)
+            toggleModals("close")
+            navigate("/prive/sorties")
+          } catch (error) {
+              console.log(error.message + "CODE")
+          }
 
         } catch (err) {
           console.log(err.code + "CODE")

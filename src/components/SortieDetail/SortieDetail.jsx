@@ -70,7 +70,7 @@ const StyledSortieDetail = styled.div`
     .modification {
         grid-area :modif;
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
         align-items: center;
     }
 
@@ -150,7 +150,7 @@ const [iso, setiso] = useState()
 const [ouverture, setouverture] = useState()
 const [vitesse, setvitesse] = useState()
 
-const {isAdmin, currentUser} = useContext(UtilisateurContext)
+const {currentUser, isAdmin} = useContext(UtilisateurContext)
 const navigate = useNavigate()
 
 
@@ -158,7 +158,11 @@ const navigate = useNavigate()
 useEffect(() => {
     try {
         //Get les infos de l'utilisateur qui a crée la sortie
-        axios.get(process.env.REACT_APP_API+ "utilisateurs/" + props.idutilisateur).then((utilisateur) => {
+        axios.get(process.env.REACT_APP_API+ "utilisateurs/" + props.idutilisateur, {
+            headers: {
+                authorization: 'Bearer ' + currentUser.accessToken
+              }
+        }).then((utilisateur) => {
             setutilisateur(utilisateur.data)
             if (props.photos.length > 0){
                 setdescription(props.photos[0].description)
@@ -168,7 +172,6 @@ useEffect(() => {
                 setouverture(props.photos[0].ouverture)
                 setvitesse(props.photos[0].vitesse)
             }
-            console.log(utilisateur.data)
             setisMount(true)
         })
     } catch (error) {

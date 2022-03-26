@@ -113,7 +113,11 @@ const FormulaireSortie = (props) => {
 
     useEffect(() => { 
         try {
-            axios.get(process.env.REACT_APP_API+ "especeAnimal").then((animaux) => {
+            axios.get(process.env.REACT_APP_API+ "especeAnimal", {
+                headers: {
+                    authorization: 'Bearer ' + currentUser.accessToken
+                  }
+            }).then((animaux) => {
                 console.log(animaux.data)
                 console.log(props.create)
                 let options = []
@@ -126,7 +130,11 @@ const FormulaireSortie = (props) => {
                 setespeces(options)
                 if (id){
                     try {
-                        axios.get(process.env.REACT_APP_API+ "sorties/" + id).then((sortie) => {
+                        axios.get(process.env.REACT_APP_API+ "sorties/" + id, {
+                            headers: {
+                                authorization: 'Bearer ' + currentUser.accessToken
+                              }
+                        }).then((sortie) => {
                             //verif access 
                             if (currentUser.uid !== sortie.data.idutilisateur && !isAdmin){
                                 navigate("/erreur/403")
@@ -188,7 +196,11 @@ const FormulaireSortie = (props) => {
         fd.append("idsortie",idSortie)
         fd.append("imagePhoto",photo.imagePhoto)
         try {
-            axios.post(process.env.REACT_APP_API+ "photos",fd)
+            axios.post(process.env.REACT_APP_API+ "photos",fd, {
+                headers: {
+                    authorization: 'Bearer ' + currentUser.accessToken
+                }
+            })
         } catch (error) {
             console.log(error.message)
             navigate("/erreur/404")
@@ -258,6 +270,10 @@ const FormulaireSortie = (props) => {
                         longitude: longitudeValue,
                         prive: priveValue,
                         especes: idEspeces
+                    },{
+                        headers: {
+                            authorization: 'Bearer ' + currentUser.accessToken
+                        }
                     }).then((resp) => {
                         if (resp){
                             for (let photo of inputList){
@@ -282,6 +298,10 @@ const FormulaireSortie = (props) => {
                         longitude: longitudeValue,
                         prive: priveValue,
                         especes: idEspeces
+                    },{
+                        headers: {
+                            authorization: 'Bearer ' + currentUser.accessToken
+                        }
                       }).then((resp) => {
                         if (resp){
                             for (let photo of inputList){

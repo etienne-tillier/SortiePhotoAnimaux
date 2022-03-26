@@ -9,22 +9,21 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 
+
 const UtilisateurContext = createContext();
 
 //Le fournisseur du context à tous les composants enfants (il englobe tout et pas besoins de passer le context par les props)
 function UtilisateurContextProvider(props) {
 
   const [currentUser, setcurrentUser] = useState()
-  const [loadingData, setloadingData] = useState(true)
   const [isAdmin, setisAdmin] = useState(false)
+  const [loadingData, setloadingData] = useState(true)
   const navigate = useNavigate()
-
 
   //Eventlistener quand quelqu'un se connecte ou se déconnecte via l'api firebase
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
         setcurrentUser(currentUser)
-        console.log(currentUser)
     })
 
     return unsubscribe
@@ -35,18 +34,26 @@ function UtilisateurContextProvider(props) {
     //Si un utilisateur est connecté
     if (currentUser){
       let user = currentUser
+      console.log(user)
       try {
-        //get les sorties qui lui sont relative
-        axios.get(process.env.REACT_APP_API+ "sorties/utilisateur/" + currentUser.uid).then((sorties) => {
+        //get les sorties qui lui sont relatives
+        axios.get(process.env.REACT_APP_API+ "sorties/utilisateur/" + currentUser.uid, {
+          headers: {
+            authorization: 'Bearer ' + currentUser.accessToken
+          }
+        }).then((sorties) => {
           user.sorties = sorties.data
           try {
-            //get les données users qui lui sont relative
-            axios.get(process.env.REACT_APP_API+ "utilisateurs/" + currentUser.uid).then((userInfo) => {
+            //get les données users qui lui sont relatives
+            axios.get(process.env.REACT_APP_API+ "utilisateurs/" + currentUser.uid, {
+              headers: {
+                authorization: 'Bearer ' + currentUser.accessToken
+              }
+            }).then((userInfo) => {
               user.info = userInfo.data
-              console.log("new user = " + JSON.stringify(user))
-              console.log("userInfo " + JSON.stringify(user.info))
-              setisAdmin(user.info.isadmin)
+              console.log(user)
               setcurrentUser(user)
+              setisAdmin(userInfo.data.isadmin)
             })
           } catch (error) {
               console.log(error.message)
@@ -58,11 +65,12 @@ function UtilisateurContextProvider(props) {
           console.log(error.message)
           navigate("/erreur/404")
       }
-  }
-  else {
-    setisAdmin(false)
-    setloadingData(false)
-  }
+    }
+    else {
+      setisAdmin(false)
+      navigate("/")
+      setloadingData(false)
+    }
   }, [currentUser])
 
 
@@ -76,10 +84,12 @@ function UtilisateurContextProvider(props) {
 
 
   const inscriptionBD = (id,pseudo,email) => {
-    axios.post(process.env.REACT_APP_API+ "utilisateurs", {
-      id: id,
-      pseudo: pseudo,
-      email: email
+    axios.post(process.env.REACT_APP_API+ "utilisateurs",  {
+      body: {
+        id: id,
+        pseudo: pseudo,
+        email: email
+      }
     })
     .then(function (response) {
       console.log(response);

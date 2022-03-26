@@ -65,7 +65,7 @@ const StyledFicheAnimal = styled.div`
 const FicheAnimal = (props) => {
 
 
-    const {isAdmin} = useContext(UtilisateurContext)
+    const {currentUser,isAdmin} = useContext(UtilisateurContext)
     const navigate = useNavigate()
 
     const afficherCategories = () => {
@@ -78,7 +78,11 @@ const FicheAnimal = (props) => {
 
     const supprimerEspece = () => {
         try {
-            axios.delete(process.env.REACT_APP_API+ "especeAnimal/" + props.id).then((res) => {
+            axios.delete(process.env.REACT_APP_API+ "especeAnimal/" + props.id, {
+                headers: {
+                    authorization: 'Bearer ' + currentUser.accessToken
+                  }
+            }).then((res) => {
                 if (res){
                     props.setreload(props.reload + 1)
                 }   
@@ -104,7 +108,7 @@ const FicheAnimal = (props) => {
             </div>
             <p className='headerCategorie'><span>Catégories</span></p>
             <ul><React.Fragment>{afficherCategories()}</React.Fragment></ul>
-            {(isAdmin && 
+            {( isAdmin &&
                 <div className="modifierAnimal">
                     <Link to={"/admin/formulaireAnimaux/" + props.id}>
                         <div className="btn btn-secondary">Mettre à jour</div>

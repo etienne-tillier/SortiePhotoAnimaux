@@ -1,9 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import Select from 'react-select'
 import styled from 'styled-components';
 import axios from "axios"
 import {useNavigate, useParams} from "react-router-dom"
 import FormData from 'form-data';
+import { UtilisateurContext } from '../../../context/userContext';
 
 
 const StyledFormulaireAnimaux = styled.div`
@@ -103,12 +104,16 @@ const FormulaireAnimaux = (props) => {
     const [image, setimage] = useState("")
 
     const { id } = useParams();
-
+    const {currentUser} = useContext(UtilisateurContext)
     const navigate = useNavigate()
 
     useEffect(() => {
         //categorie pour le select
-        axios.get(process.env.REACT_APP_API+ "categorieanimal").then((categories) => {
+        axios.get(process.env.REACT_APP_API+ "categorieanimal", {
+            headers: {
+                authorization: 'Bearer ' + currentUser.accessToken
+              }
+        }).then((categories) => {
             setcategories(categories.data)
             console.log(categories.data)
             let options = []
@@ -121,7 +126,11 @@ const FormulaireAnimaux = (props) => {
             setoptions(options)
             //si c'est un uptdate alors on prérempli les catégorie pour l'animal en question
             if (id){
-                axios.get(process.env.REACT_APP_API+ "especeanimal/" + id).then((animal) => {
+                axios.get(process.env.REACT_APP_API+ "especeanimal/" + id, {
+                    headers: {
+                        authorization: 'Bearer ' + currentUser.accessToken
+                      }
+                }).then((animal) => {
                     setnomespece(animal.data.nomespece)
                     setcouleur(animal.data.couleur)
                     settaille(animal.data.taille)
@@ -204,11 +213,21 @@ const FormulaireAnimaux = (props) => {
                 else {
                     fd.append("imageEspece", image)
                 }
-                axios.put(process.env.REACT_APP_API+ "especeAnimal/" + id,fd).then((resp) => {
-                    if (resp){
-                        navigate("/")
-                    }
-                })
+                try {
+                    axios.put(process.env.REACT_APP_API+ "especeAnimal/" + id,fd,{
+                        headers: {
+                            authorization: 'Bearer ' + currentUser.accessToken
+                          },
+                    }).then((resp) => {
+                        if (resp){
+                            console.log(resp)
+                            navigate("/")
+                        }
+                    })
+                } catch (error) {
+                    console.error(error.message)
+                    navigate("/erreur/404")
+                }
             }
             //create
             else {
@@ -217,11 +236,23 @@ const FormulaireAnimaux = (props) => {
                 }
                 else {
                     fd.append("imageEspece", file, file.name)
-                    axios.post(process.env.REACT_APP_API+ "especeAnimal",fd).then((resp) => {
-                        if (resp){
-                            navigate("/")
-                        }
-                })
+                    try {
+                        axios.post(process.env.REACT_APP_API+ "especeAnimal",fd,{
+                            headers: {
+                                authorization: 'Bearer ' + currentUser.accessToken
+                              }
+                        }).then((resp) => {
+                            if (resp){
+                                navigate("/")
+                            }
+                            else {
+                                navigate("/erreur/401")
+                            }
+                    })
+                    } catch (error) {
+                        console.log(error.message)
+                        navigate("/erreur/404")
+                    }
                 }
                 }
         }
@@ -232,6 +263,10 @@ const FormulaireAnimaux = (props) => {
         console.log(document.getElementById("newCategorie").value)
         axios.post(process.env.REACT_APP_API + "categorieAnimal",{
             nomcategorie: categorie
+        },{
+            headers: {
+                authorization: 'Bearer ' + currentUser.accessToken
+              },
         }).then((categorieData) => {
             if (categorieData){
                 setoptions((current) => [...current,{
@@ -248,7 +283,11 @@ const FormulaireAnimaux = (props) => {
     const supprimerCategories = async () => {
         console.log(categoriesSupp)
         for (let categorie of categoriesSupp){
-           await axios.delete(process.env.REACT_APP_API + "categorieAnimal/" + categorie.value)
+           await axios.delete(process.env.REACT_APP_API + "categorieAnimal/" + categorie.value, {
+            headers: {
+                authorization: 'Bearer ' + currentUser.accessToken
+              },
+           })
            const index = options.indexOf(categorie);
            const copieListe = options
            console.log(copieListe)
@@ -308,7 +347,7 @@ const FormulaireAnimaux = (props) => {
                             <label className="custom-file-label" htmlFor="imageEspece">Choisissez une image</label>
                         </div>
                         <p className="text-danger mt-1">{validation}</p>
-                        <button className="btn btn-primary">Créer</button>
+                        <button className="btn btn-primary">{(id ? "Modifier" : "Créer")}</button>
                     </form>
                     <div className="categories">
                         <div className="form-group ajoutCategorie">

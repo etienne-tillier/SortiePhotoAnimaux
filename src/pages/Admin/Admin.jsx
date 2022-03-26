@@ -8,8 +8,6 @@ const Admin = () => {
 
     const {currentUser, isAdmin} = useContext(UtilisateurContext)
 
-
-    console.log("currentuser = " + currentUser + " isAdmin = " + isAdmin)
     if (!currentUser || !isAdmin){
         return <Navigate to="/erreur/403"/>
     }

@@ -201,14 +201,18 @@ const Map = (props) => {
     const [markerClicked, setmarkerClicked] = useState(null)
 
 
-    const { isAdmin, currentUser } = useContext(UtilisateurContext)
+    const { currentUser, isAdmin } = useContext(UtilisateurContext)
     const {navigate} = useNavigate()
 
 
     //On get toutes les sorties
     useEffect(() => {
         try {
-            axios.get(process.env.REACT_APP_API+ "sorties").then((sorties) => {
+            axios.get(process.env.REACT_APP_API+ "sorties", {
+                headers: {
+                    authorization: 'Bearer ' + currentUser.accessToken
+                  }
+            }).then((sorties) => {
                 setsortiesData(sorties.data)
                 console.log(sorties.data)
                 for (let sortie of sorties.data){ 
@@ -295,7 +299,11 @@ const Map = (props) => {
 
     const onDeleteSortie = async (sortie) => {
         try {
-            await axios.delete(process.env.REACT_APP_API + "sorties/" + sortie.id)
+            await axios.delete(process.env.REACT_APP_API + "sorties/" + sortie.id, {
+                headers: {
+                    authorization: 'Bearer ' + currentUser.accessToken
+                  }
+            })
             setmarkerPrive([])
             setmarkerPublique([])
             setreload(sortie)
