@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React,  { useContext } from 'react';
 import styled from "styled-components"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UtilisateurContext } from '../../context/userContext';
 
 const StyledFicheAnimal = styled.div`
@@ -59,11 +59,14 @@ const StyledFicheAnimal = styled.div`
         padding-left: 20px;
     }
 
-
-
 `
 
+//Composant qui permet d'afficher les informations d'un animal
 const FicheAnimal = (props) => {
+
+
+    const {isAdmin} = useContext(UtilisateurContext)
+    const navigate = useNavigate()
 
     const afficherCategories = () => {
         return (
@@ -74,17 +77,18 @@ const FicheAnimal = (props) => {
 
 
     const supprimerEspece = () => {
-        axios.delete(process.env.REACT_APP_API+ "especeAnimal/" + props.id).then((res) => {
-            if (res){
-                props.setreload(props.reload + 1)
-            }   
-            else {
-                console.log("Une erreur est survenue lors de la suppression")
-            }
-        })
+        try {
+            axios.delete(process.env.REACT_APP_API+ "especeAnimal/" + props.id).then((res) => {
+                if (res){
+                    props.setreload(props.reload + 1)
+                }   
+            })
+        } catch (error) {
+            console.error(error.message)
+            navigate("/erreur/404")
+        }
     }
 
-    const {isAdmin} = useContext(UtilisateurContext)
 
 
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ListeAnimaux from "./components/ListeAnimaux/ListeAnimaux.jsx";
+import ListeAnimaux from "./pages/ListeAnimaux/ListeAnimaux.jsx";
 import Inscription from "./pages/Inscription/Inscription.jsx";
 import Connexion from "./pages/Connexion/Connexion.jsx"
 import FormulaireAnimaux from "./pages/Admin/FormulaireAnimaux/FormulaireAnimaux.jsx";
@@ -10,6 +10,7 @@ import Navbar from "./components/Nav/Navbar.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 import Admin from "./pages/Admin/Admin.jsx";
 import Map from "./pages/Prive/Map/Map.jsx";
+import Erreur from "./pages/Erreur/Erreur.jsx";
 import "./App.css";
 import styled from "styled-components";
 
@@ -38,6 +39,13 @@ const App = () => {
           <Routes>
             <Route path="/" element={<ListeAnimaux></ListeAnimaux>} />
             <Route path="/listeAnimaux" element={<ListeAnimaux></ListeAnimaux>} />
+            <Route path="/erreur">
+              <Route path="/erreur/400" element={<Erreur erreur="La syntaxe de la requête est erronée"></Erreur>} />
+              <Route path="/erreur/401" element={<Erreur erreur="Une authentification est nécessaire pour accéder à la ressource"></Erreur>} />
+              <Route path="/erreur/402" element={<Erreur erreur="Paiement requis pour accéder à la ressource"></Erreur>} />
+              <Route path="/erreur/403" element={<Erreur erreur="Droit non accordé"></Erreur>} />
+              <Route path="/erreur/404" element={<Erreur erreur="Ressource non trouvée"></Erreur>} />
+            </Route>
             <Route path="/prive" element={<Prive></Prive>}>
               <Route path="/prive/sorties" element={<Map></Map>}/>
               <Route path="/prive/formulaireSortie" element={<FormulaireSortie create="true"></FormulaireSortie>}/>

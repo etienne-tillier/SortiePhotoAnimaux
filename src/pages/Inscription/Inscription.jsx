@@ -13,6 +13,7 @@ const Inscription = () => {
     const inputs = useRef([])
     const formRef = useRef()
 
+    //On ajoute tous les inputs à la liste
     const addInputs = (el) => {
       if (el && !inputs.current.includes(el)){
         inputs.current.push(el)
@@ -20,7 +21,7 @@ const Inscription = () => {
     }
 
 
-
+    //Fonction qui vérifie la validité des inputs avant de procéder à l'inscription
     const handleForm = async (e) => {
       e.preventDefault()
       if (inputs.current[0].value.length < 6){
@@ -64,6 +65,7 @@ const Inscription = () => {
 
     }
 
+    //fermer la modal
     const closeModal = () => {
       setvalidation("")
       toggleModals("close")

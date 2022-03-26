@@ -1,11 +1,12 @@
 
 import React , { useEffect, useState, useContext } from 'react';
 import axios from "axios"
-import FicheAnimal from '../FicheAnimal/FicheAnimal';
+import FicheAnimal from '../../components/FicheAnimal/FicheAnimal';
 import styled from 'styled-components';
 import loupeLogo from "../../assets/img/searchIcon.png"
 import { UtilisateurContext } from '../../context/userContext';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -31,11 +32,6 @@ const StyledListeAimaux = styled.div`
         width: 30%;
     }
 
-
-    /* .searchIcon{
-        width: 30px;
-        height: 30px;
-    } */
 
     .btn {
         background-color: #61B15A;
@@ -89,24 +85,39 @@ const ListeAnimaux = () => {
     const [categories, setcategories] = useState("")
     const [reload, setreload] = useState(0)
 
+    const navigate = useNavigate()
+    const {isAdmin} = useContext(UtilisateurContext)
+
     useEffect(() => {
         //load animaux
-        axios.get(process.env.REACT_APP_API+ "especeanimal").then((animaux) => {
-            console.log(animaux.data)
-            setanimaux(animaux.data)
-            setanimauxSorted(animaux.data)
-            setisMount(true)
-            //load categories
-            axios.get(process.env.REACT_APP_API+ "categorieAnimal").then((categoriesData) => {
-                console.log(categoriesData.data)
-                let listeCategorie = []
-                for (let categorie of categoriesData.data){
-                    listeCategorie.push(categorie.nomcategorie)
+        try {
+            axios.get(process.env.REACT_APP_API+ "especeanimal").then((animaux) => {
+                console.log(animaux.data)
+                setanimaux(animaux.data)
+                setanimauxSorted(animaux.data)
+                setisMount(true)
+                //load categories
+                try {
+                    axios.get(process.env.REACT_APP_API+ "categorieAnimal").then((categoriesData) => {
+                        console.log(categoriesData.data)
+                        let listeCategorie = []
+                        for (let categorie of categoriesData.data){
+                            listeCategorie.push(categorie.nomcategorie)
+                        }
+                        setcategories(listeCategorie)
+                    })
+                } catch (error) {
+                    console.log(error.message)
+                    navigate("/error")
                 }
-                setcategories(listeCategorie)
             })
-        })
+        } catch (error) {
+            console.log(error.message)
+            navigate("/error")
+            
+        }
       }, [reload])
+
 
     const afficherAnimaux = () => {
         return (
@@ -126,23 +137,24 @@ const ListeAnimaux = () => {
         )
     }
 
-    const {isAdmin} = useContext(UtilisateurContext)
-
+    //tri les animaux en fonction de ce qui est rentré dans la barre de recherche (chaine) -> fonctionne avec les noms des espèce et leur catégories(doit être écrit en entier)
     const sortAnimaux = (chaine) => {
         let sort = []
-        if (categories.includes(chaine)){
-             console.log("yes")
+        //vérif si chaine = une catégorie
+        if (categories.includes(chaine.toLowerCase())){
             for (let animal of animaux){
+                //affiche tous les animaux de la catégorie en question
                 for (let categorie of animal.categories){
-                    if (categorie.nomcategorie == chaine){
+                    if (categorie.nomcategorie.toLowerCase() === chaine.toLowerCase()){
                         sort.push(animal)
                     }
                 }
             }
         }
+        //sinon recherche seulement en fonction du noms des animaux et affiche ceux qui includes la chaine
         else {
             for (let animal of animaux){
-                if (animal.nomespece.includes(chaine)){
+                if (animal.nomespece.toLowerCase().includes(chaine.toLowerCase())){
                     sort.push(animal)
                 }
             }

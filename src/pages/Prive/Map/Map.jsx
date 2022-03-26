@@ -3,7 +3,7 @@ import {GoogleMap, useLoadScript, Marker, InfoWindow} from "@react-google-maps/a
 //import icone from "../../assets/img/restaurantIcone.jpg" flag
 import SortieDetail from '../../../components/SortieDetail/SortieDetail'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { UtilisateurContext } from '../../../context/userContext'
 import utilisateurIcon from "../../../assets/img/utilisateur-map.png"
@@ -95,7 +95,7 @@ const StyledMap = styled.div`
     }
 
     header{
-        width: 60%;
+        width: 90%;
         display: flex;
         gap: 2%;
         position: absolute;
@@ -126,7 +126,11 @@ const StyledMap = styled.div`
 
     }
 
-    @media (max-width: 730px) {
+    @media (max-width: 900px) {
+
+        display: flex;
+        flex-direction: column;
+
         .lien {
             width: 35%;
         }
@@ -135,10 +139,6 @@ const StyledMap = styled.div`
             width: 55%;
          }
          
-
-         /* grid-template-rows: ${({selectedSortie}) => selectedSortie ? "1fr 1fr" : "1fr"} !important; */
-         display: flex;
-         flex-direction: column;
          #googleMap{
          }
 
@@ -177,7 +177,7 @@ const StyledMap = styled.div`
     }
 
 `
-
+//Composant qui gère la carte et les sorties qui y sont présenté à l'intérieur à l'aide des markers
 const Map = (props) => {
 
     
@@ -202,44 +202,54 @@ const Map = (props) => {
 
 
     const { isAdmin, currentUser } = useContext(UtilisateurContext)
+    const {navigate} = useNavigate()
 
+
+    //On get toutes les sorties
     useEffect(() => {
-        axios.get(process.env.REACT_APP_API+ "sorties").then((sorties) => {
-            setsortiesData(sorties.data)
-            console.log(sorties.data)
-            for (let sortie of sorties.data){
-                if (sortie.idutilisateur === currentUser.uid){
-                    setmarkerPriveData((current) => [...current,{
-                        lat: parseFloat(sortie.latitude),
-                        lng: parseFloat(sortie.longitude),
-                        key: sortie.id,
-                        sortie: sortie}
-                ])
-                    setmarkerPrive((current) => [...current,{
-                        lat: parseFloat(sortie.latitude),
-                        lng: parseFloat(sortie.longitude),
-                        key: sortie.id,
-                        sortie: sortie}
-                ])}
-                else if (isAdmin || !sortie.prive){
-                    setmarkerPubliqueData((current) => [...current,{
-                        lat: parseFloat(sortie.latitude),
-                        lng: parseFloat(sortie.longitude),
-                        key: sortie.id,
-                        sortie: sortie}
-                ])
-                    setmarkerPublique((current) => [...current,{
-                        lat: parseFloat(sortie.latitude),
-                        lng: parseFloat(sortie.longitude),
-                        key: sortie.id,
-                        sortie: sortie}
-                ])}
-            }
-        })
-        setisMount(true)
+        try {
+            axios.get(process.env.REACT_APP_API+ "sorties").then((sorties) => {
+                setsortiesData(sorties.data)
+                console.log(sorties.data)
+                for (let sortie of sorties.data){ 
+                    //si la sortie est à l'utilisateur (marker bleu)
+                    if (sortie.idutilisateur === currentUser.uid){
+                        setmarkerPriveData((current) => [...current,{
+                            lat: parseFloat(sortie.latitude),
+                            lng: parseFloat(sortie.longitude),
+                            key: sortie.id,
+                            sortie: sortie}
+                    ])
+                        setmarkerPrive((current) => [...current,{
+                            lat: parseFloat(sortie.latitude),
+                            lng: parseFloat(sortie.longitude),
+                            key: sortie.id,
+                            sortie: sortie}
+                    ])}
+                    //sinon si c'est un admin ou que la sortie n'est pas privé (marker orange)
+                    else if (isAdmin || !sortie.prive){
+                        setmarkerPubliqueData((current) => [...current,{
+                            lat: parseFloat(sortie.latitude),
+                            lng: parseFloat(sortie.longitude),
+                            key: sortie.id,
+                            sortie: sortie}
+                    ])
+                        setmarkerPublique((current) => [...current,{
+                            lat: parseFloat(sortie.latitude),
+                            lng: parseFloat(sortie.longitude),
+                            key: sortie.id,
+                            sortie: sortie}
+                    ])}
+                }
+            })
+            setisMount(true)
+        } catch (error) {
+            console.log(error.message)
+            navigate("/erreur/404")
+        }
       }, [reload])
 
-      
+    //Pour localiser sur la map la personne
     useEffect(() => { 
         navigator.geolocation.getCurrentPosition((position) => {
             setlatitude(position.coords.latitude);
@@ -247,21 +257,27 @@ const Map = (props) => {
         })
      }, [])
 
+     //Get les espèces pour le select dans le header de la map
      useEffect(() => {
-        axios.get(process.env.REACT_APP_API+"especeAnimal").then((especes) => {
-            setAnimaux(especes.data)
-            for (let animal of especes.data){
-                setoptionSelect((current) => [...current,
-                    {
-                        value: animal.id,
-                        label: animal.nomespece
-                    }
-                ])
-            }
-        })  
+        try {
+            axios.get(process.env.REACT_APP_API+"especeAnimal").then((especes) => {
+                setAnimaux(especes.data)
+                for (let animal of especes.data){
+                    setoptionSelect((current) => [...current,
+                        {
+                            value: animal.id,
+                            label: animal.nomespece
+                        }
+                    ])
+                }
+            })  
+        } catch (error) {
+            console.log(error.message)
+            navigate("/erreur/404")
+        }
     }, [])
 
-
+    //Met a jour les sorties affichées en fonction de ce qui est entré dans le select
     useEffect(() => {
         if (optionSelected.length > 0){
             let newMarkerPrive = checkSelect(markerPriveData)
@@ -276,33 +292,40 @@ const Map = (props) => {
       }, [optionSelected])
 
 
-        const onDeleteSortie = async (sortie) => {
+
+    const onDeleteSortie = async (sortie) => {
+        try {
             await axios.delete(process.env.REACT_APP_API + "sorties/" + sortie.id)
             setmarkerPrive([])
             setmarkerPublique([])
             setreload(sortie)
             setselectedSortie(null)
-          }
+        } catch (error) {
+            console.log(error.message)
+            navigate("/erreur/404")
+        }
+    }
 
-
-      const miseAJourSortie = (marker) => {
+    //Lorsque l'utilisateur clique sur un market (une sortie), elle s'affiche
+    const miseAJourSortie = (marker) => {
         setselectedSortie(marker.sortie)
         setmarkerClicked(marker)
         setlatitude(marker.sortie.latitude)
         setlongitude(marker.sortie.longitude)
-      }
+    }
 
-      const handleCheckBox = (e) => {
+    //Savoir quand l'utilisateur veut avoir que ses sorties ou pas (privé ou non)
+    const handleCheckBox = (e) => {
         if(e.target.checked){
             setprive(true)
         }
         else{
             setprive(false)
         }
-      }
+    }
 
-
-      const checkSelect = (markers) => {
+    //Fonction qui permet d'ajouter les sorties en fonction dees especes qui ont été choisies dans le select (header de la map)
+    const checkSelect = (markers) => {
         let returnList = []
         for (let marker of markers){
             for (let option of optionSelected){
@@ -314,7 +337,7 @@ const Map = (props) => {
             }
         }
         return returnList;
-      }
+    }
 
 
     const {isLoaded, loadError} = useLoadScript({
@@ -324,7 +347,7 @@ const Map = (props) => {
 
     const mapContainerStyle = {
         width: '100%',
-        minHeight: '75%'
+        minHeight: (selectedSortie ? '75%' : '100%')
     }
 
     const options = {

@@ -9,7 +9,7 @@ const Prive = () => {
     const {currentUser} = useContext(UtilisateurContext)
 
     if (!currentUser){
-        return <Navigate to="/"/>
+        return <Navigate to="/erreur/401"/>
     }
 
     //outlet = la page prive que l'on veut afficher

@@ -2,6 +2,8 @@ import React, { useState,useContext, useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UtilisateurContext } from '../../context/userContext';
 
+
+//Modale pour la connexion
 const Connexion = () => {
 
     const {modalState, toggleModals, connexion} = useContext(UtilisateurContext)
@@ -19,7 +21,7 @@ const Connexion = () => {
     }
 
 
-
+    //Fonction qui vérifie si la connexion est possible avec les données entrées dans les inputs du form
     const handleForm = async (e) => {
       e.preventDefault()
         try {
@@ -36,7 +38,7 @@ const Connexion = () => {
       
       }
 
-    
+    //Fonction pour fermer la modale
     const closeModal = () => {
       setvalidation("")
       toggleModals("close")

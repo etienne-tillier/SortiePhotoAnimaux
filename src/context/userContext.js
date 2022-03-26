@@ -6,6 +6,7 @@ import {
 } from "firebase/auth"
 import {auth} from "../firebase-config"
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 const UtilisateurContext = createContext();
@@ -16,7 +17,10 @@ function UtilisateurContextProvider(props) {
   const [currentUser, setcurrentUser] = useState()
   const [loadingData, setloadingData] = useState(true)
   const [isAdmin, setisAdmin] = useState(false)
+  const navigate = useNavigate()
 
+
+  //Eventlistener quand quelqu'un se connecte ou se déconnecte via l'api firebase
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
         setcurrentUser(currentUser)
@@ -26,20 +30,34 @@ function UtilisateurContextProvider(props) {
     return unsubscribe
   }, [])
 
+  //Lorsque le currentUser change (connexion ou déconnexion), alors on lui attribue les données qui lui sont relatives dans la bd postgres et on vérifie s'il est admin
   useEffect(() => {
+    //Si un utilisateur est connecté
     if (currentUser){
       let user = currentUser
-      axios.get(process.env.REACT_APP_API+ "sorties/utilisateur/" + currentUser.uid).then((sorties) => {
-        user.sorties = sorties.data
-        axios.get(process.env.REACT_APP_API+ "utilisateurs/" + currentUser.uid).then((userInfo) => {
-          user.info = userInfo.data
-          console.log("new user = " + JSON.stringify(user))
-          console.log("userInfo " + JSON.stringify(user.info))
-          setisAdmin(user.info.isadmin)
-          setcurrentUser(user)
+      try {
+        //get les sorties qui lui sont relative
+        axios.get(process.env.REACT_APP_API+ "sorties/utilisateur/" + currentUser.uid).then((sorties) => {
+          user.sorties = sorties.data
+          try {
+            //get les données users qui lui sont relative
+            axios.get(process.env.REACT_APP_API+ "utilisateurs/" + currentUser.uid).then((userInfo) => {
+              user.info = userInfo.data
+              console.log("new user = " + JSON.stringify(user))
+              console.log("userInfo " + JSON.stringify(user.info))
+              setisAdmin(user.info.isadmin)
+              setcurrentUser(user)
+            })
+          } catch (error) {
+              console.log(error.message)
+              navigate("/erreur/404")
+          }
         })
-      })
-      setloadingData(false)
+        setloadingData(false)
+      } catch (error) {
+          console.log(error.message)
+          navigate("/erreur/404")
+      }
   }
   else {
     setisAdmin(false)
@@ -56,6 +74,7 @@ function UtilisateurContextProvider(props) {
     return signInWithEmailAndPassword(auth, email, mdp)
   }
 
+
   const inscriptionBD = (id,pseudo,email) => {
     axios.post(process.env.REACT_APP_API+ "utilisateurs", {
       id: id,
@@ -67,13 +86,13 @@ function UtilisateurContextProvider(props) {
     })
     .catch(function (err) {
       console.log(err);
+      navigate("/erreur/404")
     });
   }
 
 
 
   // modal
-
   const [modalState, setModalState] = useState({
     signUpModal: false,
     signInModal: false,

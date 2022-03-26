@@ -11,7 +11,7 @@ const Admin = () => {
 
     console.log("currentuser = " + currentUser + " isAdmin = " + isAdmin)
     if (!currentUser || !isAdmin){
-        return <Navigate to="/"/>
+        return <Navigate to="/erreur/403"/>
     }
 
     //outlet = la page admin que l'on veut afficher

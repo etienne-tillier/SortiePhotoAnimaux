@@ -74,8 +74,10 @@ const FormulaireSortie = (props) => {
 
     
     const {currentUser, isAdmin} = useContext(UtilisateurContext)
+    const { id } = useParams();
+    const navigate = useNavigate()
 
- // handle input change
+ // Tous les handles servent à sauvegarder les données rentrées dans les inputs des forms dynamiques pour les photos de la sortie
  const handleInputChange = (e, index) => {
     const { name, value } = e.target
     const list = [...inputList]
@@ -90,7 +92,6 @@ const FormulaireSortie = (props) => {
   }
 
   const handleFileChange = (event, index) => {
-    console.log(event.target)
     const list = [...inputList]
     list[index]["imagePhoto"] = event.target.files[0]
     setInputList(list)
@@ -111,48 +112,59 @@ const FormulaireSortie = (props) => {
 
 
     useEffect(() => { 
-        axios.get(process.env.REACT_APP_API+ "especeAnimal").then((animaux) => {
-            console.log(animaux.data)
-            console.log(props.create)
-            let options = []
-            for (let animal of animaux.data){
-                options.push({
-                    value: animal.id,
-                    label: animal.nomespece
-                })
-            }
-            setespeces(options)
-            if (id){
-                axios.get(process.env.REACT_APP_API+ "sorties/" + id).then((sortie) => {
-                    //verif access 
-                    if (currentUser.uid !== sortie.data.idutilisateur && !isAdmin){
-                        navigate("/")//erreur
-                    }
-                    else {
-                        setdescription(sortie.data.description)
-                        setdate(new Date(sortie.data.date).toISOString().split('T')[0])
-                        setlatitude(sortie.data.latitude)
-                        setlongitude(sortie.data.longitude)
-                        setprive(sortie.data.prive)
-                        let especesArray = []
-                        for (let espece of options){
-                            for (let especeSortie of sortie.data.especes){
-                                if (especeSortie.nomespece === espece.label){
-                                    especesArray.push(espece)
-                                }
+        try {
+            axios.get(process.env.REACT_APP_API+ "especeAnimal").then((animaux) => {
+                console.log(animaux.data)
+                console.log(props.create)
+                let options = []
+                for (let animal of animaux.data){
+                    options.push({
+                        value: animal.id,
+                        label: animal.nomespece
+                    })
+                }
+                setespeces(options)
+                if (id){
+                    try {
+                        axios.get(process.env.REACT_APP_API+ "sorties/" + id).then((sortie) => {
+                            //verif access 
+                            if (currentUser.uid !== sortie.data.idutilisateur && !isAdmin){
+                                navigate("/erreur/403")
                             }
-                        }
-                        setespecesChoisies(especesArray)
-                        setisMount(true)
+                            else {
+                                setdescription(sortie.data.description)
+                                setdate(new Date(sortie.data.date).toISOString().split('T')[0])
+                                setlatitude(sortie.data.latitude)
+                                setlongitude(sortie.data.longitude)
+                                setprive(sortie.data.prive)
+                                let especesArray = []
+                                for (let espece of options){
+                                    for (let especeSortie of sortie.data.especes){
+                                        if (especeSortie.nomespece === espece.label){
+                                            especesArray.push(espece)
+                                        }
+                                    }
+                                }
+                                setespecesChoisies(especesArray)
+                                setisMount(true)
+                            }
+                        })
+                    } catch (error) {
+                        console.log(error.message)
+                        navigate("/erreur/404")
                     }
-                })
-            }
-            else {
-                setisMount(true)
-            }
-        })
+                }
+                else {
+                    setisMount(true)
+                }
+            })
+        } catch (error) {
+            console.log(error.message)
+            navigate("/erreur/404")
+        }
      }, [])
         
+    //Fonction pour ajouter tous les inputs des forms photos à la liste de tous les inputs 
     const addInputs = (el) => {
         if (!inputs.current.includes(el)){
             inputs.current.push(el)
@@ -160,11 +172,7 @@ const FormulaireSortie = (props) => {
     }
 
 
-    const { id } = useParams();
-    const navigate = useNavigate()
-
-
-    
+    //ajoute une photo sur l'api
     const ajouterPhoto = (idSortie,photo) => {
         const fd = new FormData()
         fd.append("idespeceanimal",photo.espece.value)
@@ -179,9 +187,16 @@ const FormulaireSortie = (props) => {
         fd.append("latitude",photo.latitudePhoto)
         fd.append("idsortie",idSortie)
         fd.append("imagePhoto",photo.imagePhoto)
-        axios.post(process.env.REACT_APP_API+ "photos",fd)
+        try {
+            axios.post(process.env.REACT_APP_API+ "photos",fd)
+        } catch (error) {
+            console.log(error.message)
+            navigate("/erreur/404")
+        }
     }
 
+
+    //vérifie les champs du form sortie puis ajoute ou modifie une sortie en fonction de ce qui est rentré dans le form de la sortie
     const handleForm = async (e) => {
         e.preventDefault()
         const descriptionValue = inputs.current[0].value
@@ -200,6 +215,7 @@ const FormulaireSortie = (props) => {
             setvalidation("La date n'est pas encore passée")
         }
         else {
+            //s'il y a au moins une photo
             if (inputList) {
                 for(let inputLongitude of document.getElementsByName("longitudePhoto")){
                     if (isNaN(inputLongitude.value)){
@@ -230,44 +246,54 @@ const FormulaireSortie = (props) => {
             for (let espece of especesChoisies){
                 idEspeces.push(espece.value)
             }
+            //update
             if (id){
-                console.log("id ? : " + id)
-                axios.put(process.env.REACT_APP_API + "sorties/" + id,
-                {
-                    idutilisateur: currentUser.uid,
-                    date: dateValue,
-                    description: descriptionValue,
-                    latitude: latitudeValue,
-                    longitude: longitudeValue,
-                    prive: priveValue,
-                    especes: idEspeces
-                }).then((resp) => {
-                    if (resp){
-                        for (let photo of inputList){
-                            ajouterPhoto(id, photo)
+                try {
+                    axios.put(process.env.REACT_APP_API + "sorties/" + id,
+                    {
+                        idutilisateur: currentUser.uid,
+                        date: dateValue,
+                        description: descriptionValue,
+                        latitude: latitudeValue,
+                        longitude: longitudeValue,
+                        prive: priveValue,
+                        especes: idEspeces
+                    }).then((resp) => {
+                        if (resp){
+                            for (let photo of inputList){
+                                ajouterPhoto(id, photo)
+                            }
+                            navigate("/prive/sorties")
                         }
-                        navigate("/")
-                    }
-                })
+                    })
+                } catch (error) {
+                    console.log(error.message)
+                    navigate("/erreur/404")
+                }
             }
              //create
             else {
-                axios.post(process.env.REACT_APP_API+ "sorties",{
-                    idutilisateur: currentUser.uid,
-                    date: dateValue,
-                    description: descriptionValue,
-                    latitude: latitudeValue,
-                    longitude: longitudeValue,
-                    prive: priveValue,
-                    especes: idEspeces
-                  }).then((resp) => {
-                    if (resp){
-                        for (let photo of inputList){
-                            ajouterPhoto(resp.data.id, photo)
+                try {
+                    axios.post(process.env.REACT_APP_API+ "sorties",{
+                        idutilisateur: currentUser.uid,
+                        date: dateValue,
+                        description: descriptionValue,
+                        latitude: latitudeValue,
+                        longitude: longitudeValue,
+                        prive: priveValue,
+                        especes: idEspeces
+                      }).then((resp) => {
+                        if (resp){
+                            for (let photo of inputList){
+                                ajouterPhoto(resp.data.id, photo)
+                            }
+                            navigate("/prive/sorties")
                         }
-                        navigate("/")
-                    }
-            })
+                })
+                } catch (error) {
+                    console.log(error.message)
+                    navigate("/erreur/404")
+                }
             }
         }
     }
@@ -319,6 +345,7 @@ const FormulaireSortie = (props) => {
                             <input defaultChecked={prive} ref={addInputs} type="checkbox" id="prive" />
                         </div>
                         <section className="containerPhoto">
+                            {/* Pour tous les formulaire photo, les affiches */}
                             {inputList.map((element, index) => {
                             return (
                                 <>
@@ -383,7 +410,6 @@ const FormulaireSortie = (props) => {
                                 </>
                                 );
                             })}
-                            {/* {AfficherFormulairesPhoto} */}
                         </section>
                         <p className="text-danger mt-1">{validation}</p>
                         <div className="btn btn-primary" onClick={handleAddClick}>Ajouter une photo</div>
