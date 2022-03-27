@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {UtilisateurContext} from "../../context/userContext"
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-
+import Notiflix from 'notiflix';
 //ce composant est la porte d'entrée vers les pages privées (connexion requise)
 const Prive = () => {
 

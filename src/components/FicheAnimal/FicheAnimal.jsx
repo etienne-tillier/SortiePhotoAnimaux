@@ -3,6 +3,7 @@ import React,  { useContext } from 'react';
 import styled from "styled-components"
 import { Link, useNavigate } from 'react-router-dom';
 import { UtilisateurContext } from '../../context/userContext';
+import Notiflix from 'notiflix';
 
 const StyledFicheAnimal = styled.div`
     height: 100%;
@@ -85,6 +86,7 @@ const FicheAnimal = (props) => {
             }).then((res) => {
                 if (res){
                     props.setreload(props.reload + 1)
+                    Notiflix.Notify.success("L'animal a bien été supprimé", { closeButton: true });
                 }   
             })
         } catch (error) {

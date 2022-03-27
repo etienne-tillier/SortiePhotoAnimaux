@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Select from 'react-select'
 import axios from 'axios';
 import { UtilisateurContext } from '../../../context/userContext';
+import Notiflix from 'notiflix';
 
 
 const StyledFormulaireSortie = styled.div`
@@ -107,7 +108,6 @@ const FormulaireSortie = (props) => {
   // handle click event of the Add button
   const handleAddClick = () => {
     setInputList([...inputList, { espece: "", descriptionPhoto: "" , camera: "", objectif: "", iso: "", ouverture: "", vitesse: "", longitudePhoto: "", latitudePhoto: "", imagePhoto: ""}]);
-    console.log(inputList)
   };
 
 
@@ -118,8 +118,6 @@ const FormulaireSortie = (props) => {
                     authorization: 'Bearer ' + currentUser.accessToken
                   }
             }).then((animaux) => {
-                console.log(animaux.data)
-                console.log(props.create)
                 let options = []
                 for (let animal of animaux.data){
                     options.push({
@@ -279,6 +277,7 @@ const FormulaireSortie = (props) => {
                             for (let photo of inputList){
                                 ajouterPhoto(id, photo)
                             }
+                            Notiflix.Notify.success("La sortie a bien été modifiée", { closeButton: true });
                             navigate("/prive/sorties")
                         }
                     })
@@ -307,6 +306,7 @@ const FormulaireSortie = (props) => {
                             for (let photo of inputList){
                                 ajouterPhoto(resp.data.id, photo)
                             }
+                            Notiflix.Notify.success("La sortie a bien été créé", { closeButton: true });
                             navigate("/prive/sorties")
                         }
                 })

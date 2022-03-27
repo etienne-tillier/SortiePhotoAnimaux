@@ -1,7 +1,7 @@
 import React, { useState,useContext, useRef, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UtilisateurContext } from '../../context/userContext';
-
+import Notiflix from 'notiflix';
 
 const Inscription = () => {
 
@@ -25,7 +25,6 @@ const Inscription = () => {
     const handleForm = async (e) => {
       e.preventDefault()
       if (inputs.current[0].value.length < 6){
-        console.log(inputs.current[0].value.length)
         setvalidation("Pseudo de 6 caractères minimum")
         return
       }
@@ -44,13 +43,13 @@ const Inscription = () => {
           const email = inputs.current[1].value
           const creds = await inscription(inputs.current[1].value,inputs.current[2].value)
           //vide les champs du form
-          console.log(creds.user.uid)
           formRef.current.reset()
           setvalidation("")
           try {
             inscriptionBD(creds.user.uid,pseudo,email)
             toggleModals("close")
-            navigate("/prive/sorties")
+            Notiflix.Notify.success("Inscription réussie", { closeButton: true });
+            navigate("/")
           } catch (error) {
               console.log(error.message + "CODE")
           }

@@ -1,6 +1,8 @@
 import React, { useState,useContext, useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UtilisateurContext } from '../../context/userContext';
+import Notiflix from 'notiflix';
+
 
 
 //Modale pour la connexion
@@ -30,7 +32,8 @@ const Connexion = () => {
           formRef.current.reset()
           setvalidation("")
           toggleModals("close")
-          navigate("/prive/sorties")
+          Notiflix.Notify.success("Vous êtes connecté", { closeButton: true });
+          navigate("/")
 
         } catch (err) {
           setvalidation("Le mot de passe ou l'email est invalide (ou les deux)")

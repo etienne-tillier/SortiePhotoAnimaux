@@ -6,7 +6,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from 'react-responsive-carousel';
 import moment from 'moment'
 import { Link, useNavigate } from 'react-router-dom';
-
+import Notiflix from 'notiflix';
 
 const StyledSortieDetail = styled.div`
 

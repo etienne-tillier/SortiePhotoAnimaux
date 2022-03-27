@@ -34,7 +34,6 @@ function UtilisateurContextProvider(props) {
     //Si un utilisateur est connecté
     if (currentUser){
       let user = currentUser
-      console.log(user)
       try {
         //get les sorties qui lui sont relatives
         axios.get(process.env.REACT_APP_API+ "sorties/utilisateur/" + currentUser.uid, {
@@ -51,7 +50,6 @@ function UtilisateurContextProvider(props) {
               }
             }).then((userInfo) => {
               user.info = userInfo.data
-              console.log(user)
               setcurrentUser(user)
               setisAdmin(userInfo.data.isadmin)
             })
@@ -92,7 +90,6 @@ function UtilisateurContextProvider(props) {
       }
     })
     .then(function (response) {
-      console.log(response);
     })
     .catch(function (err) {
       console.log(err);

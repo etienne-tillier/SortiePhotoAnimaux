@@ -92,14 +92,12 @@ const ListeAnimaux = () => {
         //load animaux
         try {
             axios.get(process.env.REACT_APP_API+ "especeanimal").then((animaux) => {
-                console.log(animaux.data)
                 setanimaux(animaux.data)
                 setanimauxSorted(animaux.data)
                 setisMount(true)
                 //load categories
                 try {
                     axios.get(process.env.REACT_APP_API+ "categorieAnimal").then((categoriesData) => {
-                        console.log(categoriesData.data)
                         let listeCategorie = []
                         for (let categorie of categoriesData.data){
                             listeCategorie.push(categorie.nomcategorie)

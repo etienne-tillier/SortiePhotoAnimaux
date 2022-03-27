@@ -5,6 +5,7 @@ import axios from "axios"
 import {useNavigate, useParams} from "react-router-dom"
 import FormData from 'form-data';
 import { UtilisateurContext } from '../../../context/userContext';
+import Notiflix from 'notiflix';
 
 
 const StyledFormulaireAnimaux = styled.div`
@@ -115,7 +116,6 @@ const FormulaireAnimaux = (props) => {
               }
         }).then((categories) => {
             setcategories(categories.data)
-            console.log(categories.data)
             let options = []
             for (let categorie of categories.data){
                 options.push({
@@ -137,7 +137,6 @@ const FormulaireAnimaux = (props) => {
                     setpoids(animal.data.poidsmoyen)
                     setimage(animal.data.image)
                     let categoriesArray = []
-                    console.log(animal.data.categories)
                     for (let categorie of options){
                         for (let categorieAnimal of animal.data.categories){
                             if (categorieAnimal.nomcategorie === categorie.label){
@@ -220,7 +219,7 @@ const FormulaireAnimaux = (props) => {
                           },
                     }).then((resp) => {
                         if (resp){
-                            console.log(resp)
+                            Notiflix.Notify.success("L'animal a bien été modifié", { closeButton: true });
                             navigate("/")
                         }
                     })
@@ -243,6 +242,7 @@ const FormulaireAnimaux = (props) => {
                               }
                         }).then((resp) => {
                             if (resp){
+                                Notiflix.Notify.success("L'animal a bien été créé", { closeButton: true });
                                 navigate("/")
                             }
                             else {
@@ -260,7 +260,6 @@ const FormulaireAnimaux = (props) => {
 
     const ajouterCategorie = () => {
         const categorie = document.getElementById("newCategorie").value
-        console.log(document.getElementById("newCategorie").value)
         axios.post(process.env.REACT_APP_API + "categorieAnimal",{
             nomcategorie: categorie
         },{
@@ -273,6 +272,7 @@ const FormulaireAnimaux = (props) => {
                     value: categorieData.data.id,
                     label: categorieData.data.nomcategorie
                 }])
+                Notiflix.Notify.success("La catégorie a bien été créé", { closeButton: true });
             }
             else {
                 console.error("La création de catégorie n'a pas eu lieu")
@@ -281,7 +281,6 @@ const FormulaireAnimaux = (props) => {
     }
 
     const supprimerCategories = async () => {
-        console.log(categoriesSupp)
         for (let categorie of categoriesSupp){
            await axios.delete(process.env.REACT_APP_API + "categorieAnimal/" + categorie.value, {
             headers: {
@@ -290,8 +289,6 @@ const FormulaireAnimaux = (props) => {
            })
            const index = options.indexOf(categorie);
            const copieListe = options
-           console.log(copieListe)
-           console.log(index)
            if (index > -1) {
            copieListe.splice(index, 1); // 2nd parameter means remove one item only
            setoptions(copieListe)

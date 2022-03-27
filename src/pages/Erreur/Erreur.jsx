@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Notiflix from 'notiflix';
 
 
 const StyledError = styled.div`
@@ -22,6 +23,7 @@ const Erreur = (props) => {
     //On regarde de quelle erreur il s'agit
     useEffect(() => { 
         if (props.erreur){
+            Notiflix.Notify.failure(props.erreur + "...", { closeButton: true });
             settypeErreur(props.erreur)
         }
      }, [])

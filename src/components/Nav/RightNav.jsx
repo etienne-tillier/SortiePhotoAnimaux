@@ -5,7 +5,7 @@ import { UtilisateurContext } from '../../context/userContext'
 import { auth } from '../../firebase-config'
 import { useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
-
+import Notiflix from 'notiflix'
 
 
 
@@ -63,6 +63,7 @@ const RightNav = ( props ) => {
     const deconnexion = async () => {
         signOut(auth).then((res) => {
             if (res){
+                Notiflix.Notify.sucess("Vous êtes bien déconnecté", { closeButton: true });
                 navigate("/")
             }
         })

@@ -10,6 +10,7 @@ import utilisateurIcon from "../../../assets/img/utilisateur-map.png"
 import publiqueIcon from "../../../assets/img/public-map.png"
 import icone from "../../../assets/img/icone.png"
 import Select from 'react-select'
+import Notiflix from 'notiflix';
 
 
 const StyledMap = styled.div`
@@ -214,7 +215,6 @@ const Map = (props) => {
                   }
             }).then((sorties) => {
                 setsortiesData(sorties.data)
-                console.log(sorties.data)
                 for (let sortie of sorties.data){ 
                     //si la sortie est à l'utilisateur (marker bleu)
                     if (sortie.idutilisateur === currentUser.uid){
@@ -304,6 +304,7 @@ const Map = (props) => {
                     authorization: 'Bearer ' + currentUser.accessToken
                   }
             })
+            Notiflix.Notify.success("La sortie a bien été supprimée", { closeButton: true });
             setmarkerPrive([])
             setmarkerPublique([])
             setreload(sortie)
