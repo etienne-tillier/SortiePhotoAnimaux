@@ -83,14 +83,11 @@ function UtilisateurContextProvider(props) {
 
   const inscriptionBD = (id,pseudo,email) => {
     axios.post(process.env.REACT_APP_API+ "utilisateurs",  {
-      body: {
         id: id,
         pseudo: pseudo,
         email: email
-      }
     })
     .then(function (response) {
-      console.log(response)
     })
     .catch(function (err) {
       console.log(err);
