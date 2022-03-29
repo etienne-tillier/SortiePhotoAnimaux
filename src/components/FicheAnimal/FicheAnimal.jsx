@@ -86,7 +86,7 @@ const FicheAnimal = (props) => {
             }).then((res) => {
                 if (res){
                     props.setreload(props.reload + 1)
-                    Notiflix.Notify.success("L'animal a bien été supprimé", { closeButton: true });
+                    Notiflix.Notify.success("L'animal a bien été supprimé");
                 }   
             })
         } catch (error) {

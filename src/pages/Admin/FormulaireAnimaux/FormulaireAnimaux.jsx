@@ -219,7 +219,7 @@ const FormulaireAnimaux = (props) => {
                           },
                     }).then((resp) => {
                         if (resp){
-                            Notiflix.Notify.success("L'animal a bien été modifié", { closeButton: true });
+                            Notiflix.Notify.success("L'animal a bien été modifié");
                             navigate("/")
                         }
                     })
@@ -242,7 +242,7 @@ const FormulaireAnimaux = (props) => {
                               }
                         }).then((resp) => {
                             if (resp){
-                                Notiflix.Notify.success("L'animal a bien été créé", { closeButton: true });
+                                Notiflix.Notify.success("L'animal a bien été créé");
                                 navigate("/")
                             }
                             else {
@@ -272,7 +272,7 @@ const FormulaireAnimaux = (props) => {
                     value: categorieData.data.id,
                     label: categorieData.data.nomcategorie
                 }])
-                Notiflix.Notify.success("La catégorie a bien été créé", { closeButton: true });
+                Notiflix.Notify.success("La catégorie a bien été créé");
             }
             else {
                 console.error("La création de catégorie n'a pas eu lieu")

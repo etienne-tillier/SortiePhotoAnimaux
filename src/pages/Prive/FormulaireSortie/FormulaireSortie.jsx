@@ -277,7 +277,7 @@ const FormulaireSortie = (props) => {
                             for (let photo of inputList){
                                 ajouterPhoto(id, photo)
                             }
-                            Notiflix.Notify.success("La sortie a bien été modifiée", { closeButton: true });
+                            Notiflix.Notify.success("La sortie a bien été modifiée");
                             navigate("/prive/sorties")
                         }
                     })
@@ -306,7 +306,7 @@ const FormulaireSortie = (props) => {
                             for (let photo of inputList){
                                 ajouterPhoto(resp.data.id, photo)
                             }
-                            Notiflix.Notify.success("La sortie a bien été créé", { closeButton: true });
+                            Notiflix.Notify.success("La sortie a bien été créé");
                             navigate("/prive/sorties")
                         }
                 })

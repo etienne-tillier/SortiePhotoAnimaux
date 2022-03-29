@@ -48,7 +48,7 @@ const Inscription = () => {
           try {
             inscriptionBD(creds.user.uid,pseudo,email)
             toggleModals("close")
-            Notiflix.Notify.success("Inscription réussie", { closeButton: true });
+            Notiflix.Notify.success("Inscription réussie");
             navigate("/")
           } catch (error) {
               console.log(error.message + "CODE")

@@ -91,7 +91,7 @@ const ListeAnimaux = () => {
     useEffect(() => {
         //load animaux
         try {
-            axios.get(process.env.REACT_APP_API+ "especeanimal").then((animaux) => {
+            axios.get(process.env.REACT_APP_API+ "especeAnimal").then((animaux) => {
                 setanimaux(animaux.data)
                 setanimauxSorted(animaux.data)
                 setisMount(true)

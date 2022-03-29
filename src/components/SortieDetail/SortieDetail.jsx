@@ -68,9 +68,12 @@ const StyledSortieDetail = styled.div`
     }
 
     .modification {
+        height: 100%;
+        width: 100%;
         grid-area :modif;
         display: flex;
-        justify-content: center;
+        grid-template-columns: 1fr 1fr;
+        justify-content: space-evenly;
         align-items: center;
     }
 

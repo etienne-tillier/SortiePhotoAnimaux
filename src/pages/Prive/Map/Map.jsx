@@ -304,7 +304,7 @@ const Map = (props) => {
                     authorization: 'Bearer ' + currentUser.accessToken
                   }
             })
-            Notiflix.Notify.success("La sortie a bien été supprimée", { closeButton: true });
+            Notiflix.Notify.success("La sortie a bien été supprimée");
             setmarkerPrive([])
             setmarkerPublique([])
             setreload(sortie)

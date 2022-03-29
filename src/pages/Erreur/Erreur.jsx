@@ -23,7 +23,7 @@ const Erreur = (props) => {
     //On regarde de quelle erreur il s'agit
     useEffect(() => { 
         if (props.erreur){
-            Notiflix.Notify.failure(props.erreur + "...", { closeButton: true });
+            Notiflix.Notify.failure(props.erreur + "...");
             settypeErreur(props.erreur)
         }
      }, [])

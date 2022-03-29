@@ -32,7 +32,7 @@ const Connexion = () => {
           formRef.current.reset()
           setvalidation("")
           toggleModals("close")
-          Notiflix.Notify.success("Vous êtes connecté", { closeButton: true });
+          Notiflix.Notify.success("Vous êtes connecté");
           navigate("/")
 
         } catch (err) {
