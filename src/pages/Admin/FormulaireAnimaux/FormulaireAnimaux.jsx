@@ -11,12 +11,11 @@ import Notiflix from 'notiflix';
 const StyledFormulaireAnimaux = styled.div`
     width: 100%;
     height: 100%;
-    padding-top: 5%;
     background-color: #ADCE74;
     overflow-y: scroll;
     display: flex;
     justify-content: center;
-    align-items: center;
+
 
     .btn {
         background-color: #61B15A;
@@ -24,16 +23,6 @@ const StyledFormulaireAnimaux = styled.div`
         width: 50%;
         display: block;
         margin: 15px auto;
-    }
-
-    .formContainer {
-        height: 100%;
-        width: 100%;
-    }
-
-    form{
-        width: 100%;
-        height: 100%;
     }
 
     label {
@@ -47,42 +36,6 @@ const StyledFormulaireAnimaux = styled.div`
     .form-group {
         margin-bottom: 10px;
     }
-
-    @media (max-width: 1100px) {
-        padding-top: 10%;
-    }
-
-    @media (max-width: 1100px) {
-        padding-top: 10%;
-    }
-
-    @media (max-width: 900px) {
-        padding-top: 15%;
-        form{
-            height: 50%;
-        }
-    }
-
-    @media (max-width: 500px) {
-        padding-top: 30%;
-    }
-
-    @media (max-height: 800px) {
-
-        @media (max-width: 1500px){
-            padding-top: 21%;
-        }
-    }
-
-    @media (max-height: 600px) {
-
-        @media (max-width: 1100px){
-            padding-top: 35%;
-        }
-    }
-
-    
-
 
 `
 
