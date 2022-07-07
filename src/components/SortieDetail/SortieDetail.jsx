@@ -17,14 +17,14 @@ const StyledSortieDetail = styled.div`
     border: 1px solid black;
     background-color: #61B15A;
     display: grid;
-     ${({photos}) => photos > 0 ? "grid-template-areas: " + "'galerie galerie galerie galerie''galerie galerie galerie galerie''galerie galerie galerie galerie ''realisation realisation realisation realisation''desc desc desc desc ''desc desc desc desc ''desc desc desc desc ''modif modif modif modif '" : "grid-template-areas:" + "'realisation realisation realisation realisation' 'desc desc desc desc' 'desc desc desc desc' 'desc desc desc desc' 'modif modif modif modif'"}; 
+    ${({photos}) => photos > 0 ? "grid-template-areas: " + "'galerie galerie galerie galerie''galerie galerie galerie galerie''galerie galerie galerie galerie ''realisation realisation realisation realisation''desc desc desc desc ''desc desc desc desc ''desc desc desc desc ''modif modif modif modif '" : "grid-template-areas:" + "'realisation realisation realisation realisation' 'desc desc desc desc' 'desc desc desc desc' 'desc desc desc desc' 'modif modif modif modif'"}; 
     gap: 10px;
 
     .containerGalerie{
         width: 100%;
         height: 90%;
         display: grid;
-        grid-template-columns: 2fr 1fr;
+        grid-template-columns: 1fr 1fr;
         grid-area: galerie;
         margin-top: 1rem;
     }
@@ -70,7 +70,7 @@ const StyledSortieDetail = styled.div`
     .modification {
         height: 100%;
         width: 100%;
-        grid-area :modif;
+        grid-area: modif;
         display: flex;
         grid-template-columns: 1fr 1fr;
         justify-content: space-evenly;

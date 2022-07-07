@@ -78,37 +78,37 @@ const FormulaireSortie = (props) => {
     const { id } = useParams();
     const navigate = useNavigate()
 
- // Tous les handles servent à sauvegarder les données rentrées dans les inputs des forms dynamiques pour les photos de la sortie
- const handleInputChange = (e, index) => {
-    const { name, value } = e.target
-    const list = [...inputList]
-    list[index][name] = value
-    setInputList(list)
-  };
+    // Tous les handles servent à sauvegarder les données rentrées dans les inputs des forms dynamiques pour les photos de la sortie
+    const handleInputChange = (e, index) => {
+        const { name, value } = e.target
+        const list = [...inputList]
+        list[index][name] = value
+        setInputList(list)
+    };
 
-  const handleSelectChange = (value,index) => {
-      const list = [...inputList]
-      list[index]["espece"] = value
-      setInputList(list)
-  }
+    const handleSelectChange = (value,index) => {
+        const list = [...inputList]
+        list[index]["espece"] = value
+        setInputList(list)
+    }
 
-  const handleFileChange = (event, index) => {
-    const list = [...inputList]
-    list[index]["imagePhoto"] = event.target.files[0]
-    setInputList(list)
-  }
- 
-  // handle click event of the Remove button
-  const handleRemoveClick = index => {
-    const list = [...inputList]
-    list.splice(index, 1)
-    setInputList(list)
-  };
- 
-  // handle click event of the Add button
-  const handleAddClick = () => {
-    setInputList([...inputList, { espece: "", descriptionPhoto: "" , camera: "", objectif: "", iso: "", ouverture: "", vitesse: "", longitudePhoto: "", latitudePhoto: "", imagePhoto: ""}]);
-  };
+    const handleFileChange = (event, index) => {
+        const list = [...inputList]
+        list[index]["imagePhoto"] = event.target.files[0]
+        setInputList(list)
+    }
+    
+    // handle click event of the Remove button
+    const handleRemoveClick = index => {
+        const list = [...inputList]
+        list.splice(index, 1)
+        setInputList(list)
+    };
+    
+    // handle click event of the Add button
+    const handleAddClick = () => {
+        setInputList([...inputList, { espece: "", descriptionPhoto: "" , camera: "", objectif: "", iso: "", ouverture: "", vitesse: "", longitudePhoto: "", latitudePhoto: "", imagePhoto: ""}]);
+    };
 
 
     useEffect(() => { 

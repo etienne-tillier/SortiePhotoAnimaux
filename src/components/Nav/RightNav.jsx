@@ -76,11 +76,14 @@ const RightNav = ( props ) => {
                 <li><Link className='link' to="/" >Animaux</Link></li>
                 <li><Link className='link' to="/prive/sorties">Sorties</Link></li>
                 {!currentUser ?
-                <>
-                <li><div className='link' onClick={() => toggleModals("signIn")}>Connexion</div></li>
-                <li><div className='link'  onClick={() => toggleModals("signUp")}>S'inscrire</div></li>
-                </>
-            :   <li><div className='link'  onClick={() => deconnexion()}>Déconnexion</div></li> }
+                    <>
+                    <li><div className='link' onClick={() => toggleModals("signIn")}>Connexion</div></li>
+                    <li><div className='link'  onClick={() => toggleModals("signUp")}>S'inscrire</div></li>
+                    </>
+                :   <>
+                    <li><Link className='link' to="/prive/userProfil">Profil</Link></li>    
+                    <li><div className='link'  onClick={() => deconnexion()}>Déconnexion</div></li>
+                    </> }
             </Ul>
         </>
     )

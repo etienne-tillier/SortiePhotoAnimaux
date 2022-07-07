@@ -5,6 +5,7 @@ import Inscription from "./pages/Inscription/Inscription.jsx";
 import Connexion from "./pages/Connexion/Connexion.jsx"
 import FormulaireAnimaux from "./pages/Admin/FormulaireAnimaux/FormulaireAnimaux.jsx";
 import FormulaireSortie from "./pages/Prive/FormulaireSortie/FormulaireSortie.jsx";
+import UserProfil from "./pages/Prive/UserProfil/UserProfil.jsx";
 import Prive from "./pages/Prive/Prive.jsx";
 import Navbar from "./components/Nav/Navbar.jsx";
 import Footer from "./components/Footer/Footer.jsx";
@@ -50,6 +51,8 @@ const App = () => {
               <Route path="/prive/sorties" element={<Map></Map>}/>
               <Route path="/prive/formulaireSortie" element={<FormulaireSortie create="true"></FormulaireSortie>}/>
               <Route path="/prive/formulaireSortie/:id" element={<FormulaireSortie create="false"></FormulaireSortie>}/>
+              <Route path="/prive/userProfil" element={<UserProfil friend="false"></UserProfil>}/>
+              <Route path="/prive/userProfil/:id" element={<UserProfil friend="true"></UserProfil>}/>
             </Route>
             <Route path="/admin" element={<Admin></Admin>}>
               <Route path="/admin/formulaireAnimaux" element={<FormulaireAnimaux create="true"></FormulaireAnimaux>}>
