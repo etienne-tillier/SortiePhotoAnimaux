@@ -6,6 +6,7 @@ import { UtilisateurContext } from '../../context/userContext';
 import moment from 'moment';
 import SortieDetail from '../SortieDetail/SortieDetail';
 import Notiflix from 'notiflix';
+import Select from 'react-select'
 
 
 
@@ -52,16 +53,45 @@ const StyledProfil = styled.div`
         height: 100%;
         grid-area: List;
         background-color: brown;
-        overflow-y: scroll;
+
+        .listHead {
+            width: 100%;
+            height: 10%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            #select{
+                width: 65%;
+                height: 60%;
+            }
+
+        }
+
+        ul {
+            width: 100%;
+            height: 90%;
+            overflow-y: scroll;
+
+            .itemSelected {
+                background-color: green;
+            }
+        }
     }
+
+
 
     .sortieItem{
         width: 100%;
-        height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         background-color: lightskyblue;
+
+        :hover{
+            cursor: pointer;
+            background-color: yellow;
+        }
     }
 
     .sortie{
@@ -77,9 +107,13 @@ const Profil = (props) => {
     const idUser = props.id;
     const [isMounted, setIsMounted] = useState(false)
     const [dataUser, setDataUser] = useState();
+    const [sortiesUserData, setSortiesUserData] = useState();
     const [sortiesUser, setSortiesUser] = useState();
     const [selectedSortie, setSelectedSortie] = useState(null);
     const {currentUser} = useContext(UtilisateurContext)
+    const [optionSelect, setoptionSelect] = useState([])
+    const [optionSelected, setoptionSelected] = useState([])
+    const [targetItem, setTargetItem] = useState([])
 
     const navigate = useNavigate()
 
@@ -96,6 +130,7 @@ const Profil = (props) => {
                     authorization: 'Bearer ' + currentUser.accessToken
                   }
             }).then((sorties) => {
+                setSortiesUserData(sorties.data)
                 setSortiesUser(sorties.data)
                 setIsMounted(true)
                 console.log(sorties.data)
@@ -103,9 +138,61 @@ const Profil = (props) => {
         })
       }, [])
 
+    //Met a jour les sorties affichées en fonction de ce qui est entré dans le select
+    useEffect(() => {
+        if (optionSelected.length > 0){
+            let newSorties = checkSelect(sortiesUserData)
+            setSortiesUser(newSorties)
+        }
+        else {
+            setSortiesUser(sortiesUserData)
+        }
+      }, [optionSelected])
 
-    const selectSortie = (sortie) => {
+           //Get les espèces pour le select dans le header de la map
+     useEffect(() => {
+        try {
+            axios.get(process.env.REACT_APP_API+"especeAnimal").then((especes) => {
+                for (let animal of especes.data){
+                    setoptionSelect((current) => [...current,
+                        {
+                            value: animal.id,
+                            label: animal.nomespece
+                        }
+                    ])
+                }
+            })  
+        } catch (error) {
+            console.log(error.message)
+            navigate("/erreur/404")
+        }
+    }, [])
+
+    //Fonction qui permet d'ajouter les sorties en fonction dees especes qui ont été choisies dans le select (header de la map)
+    const checkSelect = (sorties) => {
+        let returnList = []
+        for (let sortie of sorties){
+            for (let option of optionSelected){
+                for (let espece of sortie.especes){
+                    if (espece.id === option.value){
+                        returnList.push(sortie)
+                    }
+                }
+            }
+        }
+        return returnList;
+    }
+
+
+    const selectSortie = (e,sortie) => {
         setSelectedSortie(sortie)
+        console.log(e);
+        e.currentTarget.classList.add("itemSelected")
+        if (targetItem){
+            console.log(targetItem)
+            targetItem.classList.remove("itemSelected")
+        }
+        setTargetItem(e.currentTarget)
     }
 
     //a revoir p-e
@@ -145,10 +232,20 @@ const Profil = (props) => {
                     )}
                 </div>
                 <div className='SortiesList'>
+                    <header className='listHead'>
+                        <Select
+                        id="select"
+                        options={optionSelect}
+                        isMulti
+                        onChange={setoptionSelected}
+                        className="basic-multi-select form-group"
+                        classNamePrefix="select"
+                        />
+                    </header>
                     <ul>
                         {
                             sortiesUser.map((sortie) => (
-                                <li className='sortieItem' onClick={() => selectSortie(sortie)}><h3>{moment.utc(sortie.date).format('DD/MM/YYYY')}</h3></li>
+                                <li className='sortieItem' onClick={(e) => selectSortie(e,sortie)}><h3>{moment.utc(sortie.date).format('DD/MM/YYYY')}</h3></li>
                             ))
                         }
                     </ul>
