@@ -73,7 +73,7 @@ const StyledProfil = styled.div`
             height: 90%;
             overflow-y: scroll;
 
-            .itemSelected {
+            #itemSelected {
                 background-color: green;
             }
         }
@@ -110,10 +110,10 @@ const Profil = (props) => {
     const [sortiesUserData, setSortiesUserData] = useState();
     const [sortiesUser, setSortiesUser] = useState();
     const [selectedSortie, setSelectedSortie] = useState(null);
-    const {currentUser} = useContext(UtilisateurContext)
     const [optionSelect, setoptionSelect] = useState([])
     const [optionSelected, setoptionSelected] = useState([])
-    const [targetItem, setTargetItem] = useState([])
+
+    const {currentUser} = useContext(UtilisateurContext)
 
     const navigate = useNavigate()
 
@@ -130,6 +130,11 @@ const Profil = (props) => {
                     authorization: 'Bearer ' + currentUser.accessToken
                   }
             }).then((sorties) => {
+                console.log(sorties.data)
+                // tri pour avoir les plus récentes en premières
+                sorties.data.sort((a, b) => {
+                    return moment.utc(a.date).isBefore(moment.utc(b.date))
+                })
                 setSortiesUserData(sorties.data)
                 setSortiesUser(sorties.data)
                 setIsMounted(true)
@@ -186,13 +191,11 @@ const Profil = (props) => {
 
     const selectSortie = (e,sortie) => {
         setSelectedSortie(sortie)
-        console.log(e);
-        e.currentTarget.classList.add("itemSelected")
-        if (targetItem){
-            console.log(targetItem)
-            targetItem.classList.remove("itemSelected")
+        document.getElementsByClassName("SortiesList")[0].style.width = "550px"
+        if (document.getElementById("itemSelected")){
+            document.getElementById("itemSelected").id = ""
         }
-        setTargetItem(e.currentTarget)
+        e.currentTarget.id = "itemSelected"
     }
 
     //a revoir p-e
