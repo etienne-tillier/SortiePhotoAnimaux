@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React,  { useContext } from 'react';
+import React,  { useContext, useState } from 'react';
 import styled from "styled-components"
 import { Link, useNavigate } from 'react-router-dom';
 import { UtilisateurContext } from '../../context/userContext';
@@ -13,6 +13,17 @@ const StyledFicheAnimal = styled.div`
 
     span{
         font-weight bold;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+        transition: 0.2s;
+
+        :hover {
+            cursor: pointer;
+            color: white;
+        }
     }
 
     .nomespece{
@@ -67,6 +78,7 @@ const FicheAnimal = (props) => {
 
 
     const {currentUser,isAdmin} = useContext(UtilisateurContext)
+    const [lienWiki, setLienWiki] = useState("https://fr.wikipedia.org/wiki/" + props.nomespece)
     const navigate = useNavigate()
 
     const afficherCategories = () => {
@@ -101,7 +113,7 @@ const FicheAnimal = (props) => {
 
     return (
         <StyledFicheAnimal>
-            <h3 className='nomespece'>{props.nomespece}</h3>
+            <a href={lienWiki} target="_blank"> <h3 className='nomespece'>{props.nomespece}</h3></a>
             <img src={props.image}/>
             <div className="caracteristiques">
                 <p className='couleur'><span>Couleur(s)</span> {props.couleur}</p>
