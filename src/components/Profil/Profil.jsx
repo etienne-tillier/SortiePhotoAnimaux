@@ -30,7 +30,7 @@ const StyledProfil = styled.div`
         width: 100%;
         height: 100%;
         grid-area: Name;
-        background-color: pink;
+        background-color: #61B15A;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -45,26 +45,60 @@ const StyledProfil = styled.div`
         width: 100%;
         height: 100%;
         grid-area: Selected;
-        background-color: greenyellow;
+        background-color: #61B15A;
     }
 
     .SortiesList{
         width: 100%;
         height: 100%;
         grid-area: List;
-        background-color: brown;
+        background-color: #ADCE74;
 
         .listHead {
             width: 100%;
-            height: 10%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            height: 15%;
+            padding: 7px;
+            display: grid;
+            grid-template-columns: 50% 25% 25%;
+            gap: 2px;
 
-            #select{
-                width: 65%;
-                height: 60%;
+            #select {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                > div {
+                    width: 90%;
+                }
             }
+
+
+            .form-group {
+                display: flex;
+                align-items: center;
+
+                label {
+                    height: 30%;
+                    font-weight: bold;
+                    
+                }
+
+                #dateA {
+                    height: 70%;
+                    width: 100%;
+                }
+    
+                
+                #dateB {
+                    height: 70%;
+                    width: 100%;
+                }
+
+                
+            }
+
 
         }
 
@@ -72,6 +106,28 @@ const StyledProfil = styled.div`
             width: 100%;
             height: 90%;
             overflow-y: scroll;
+            overflow-x: hidden;
+            margin-top: 5px;
+
+            .sortieItem{
+                width: 98%;
+                display: flex;
+                margin: 2px 5px;
+                justify-content: center;
+                align-items: center;
+                background-color: #FFF76A;
+                border: 1px black solid;
+                transition: 0.2s;
+
+        
+        
+                :hover{
+                    cursor: pointer;
+                    background-color: yellow;
+                    transform: scale(1.05);
+                }
+            }
+
 
             #itemSelected {
                 background-color: green;
@@ -81,18 +137,6 @@ const StyledProfil = styled.div`
 
 
 
-    .sortieItem{
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: lightskyblue;
-
-        :hover{
-            cursor: pointer;
-            background-color: yellow;
-        }
-    }
 
     .sortie{
         width: 100%;
@@ -112,13 +156,14 @@ const Profil = (props) => {
     const [selectedSortie, setSelectedSortie] = useState(null);
     const [optionSelect, setoptionSelect] = useState([])
     const [optionSelected, setoptionSelected] = useState([])
+    const [dateAfter, setDateAfter] = useState(null)
+    const [dateBefore, setDateBefore] = useState(null)
 
     const {currentUser} = useContext(UtilisateurContext)
 
     const navigate = useNavigate()
 
     useEffect(() => {
-        console.log("id" + idUser)
         axios.get(process.env.REACT_APP_API+ "utilisateurs/" + idUser, {
         headers: {
             authorization: 'Bearer ' + currentUser.accessToken
@@ -137,22 +182,13 @@ const Profil = (props) => {
                 })
                 setSortiesUserData(sorties.data)
                 setSortiesUser(sorties.data)
+                console.log("adadadaada")
+                sortSortie(sorties.data)
                 setIsMounted(true)
                 console.log(sorties.data)
             })
         })
       }, [])
-
-    //Met a jour les sorties affichées en fonction de ce qui est entré dans le select
-    useEffect(() => {
-        if (optionSelected.length > 0){
-            let newSorties = checkSelect(sortiesUserData)
-            setSortiesUser(newSorties)
-        }
-        else {
-            setSortiesUser(sortiesUserData)
-        }
-      }, [optionSelected])
 
            //Get les espèces pour le select dans le header de la map
      useEffect(() => {
@@ -172,6 +208,64 @@ const Profil = (props) => {
             navigate("/erreur/404")
         }
     }, [])
+
+    useEffect(() => {
+        if (isMounted){
+            sortSortie(sortiesUserData)
+        }
+    }, [optionSelected, dateAfter, dateBefore])
+
+
+        //Met a jour les sorties affichées en fonction de ce qui est entré dans le select
+    const sortSortie = (sortiesData) => {
+        let newSorties = []
+        if (optionSelected.length > 0){
+            newSorties = checkSelect(sortiesData)
+            newSorties = checkCalendar(newSorties)
+        }
+        else if (dateAfter || dateBefore){
+            newSorties = checkCalendar(sortiesData)
+        }
+        else {
+            newSorties = sortiesData
+        }
+        newSorties.sort((a, b) => {
+            return moment.utc(a.date).isBefore(moment.utc(b.date))
+        })
+        setSortiesUser(newSorties)
+    }
+
+    const checkCalendar = (sortiesData) => {
+        let sortiesUpdate = []
+        if (dateAfter != null && dateBefore != null){
+            for (let sortie of sortiesData){
+                if (moment.utc(sortie.date).isBetween(moment.utc(dateAfter), moment.utc(dateBefore), undefined, "[]")){
+                    sortiesUpdate.push(sortie)
+                }
+            }
+        }
+        else if (dateAfter != null){
+            for (let sortie of sortiesData){
+                if (moment.utc(sortie.date).isAfter(moment.utc(dateAfter))){
+                    sortiesUpdate.push(sortie)
+                }
+            }
+        }
+        else if (dateBefore != null){
+            for (let sortie of sortiesData){
+                if (moment.utc(sortie.date).isBefore(moment.utc(dateBefore))){
+                    sortiesUpdate.push(sortie)
+                }
+            }
+        }
+        else {
+            console.log(sortiesData)
+            sortiesUpdate = sortiesData
+        }
+        return sortiesUpdate
+    }
+
+    
 
     //Fonction qui permet d'ajouter les sorties en fonction dees especes qui ont été choisies dans le select (header de la map)
     const checkSelect = (sorties) => {
@@ -213,6 +307,8 @@ const Profil = (props) => {
         }
     }
 
+    
+
 
     return (
         (isMounted &&
@@ -244,6 +340,14 @@ const Profil = (props) => {
                         className="basic-multi-select form-group"
                         classNamePrefix="select"
                         />
+                        <div className="form-group">
+                            <label htmlFor="date">Après</label>
+                            <input onChange={(e) => setDateAfter(e.target.value)} type="date" className="form-control" id="dateA"/>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="date">Avant</label>
+                            <input onChange={(e) => setDateBefore(e.target.value)} type="date" className="form-control" id="dateB"/>
+                        </div>
                     </header>
                     <ul>
                         {
