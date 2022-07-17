@@ -127,7 +127,7 @@ const ListeAnimaux = () => {
                     poids={animauxSorted[key].poidsmoyen}
                     taille={animauxSorted[key].taille}
                     categories={animauxSorted[key].categories}
-                    image={process.env.REACT_APP_API + animauxSorted[key].image}
+                    image={animauxSorted[key].image}
                     setreload={setreload}
                     reload={reload}
                 />
