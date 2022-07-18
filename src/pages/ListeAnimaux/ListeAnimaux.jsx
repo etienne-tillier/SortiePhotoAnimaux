@@ -142,25 +142,31 @@ const ListeAnimaux = () => {
     //tri les animaux en fonction de ce qui est rentré dans la barre de recherche (chaine) -> fonctionne avec les noms des espèce et leur catégories(doit être écrit en entier)
     const sortAnimaux = (chaine) => {
         let sort = []
-        //vérif si chaine = une catégorie
-        if (categories.includes(chaine.toLowerCase())){
-            for (let animal of animaux){
-                //affiche tous les animaux de la catégorie en question
-                for (let categorie of animal.categories){
-                    if (categorie.nomcategorie.toLowerCase() === chaine.toLowerCase()){
+        if (chaine.length > 0){
+                //vérif si chaine = une catégorie
+            if (categories.includes(chaine.toLowerCase())){
+                for (let animal of animaux){
+                    //affiche tous les animaux de la catégorie en question
+                    for (let categorie of animal.categories){
+                        if (categorie.nomcategorie.toLowerCase() === chaine.toLowerCase()){
+                            sort.push(animal)
+                        }
+                    }
+                }
+            }
+            //sinon recherche seulement en fonction du noms des animaux et affiche ceux qui includes la chaine
+            else {
+                for (let animal of animaux){
+                    if (animal.nomespece.toLowerCase().includes(chaine.toLowerCase())){
                         sort.push(animal)
                     }
                 }
             }
         }
-        //sinon recherche seulement en fonction du noms des animaux et affiche ceux qui includes la chaine
         else {
-            for (let animal of animaux){
-                if (animal.nomespece.toLowerCase().includes(chaine.toLowerCase())){
-                    sort.push(animal)
-                }
-            }
+            sort = animaux;
         }
+        
         setanimauxSorted(sort)
     }
 

@@ -77,7 +77,7 @@ const RightNav = ( props ) => {
             <Ul open={props.open}>
                 <li><Link className='link' to="/" >Animaux</Link></li>
                 <li><Link className='link' to="/prive/sorties">Sorties</Link></li>
-                <li><a className='link' href='https://www.paypal.com/donate/?hosted_button_id=HKSU6YQRD82JA' target="blank">Don</a></li>
+                <li><a className='link' href='https://www.paypal.com/donate/?hosted_button_id=HKSU6YQRD82JA' target="blank">Soutien</a></li>
                 {!currentUser ?
                     <>
                     <li><div className='link' onClick={() => toggleModals("signIn")}>Connexion</div></li>
