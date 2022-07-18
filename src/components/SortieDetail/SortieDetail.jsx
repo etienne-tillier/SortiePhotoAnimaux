@@ -215,7 +215,7 @@ useEffect(() => {
                         showIndicators={false}
                       >
                         {props.photos.map((photo) => (
-                                <img className="imgCarousel" src={process.env.REACT_APP_API + photo.lienfichier}/>
+                                <img className="imgCarousel" src={photo.lienfichier}/>
                         ))}
                     </Carousel>
                     <div className="infoPhoto">

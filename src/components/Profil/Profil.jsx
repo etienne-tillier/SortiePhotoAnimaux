@@ -273,7 +273,7 @@ const Profil = (props) => {
         for (let sortie of sorties){
             for (let option of optionSelected){
                 for (let espece of sortie.especes){
-                    if (espece.id === option.value){
+                    if (espece.id === option.value && !returnList.includes(sortie)){
                         returnList.push(sortie)
                     }
                 }

@@ -92,6 +92,10 @@ const ListeAnimaux = () => {
         //load animaux
         try {
             axios.get(process.env.REACT_APP_API+ "especeAnimal").then((animaux) => {
+                console.log(animaux.data)
+                animaux.data.sort((a,b) => {
+                    return a.nomespece[0] >= b.nomespece[0]
+                })
                 setanimaux(animaux.data)
                 setanimauxSorted(animaux.data)
                 setisMount(true)
