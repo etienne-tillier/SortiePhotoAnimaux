@@ -90,20 +90,23 @@ const FicheAnimal = (props) => {
 
 
     const supprimerEspece = () => {
-        try {
-            axios.delete(process.env.REACT_APP_API+ "especeAnimal/" + props.id, {
-                headers: {
-                    authorization: 'Bearer ' + currentUser.accessToken
-                  }
-            }).then((res) => {
-                if (res){
-                    props.setreload(props.reload + 1)
-                    Notiflix.Notify.success("L'animal a bien été supprimé");
-                }   
-            })
-        } catch (error) {
-            console.error(error.message)
-            navigate("/erreur/404")
+        const supp = window.confirm("Voulez vous vraiment supprimer cet espèce ?")
+        if (supp){
+            try {
+                axios.delete(process.env.REACT_APP_API+ "especeAnimal/" + props.id, {
+                    headers: {
+                        authorization: 'Bearer ' + currentUser.accessToken
+                    }
+                }).then((res) => {
+                    if (res){
+                        props.setreload(props.reload + 1)
+                        Notiflix.Notify.success("L'animal a bien été supprimé");
+                    }   
+                })
+            } catch (error) {
+                console.error(error.message)
+                navigate("/erreur/404")
+            }
         }
     }
 

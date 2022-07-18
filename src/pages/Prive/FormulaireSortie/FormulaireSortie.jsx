@@ -5,6 +5,7 @@ import Select from 'react-select'
 import axios from 'axios';
 import { UtilisateurContext } from '../../../context/userContext';
 import Notiflix from 'notiflix';
+import MapCoord from '../MapCoord/MapCoord';
 
 
 const StyledFormulaireSortie = styled.div`
@@ -15,6 +16,7 @@ const StyledFormulaireSortie = styled.div`
     justify-content: center;     
     overflow-y: scroll;
     background-color: #ADCE74;
+    position: relative;
 
     #prive {
         margin-left: 12px;
@@ -52,6 +54,12 @@ const StyledFormulaireSortie = styled.div`
 
     textarea{
         resize: none;
+    }
+
+    #map {
+        width: 200px;
+        height: 200px;
+        position: absolute;
     }
 
 `
@@ -318,11 +326,20 @@ const FormulaireSortie = (props) => {
         }
     }
 
+    const setLatLng = (lat, lng) => {
+        document.getElementById("latitude").value = lat
+        document.getElementById("longitude").value = lng
+    }
+
 
     return (
         <>
         {(isMount &&
             <StyledFormulaireSortie>
+                <MapCoord id="map"
+                    setLatLng={setLatLng}
+                >
+                </MapCoord>
                  <div
                 className=""
                 style={{ minWidth: "400px" }}

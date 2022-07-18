@@ -298,20 +298,23 @@ const Map = (props) => {
 
 
     const onDeleteSortie = async (sortie) => {
-        try {
-            await axios.delete(process.env.REACT_APP_API + "sorties/" + sortie.id, {
-                headers: {
-                    authorization: 'Bearer ' + currentUser.accessToken
-                  }
-            })
-            Notiflix.Notify.success("La sortie a bien été supprimée");
-            setmarkerPrive([])
-            setmarkerPublique([])
-            setreload(sortie)
-            setselectedSortie(null)
-        } catch (error) {
-            console.log(error.message)
-            navigate("/erreur/404")
+        const supp = window.confirm("Voulez vous vraiment supprimer cet espèce ?")
+        if (supp){
+            try {
+                await axios.delete(process.env.REACT_APP_API + "sorties/" + sortie.id, {
+                    headers: {
+                        authorization: 'Bearer ' + currentUser.accessToken
+                    }
+                })
+                Notiflix.Notify.success("La sortie a bien été supprimée");
+                setmarkerPrive([])
+                setmarkerPublique([])
+                setreload(sortie)
+                setselectedSortie(null)
+            } catch (error) {
+                console.log(error.message)
+                navigate("/erreur/404")
+            }
         }
     }
 
@@ -360,8 +363,11 @@ const Map = (props) => {
     }
 
     const options = {
-        disableDefaultUI: true,
+        // disableDefaultUI: true,
         zoomControl: true,
+        mapTypeControl: false,
+        fullscreenControl: false,
+        streetViewControl: false,
 
     }
 

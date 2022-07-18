@@ -158,6 +158,7 @@ const Profil = (props) => {
     const [optionSelected, setoptionSelected] = useState([])
     const [dateAfter, setDateAfter] = useState(null)
     const [dateBefore, setDateBefore] = useState(null)
+    const [reload, setReload] = useState(null)
 
     const {currentUser} = useContext(UtilisateurContext)
 
@@ -188,7 +189,7 @@ const Profil = (props) => {
                 console.log(sorties.data)
             })
         })
-      }, [])
+      }, [reload])
 
            //Get les espèces pour le select dans le header de la map
      useEffect(() => {
@@ -294,16 +295,28 @@ const Profil = (props) => {
 
     //a revoir p-e
     const onDeleteSortie = async (sortie) => {
-        try {
-            await axios.delete(process.env.REACT_APP_API + "sorties/" + sortie.id, {
-                headers: {
-                    authorization: 'Bearer ' + currentUser.accessToken
-                  }
-            })
-            Notiflix.Notify.success("La sortie a bien été supprimée");
-        } catch (error) {
-            console.log(error.message)
-            navigate("/erreur/404")
+        const supp = window.confirm("Voulez vous vraiment supprimer cet espèce ?")
+        if (supp){
+            try {
+                await axios.delete(process.env.REACT_APP_API + "sorties/" + sortie.id, {
+                    headers: {
+                        authorization: 'Bearer ' + currentUser.accessToken
+                    }
+                })
+                setReload(sortie)
+                setSelectedSortie(null)
+                // let newSorties = sortiesUser;
+                // let index = newSorties.indexOf(sortie)
+                // console.log("index = " + index)
+                // console.log(newSorties)
+                // newSorties.splice(newSorties.indexOf(sortie), 1)
+                // console.log(newSorties)
+                // setSortiesUser(newSorties)
+                Notiflix.Notify.success("La sortie a bien été supprimée");
+            } catch (error) {
+                console.log(error.message)
+                navigate("/erreur/404")
+            }
         }
     }
 
