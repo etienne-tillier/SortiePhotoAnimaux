@@ -10,6 +10,22 @@ const StyledInputLocalisation = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 25%;
+    height: 100%;
+    border: 1px solid whitegray;
+    border-radius: 10px;
+
+
+    .address {
+        width: 100%;
+        height: 50%;
+        margin-bottom: 10px;
+    }
+
+    .autocomplete-dropdown-containe{
+        position: relative;
+        box-sizing: border-box;
+    }
 
     .location-search-input{
         height:100%;
@@ -54,7 +70,7 @@ const InputLocalisation = (props) => {
                     <div className="address">
                         <input
                         {...getInputProps({
-                            placeholder: 'Cherchez une localisation',
+                            placeholder: 'Chercher une localisation',
                             className: 'location-search-input',
                         })}
                         />

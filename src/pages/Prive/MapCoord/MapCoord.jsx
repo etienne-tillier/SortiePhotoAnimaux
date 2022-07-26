@@ -9,12 +9,12 @@ import publiqueIcon from "../../../assets/img/public-map.png"
 
 const StyledMapCoord = styled.div`
 
-    height: 400px;
-    width: 400px;
+    height: 800px;
+    width: 800px;
     background-color: #ADCE74;
     position: absolute;
-    left: 70%;
-    top: 35%;
+    left: 62%;
+    top: 10%;
 
 
 

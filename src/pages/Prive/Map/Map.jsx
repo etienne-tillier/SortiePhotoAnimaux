@@ -10,7 +10,8 @@ import utilisateurIcon from "../../../assets/img/utilisateur-map.png"
 import publiqueIcon from "../../../assets/img/public-map.png"
 import icone from "../../../assets/img/icone.png"
 import Select from 'react-select'
-import Notiflix from 'notiflix';
+import Notiflix from 'notiflix'
+import InputLocalisation from '../../../components/InputLocalisation/InputLocalisation';
 
 
 const StyledMap = styled.div`
@@ -93,10 +94,13 @@ const StyledMap = styled.div`
     .icone{
         width: 80px;
         grid-area: icon;
+
     }
+
 
     header{
         width: 90%;
+        height: 80px;
         display: flex;
         gap: 2%;
         position: absolute;
@@ -193,6 +197,7 @@ const Map = (props) => {
     const [selectedSortie, setselectedSortie] = useState()
     const [latitude, setlatitude] = useState(48.856);
     const [longitude, setlongitude] = useState(2.352);
+    const [zoom, setZoom] = useState(8);
     const [prive, setprive] = useState(false)
     const [animaux, setAnimaux] = useState()
     const [optionSelect, setoptionSelect] = useState([])
@@ -387,7 +392,7 @@ const Map = (props) => {
             <GoogleMap
                 id="googleMap"
                 mapContainerStyle={mapContainerStyle}
-                zoom={8}
+                zoom={zoom}
                 center={center}
                 options={options}
             >
@@ -396,13 +401,21 @@ const Map = (props) => {
                     <Link className="lien" to="/prive/formulaireSortie">
                         <div className="btn btn-primary">Nouvelle Sortie</div>
                     </Link>
+                    <InputLocalisation
+                        id="inputAddress"
+                        setLatitude={setlatitude}
+                        setLongitude={setlongitude}
+                        setZoom={setZoom}
+                        className="form-group"
+                    >
+                    </InputLocalisation>
                     <Select
-                    id="select"
-                    options={optionSelect}
-                    isMulti
-                    onChange={setoptionSelected}
-                    className="basic-multi-select form-group"
-                    classNamePrefix="select"
+                        id="select"
+                        options={optionSelect}
+                        isMulti
+                        onChange={setoptionSelected}
+                        className="basic-multi-select form-group"
+                        classNamePrefix="select"
                     >
                     </Select>
                     <div className="form-group checkbox">
