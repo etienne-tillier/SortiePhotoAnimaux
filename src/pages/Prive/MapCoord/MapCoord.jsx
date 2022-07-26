@@ -16,6 +16,34 @@ const StyledMapCoord = styled.div`
     left: 62%;
     top: 10%;
 
+    header{
+        width: 90%;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2%;
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        z-index: 10;
+        margin: 0;
+        padding: 0;
+
+        div {
+            width: 50%;
+
+            div {
+                width: 100%
+            }
+        }
+
+        .inputAddress{
+            width: 100%
+        }
+
+    }
+
 
 
 `
@@ -72,12 +100,6 @@ const MapCoord = (props) => {
 
     return ( 
         <StyledMapCoord>
-            <InputLocalisation
-                id="inputAddress"
-                setLatitude={setlatitude}
-                setLongitude={setlongitude}
-                setZoom={setZoom}
-            />
             <GoogleMap
                 id="googleMap"
                 mapContainerStyle={mapContainerStyle}
@@ -86,6 +108,14 @@ const MapCoord = (props) => {
                 options={options}
                 onClick={(e) => { mapHandleClick(e.latLng) }}
             >
+                <header>
+                    <InputLocalisation
+                        id="inputAddress"
+                        setLatitude={setlatitude}
+                        setLongitude={setlongitude}
+                        setZoom={setZoom}
+                    />
+                </header>
             {(marker && 
                 <Marker
                     position={{lat: latitude, lng: longitude}}
