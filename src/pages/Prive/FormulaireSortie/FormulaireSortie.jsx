@@ -11,12 +11,26 @@ import MapCoord from '../MapCoord/MapCoord';
 const StyledFormulaireSortie = styled.div`
 
     height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;     
+    width: 100%; 
     overflow-y: scroll;
     background-color: #ADCE74;
     position: relative;
+
+    form {
+        width: 100%;
+        height: 100%;
+    }
+
+    .container-form {
+        margin-top: 1%;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        > div {
+            margin: 0 2%;
+        }
+    }
 
     #prive {
         margin-left: 12px;
@@ -47,6 +61,7 @@ const StyledFormulaireSortie = styled.div`
     }
 
     .containerPhoto {
+        margin-top: 3%;
         display: grid;
         grid-template-columns: 1fr 1fr ;
         gap: 10px;
@@ -54,12 +69,6 @@ const StyledFormulaireSortie = styled.div`
 
     textarea{
         resize: none;
-    }
-
-    #map {
-        width: 200px;
-        height: 200px;
-        position: absolute;
     }
 
 `
@@ -336,123 +345,123 @@ const FormulaireSortie = (props) => {
         <>
         {(isMount &&
             <StyledFormulaireSortie>
-                <MapCoord id="map"
-                    setLatLng={setLatLng}
-                >
-                </MapCoord>
-                 <div
-                className=""
-                style={{ minWidth: "400px" }}
-                >
                     <form
                     ref={formRef}
                     onSubmit={handleForm}
                     >
-                         <div className="form-group">
-                            <label htmlFor="especes">Especes</label>
-                            <Select
-                                defaultValue ={especesChoisies}
-                                isMulti
-                                name="especes"
-                                options={especes}
-                                onChange={setespecesChoisies}
-                                className="basic-multi-select"
-                                classNamePrefix="select"
-                                required
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="description">Description</label>
-                            <textarea defaultValue={description} ref={addInputs} rows="7" cols="33" className="form-control" id="description" required/>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="date">Date</label>
-                            <input defaultValue={date} ref={addInputs} type="date" className="form-control" id="date" required/>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="latitude">Latitude</label>
-                            <input defaultValue={latitude} ref={addInputs} type="text" className="form-control" id="latitude" placeholder="24.5" required/>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="longitude">Longitude</label>
-                            <input defaultValue={longitude} ref={addInputs} type="text" className="form-control" id="longitude" placeholder="27.3" required/>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="prive">Prive</label>
-                            <input defaultChecked={prive} ref={addInputs} type="checkbox" id="prive" />
-                        </div>
-                        <section className="containerPhoto">
-                            {/* Pour tous les formulaire photo, les affiches */}
-                            {inputList.map((element, index) => {
-                            return (
-                                <>
-                                <div className="photoForm">
-                                    <header>
-                                        <h3>Nouvelle Photo</h3>
-                                    </header>
-                                    <div className="form-group">
-                                    <label htmlFor="espece">Especes</label>
+                        <div className='container-form'>
+                            <div className='form-sortie'>
+                                <div className="form-group">
+                                    <label htmlFor="especes">Especes</label>
                                     <Select
-                                        name="especesPhoto"
+                                        defaultValue ={especesChoisies}
+                                        isMulti
+                                        name="especes"
                                         options={especes}
+                                        onChange={setespecesChoisies}
                                         className="basic-multi-select"
                                         classNamePrefix="select"
-                                        value={element.espece}
-                                        onChange={(value) => handleSelectChange(value,index)}
                                         required
                                     />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="descriptionPhoto">Description</label>
-                                        <textarea minLength={3} value={element.descriptionPhoto} onChange={e => handleInputChange(e, index)} name="descriptionPhoto"  rows="7" cols="33" className="form-control" id="descriptionPhoto" required/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="camera">Appareil photo</label>
-                                        <input placeholder='Nikon D90' minLength={3} value={element.camera} onChange={e => handleInputChange(e, index)} name="camera" type="text" className="form-control" required/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="objectif">Objectif</label>
-                                        <input placeholder='500mm' minLength={3} value={element.objectif} onChange={e => handleInputChange(e, index)} name="objectif" type="text" className="form-control" required/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="iso">ISO</label>
-                                        <input placeholder='200' value={element.iso} onChange={e => handleInputChange(e, index)} name="iso" type="text" className="form-control" required/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="ouverture">Ouverture</label>
-                                        <input placeholder='f4' value={element.ouverture} onChange={e => handleInputChange(e, index)} name="ouverture" type="text" className="form-control" required/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="vitesse">Vitesse</label>
-                                        <input placeholder='450' value={element.vitesse} onChange={e => handleInputChange(e, index)} name="vitesse" type="text" className="form-control" required/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="longitudePhoto">Longitude</label>
-                                        <input placeholder='42.6' value={element.longitudePhoto} onChange={e => handleInputChange(e, index)} name="longitudePhoto" type="text" className="form-control" required/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="latitudePhoto">Latitutde</label>
-                                        <input placeholder='2.5' value={element.latitudePhoto} onChange={e => handleInputChange(e, index)} name="latitudePhoto" type="text" className="form-control" required/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="imagePhoto">Photo</label>
-                                        <input accept=".jpg, .jpeg, .png" onChange={e => handleFileChange(e, index)} type="file" name="imagePhoto" className="form-control" required/>
-                                    </div>
-                                        <div className="btn-box">
-                                        <div
-                                            className="btn btn-warning"
-                                            onClick={() => handleRemoveClick(index)}>Supprimer</div>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="description">Description</label>
+                                    <textarea defaultValue={description} ref={addInputs} rows="7" cols="33" className="form-control" id="description" required/>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="date">Date</label>
+                                    <input defaultValue={date} ref={addInputs} type="date" className="form-control" id="date" required/>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="latitude">Latitude</label>
+                                    <input defaultValue={latitude} ref={addInputs} type="text" className="form-control" id="latitude" placeholder="24.5" required/>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="longitude">Longitude</label>
+                                    <input defaultValue={longitude} ref={addInputs} type="text" className="form-control" id="longitude" placeholder="27.3" required/>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="prive">Prive</label>
+                                    <input defaultChecked={prive} ref={addInputs} type="checkbox" id="prive" />
+                                </div>
+                            </div>
+                                <MapCoord 
+                                    id="map"
+                                    setLatLng={setLatLng}
+                                >
+                                </MapCoord>                             
+                        </div>
+                            <section className="containerPhoto">
+                                {/* Pour tous les formulaire photo, les affiches */}
+                                {inputList.map((element, index) => {
+                                return (
+                                    <>
+                                    <div className="photoForm">
+                                        <header>
+                                            <h3>Nouvelle Photo</h3>
+                                        </header>
+                                        <div className="form-group">
+                                        <label htmlFor="espece">Especes</label>
+                                        <Select
+                                            name="especesPhoto"
+                                            options={especes}
+                                            className="basic-multi-select"
+                                            classNamePrefix="select"
+                                            value={element.espece}
+                                            onChange={(value) => handleSelectChange(value,index)}
+                                            required
+                                        />
                                         </div>
-                                    </div>
-                                </>
-                                );
-                            })}
-                        </section>
+                                        <div className="form-group">
+                                            <label htmlFor="descriptionPhoto">Description</label>
+                                            <textarea minLength={3} value={element.descriptionPhoto} onChange={e => handleInputChange(e, index)} name="descriptionPhoto"  rows="7" cols="33" className="form-control" id="descriptionPhoto" required/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="camera">Appareil photo</label>
+                                            <input placeholder='Nikon D90' minLength={3} value={element.camera} onChange={e => handleInputChange(e, index)} name="camera" type="text" className="form-control" required/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="objectif">Objectif</label>
+                                            <input placeholder='500mm' minLength={3} value={element.objectif} onChange={e => handleInputChange(e, index)} name="objectif" type="text" className="form-control" required/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="iso">ISO</label>
+                                            <input placeholder='200' value={element.iso} onChange={e => handleInputChange(e, index)} name="iso" type="text" className="form-control" required/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="ouverture">Ouverture</label>
+                                            <input placeholder='f4' value={element.ouverture} onChange={e => handleInputChange(e, index)} name="ouverture" type="text" className="form-control" required/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="vitesse">Vitesse</label>
+                                            <input placeholder='450' value={element.vitesse} onChange={e => handleInputChange(e, index)} name="vitesse" type="text" className="form-control" required/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="longitudePhoto">Longitude</label>
+                                            <input placeholder='42.6' value={element.longitudePhoto} onChange={e => handleInputChange(e, index)} name="longitudePhoto" type="text" className="form-control" required/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="latitudePhoto">Latitutde</label>
+                                            <input placeholder='2.5' value={element.latitudePhoto} onChange={e => handleInputChange(e, index)} name="latitudePhoto" type="text" className="form-control" required/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="imagePhoto">Photo</label>
+                                            <input accept=".jpg, .jpeg, .png" onChange={e => handleFileChange(e, index)} type="file" name="imagePhoto" className="form-control" required/>
+                                        </div>
+                                            <div className="btn-box">
+                                            <div
+                                                className="btn btn-warning"
+                                                onClick={() => handleRemoveClick(index)}>Supprimer</div>
+                                            </div>
+                                        </div>
+                                    </>
+                                    );
+                                })}
+                            </section>
                         <p className="text-danger mt-1">{validation}</p>
                         <div className="btn btn-primary" onClick={handleAddClick}>Ajouter une photo</div>
                         <button className="btn btn-primary">{id ? "Modifier" : "Créer"}</button>
                     </form>
-                </div>
             </StyledFormulaireSortie>
         )}
         </>
