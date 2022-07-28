@@ -72,7 +72,7 @@ const MapCoord = (props) => {
         mapTypeControl: false,
         fullscreenControl: false,
         streetViewControl: false,
-
+        mapTypeId: "hybrid"
     }
 
     const center = {

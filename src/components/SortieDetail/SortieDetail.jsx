@@ -153,6 +153,7 @@ const [objectif, setobjectif] = useState()
 const [iso, setiso] = useState()
 const [ouverture, setouverture] = useState()
 const [vitesse, setvitesse] = useState()
+const [selectedItem, setSelectedItem] = useState(0)
 
 const {currentUser, isAdmin} = useContext(UtilisateurContext)
 const navigate = useNavigate()
@@ -169,13 +170,9 @@ useEffect(() => {
         }).then((utilisateur) => {
             setutilisateur(utilisateur.data)
             if (props.photos.length > 0){
-                setdescription(props.photos[0].description)
-                setcamera(props.photos[0].camera)
-                setobjectif(props.photos[0].objectif)
-                setiso(props.photos[0].iso)
-                setouverture(props.photos[0].ouverture)
-                setvitesse(props.photos[0].vitesse)
+                handleCarousel(0)
             }
+            setSelectedItem(0)
             setisMount(true)
         })
     } catch (error) {
@@ -193,6 +190,7 @@ useEffect(() => {
     setiso(props.photos[index].iso)
     setouverture(props.photos[index].ouverture)
     setvitesse(props.photos[index].vitesse)
+    setSelectedItem(index)
   }
 
 
@@ -213,6 +211,8 @@ useEffect(() => {
                         onChange={(index) => handleCarousel(index)}
                         showThumbs={false}
                         showIndicators={false}
+                        infiniteLoop={true}
+                        selectedItem={selectedItem}
                       >
                         {props.photos.map((photo) => (
                                 <img className="imgCarousel" src={photo.lienfichier}/>

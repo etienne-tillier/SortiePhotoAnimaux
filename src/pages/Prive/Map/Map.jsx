@@ -373,7 +373,7 @@ const Map = (props) => {
         mapTypeControl: false,
         fullscreenControl: false,
         streetViewControl: false,
-
+        mapTypeId: "hybrid"
     }
 
     const center = {
@@ -395,6 +395,7 @@ const Map = (props) => {
                 zoom={zoom}
                 center={center}
                 options={options}
+                // extraMapTypes= {['roadmap','satellite']}
             >
                 <header>
                     <img className="icone" src={icone} alt="test"></img>
