@@ -2,7 +2,8 @@ import React, { createContext, useState, useEffect } from "react";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  onAuthStateChanged
+  onAuthStateChanged,
+  sendPasswordResetEmail
 } from "firebase/auth"
 import {auth} from "../firebase-config"
 import axios from "axios";
@@ -81,6 +82,10 @@ function UtilisateurContextProvider(props) {
     return signInWithEmailAndPassword(auth, email, mdp)
   }
 
+  const resetPassword = async (email) => {
+    return sendPasswordResetEmail(auth, email)
+  }
+
 
   const inscriptionBD = (id,pseudo,email) => {
     axios.post(process.env.REACT_APP_API+ "utilisateurs",  {
@@ -130,7 +135,7 @@ function UtilisateurContextProvider(props) {
   //props.children = tous les enfants
   //attendre que l'utilisateur connecté soit bien pris en compte avant d'envoyer
   return(
-    <UtilisateurContext.Provider value={{modalState, toggleModals, inscription, inscriptionBD, currentUser, connexion, isAdmin}}>
+    <UtilisateurContext.Provider value={{modalState, toggleModals, inscription, inscriptionBD, currentUser, connexion, resetPassword, isAdmin}}>
       {!loadingData && props.children}
     </UtilisateurContext.Provider>
   )}

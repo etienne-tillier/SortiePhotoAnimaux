@@ -65,7 +65,8 @@ const FormulaireAnimaux = (props) => {
         //categorie pour le select
         axios.get(process.env.REACT_APP_API+ "categorieanimal", {
             headers: {
-                authorization: 'Bearer ' + currentUser.accessToken
+                authorization: 'Bearer ' + currentUser.accessToken,
+
               }
         }).then((categories) => {
             setcategories(categories.data)
