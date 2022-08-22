@@ -133,6 +133,9 @@ const FicheAnimal = (props) => {
                     <div onClick={supprimerEspece} className="btn btn-secondary">Supprimer</div>
                 </div>
             )}
+            <Link to={"/prive/sorties/" + props.id}>
+                        <div className="btn btn-secondary">Voir les sorties</div>
+            </Link>
         </StyledFicheAnimal>
     );
 };

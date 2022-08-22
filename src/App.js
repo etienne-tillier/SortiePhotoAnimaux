@@ -49,6 +49,7 @@ const App = () => {
             </Route>
             <Route path="/prive" element={<Prive></Prive>}>
               <Route path="/prive/sorties" element={<Map></Map>}/>
+              <Route path="/prive/sorties/:id" element={<Map></Map>}/>
               <Route path="/prive/formulaireSortie" element={<FormulaireSortie create="true"></FormulaireSortie>}/>
               <Route path="/prive/formulaireSortie/:id" element={<FormulaireSortie create="false"></FormulaireSortie>}/>
               <Route path="/prive/userProfil" element={<UserProfil friend="false"></UserProfil>}/>

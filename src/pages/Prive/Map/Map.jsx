@@ -3,7 +3,7 @@ import {GoogleMap, useLoadScript, Marker, InfoWindow} from "@react-google-maps/a
 //import icone from "../../assets/img/restaurantIcone.jpg" flag
 import SortieDetail from '../../../components/SortieDetail/SortieDetail'
 import styled from 'styled-components'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { UtilisateurContext } from '../../../context/userContext'
 import utilisateurIcon from "../../../assets/img/utilisateur-map.png"
@@ -209,6 +209,7 @@ const Map = (props) => {
 
     const { currentUser, isAdmin } = useContext(UtilisateurContext)
     const {navigate} = useNavigate()
+    const { id } = useParams();
 
 
     //On get toutes les sorties
@@ -250,6 +251,16 @@ const Map = (props) => {
                             sortie: sortie}
                     ])}
                 }
+                if (id){
+                    axios.get(process.env.REACT_APP_API+ "especeAnimal/" + id).then((animal) => {
+                        setoptionSelected((current) => [...current,
+                            {
+                                value: animal.data.id,
+                                label: animal.data.nomespece
+                            }
+                        ])
+                    })
+                }
             })
             setisMount(true)
         } catch (error) {
@@ -289,6 +300,7 @@ const Map = (props) => {
     //Met a jour les sorties affichées en fonction de ce qui est entré dans le select
     useEffect(() => {
         if (optionSelected.length > 0){
+            console.log(optionSelected)
             let newMarkerPrive = checkSelect(markerPriveData)
             let newMarkerPublique = checkSelect(markerPubliqueData)
             setmarkerPrive(newMarkerPrive)
@@ -303,7 +315,7 @@ const Map = (props) => {
 
 
     const onDeleteSortie = async (sortie) => {
-        const supp = window.confirm("Voulez vous vraiment supprimer cet espèce ?")
+        const supp = window.confirm("Voulez vous vraiment supprimer cette sortie ?")
         if (supp){
             try {
                 await axios.delete(process.env.REACT_APP_API + "sorties/" + sortie.id, {
@@ -411,6 +423,7 @@ const Map = (props) => {
                     >
                     </InputLocalisation>
                     <Select
+                        value={optionSelected}
                         id="select"
                         options={optionSelect}
                         isMulti
