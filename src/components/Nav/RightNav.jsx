@@ -58,7 +58,7 @@ const Ul = styled.ul`
 
 const RightNav = ( props ) => {
 
-    const {toggleModals,currentUser} = useContext(UtilisateurContext)
+    const {toggleModals,currentUser, isAdmin} = useContext(UtilisateurContext)
 
     const navigate = useNavigate()
 
@@ -84,6 +84,11 @@ const RightNav = ( props ) => {
                     <li><div className='link'  onClick={() => toggleModals("signUp")}>S'inscrire</div></li>
                     </>
                 :   <>
+                    { isAdmin && 
+                        <>
+                        <li><Link className='link' to="/admin/panelAdmin">Panel Admin</Link></li>
+                        </>
+                    }
                     <li><Link className='link' to="/prive/userProfil">Profil</Link></li>    
                     <li><div className='link'  onClick={() => deconnexion()}>Déconnexion</div></li>
                     </> }

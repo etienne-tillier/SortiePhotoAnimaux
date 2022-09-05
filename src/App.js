@@ -12,6 +12,7 @@ import Footer from "./components/Footer/Footer.jsx";
 import Admin from "./pages/Admin/Admin.jsx";
 import Map from "./pages/Prive/Map/Map.jsx";
 import Erreur from "./pages/Erreur/Erreur.jsx";
+import PanelAdmin from "./pages/Admin/PanelAdmin/PanelAdmin.jsx";
 import "./App.css";
 import styled from "styled-components";
 
@@ -59,6 +60,7 @@ const App = () => {
               <Route path="/admin/formulaireAnimaux" element={<FormulaireAnimaux create="true"></FormulaireAnimaux>}>
                 <Route path="/admin/formulaireAnimaux/:id" element={<FormulaireAnimaux create="false"></FormulaireAnimaux>}/>
               </Route>
+              <Route path="/admin/panelAdmin" element={<PanelAdmin></PanelAdmin>}></Route>
             </Route>
           </Routes>
         </div>
