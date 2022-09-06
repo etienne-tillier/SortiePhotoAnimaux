@@ -43,7 +43,7 @@ const PanelAnimaux = (props) => {
         {isMount && 
         <StyledPanelAnimaux>
             <ul className='listeAnimaux'>
-
+                {afficherAnimaux()}
             </ul>
         </StyledPanelAnimaux>
         }

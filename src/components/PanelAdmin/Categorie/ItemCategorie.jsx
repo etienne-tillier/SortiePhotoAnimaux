@@ -4,41 +4,41 @@ import styled from 'styled-components';
 import { UtilisateurContext } from '../../../context/userContext';
 import Notiflix from 'notiflix';
 
-const StyledItemAnimaux = styled.div`
+const StyledItemCategorie = styled.div`
     display: flex;
     flex-direction: row;
 `
 
-const ItemAnimaux = (props) => {
+const ItemCategorie = (props) => {
 
     const {currentUser} = useContext(UtilisateurContext)
 
-    const supprimerAnimaux = (id) => {
-        const del = window.confirm("Voulez vous vraiment supprimer cet animal ?")
+    const supprimerCategorie = (id) => {
+        const del = window.confirm("Voulez vous vraiment supprimer cette catégorie ?")
         if (del) {
-            axios.delete(process.env.REACT_APP_API + "especeAnimal/" + id, {
+            axios.delete(process.env.REACT_APP_API + "categorieAnimal/" + id, {
                 headers: {
                     authorization: 'Bearer ' + currentUser.accessToken
                 }
                 }).then((resp) => {
                     if (resp.status == 200){
                         props.supprimerList(props.data)
-                        Notiflix.Notify.success("L'animal a bien été supprimé")
+                        Notiflix.Notify.success("La catégorie a bien été supprimé")
                     }
                     else {
-                        Notiflix.Notify.success("L'animal n'a pas pu être supprimé")
+                        Notiflix.Notify.success("La catégorie n'a pas pu être supprimé")
                     }
                 })
         }
     }
 
     return (
-        <StyledItemAnimaux>
-            <pre>{props.data.id} {props.data.nomespece} </pre>
+        <StyledItemCategorie>
+            <pre>{props.data.nomcategorie} </pre>
             <button>Modifier </button>
-            <button onClick={() => supprimerAnimaux(props.data.id)}>Supprimer </button>
-        </StyledItemAnimaux>
+            <button onClick={() => supprimerCategorie(props.data.id)}>Supprimer </button>
+        </StyledItemCategorie>
     );
 };
 
-export default ItemAnimaux;
+export default ItemCategorie;

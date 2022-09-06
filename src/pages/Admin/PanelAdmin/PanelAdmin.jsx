@@ -130,8 +130,9 @@ const PanelAdmin = () => {
                         </PanelUtilisateur>
                     }
                     {isAnimaux && 
-                        <PanelAnimaux>
-
+                        <PanelAnimaux
+                            animaux={animaux}
+                        >
                         </PanelAnimaux>
                     }
                     {isPhotos && 
@@ -140,8 +141,9 @@ const PanelAdmin = () => {
                         </PanelPhoto>
                     }
                     {isCategories && 
-                        <PanelCategorie>
-                            
+                        <PanelCategorie
+                            categories={categories}
+                        >
                         </PanelCategorie>
                     }
                     {isSorties && 
