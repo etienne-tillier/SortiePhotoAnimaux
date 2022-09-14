@@ -136,8 +136,9 @@ const PanelAdmin = () => {
                         </PanelAnimaux>
                     }
                     {isPhotos && 
-                        <PanelPhoto>
-                            
+                        <PanelPhoto
+                            photos={photos}
+                        >
                         </PanelPhoto>
                     }
                     {isCategories && 
@@ -147,8 +148,9 @@ const PanelAdmin = () => {
                         </PanelCategorie>
                     }
                     {isSorties && 
-                        <PanelSortie>
-                            
+                        <PanelSortie
+                            sorties={sorties}
+                        >
                         </PanelSortie>
                     }
                 </div>

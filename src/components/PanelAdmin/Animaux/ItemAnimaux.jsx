@@ -3,6 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { UtilisateurContext } from '../../../context/userContext';
 import Notiflix from 'notiflix';
+import { Link } from 'react-router-dom';
 
 const StyledItemAnimaux = styled.div`
     display: flex;
@@ -35,7 +36,9 @@ const ItemAnimaux = (props) => {
     return (
         <StyledItemAnimaux>
             <pre>{props.data.id} {props.data.nomespece} </pre>
-            <button>Modifier </button>
+            <Link to={"/admin/formulaireAnimaux/" + props.data.id}>
+                <div className="btn btn-secondary">Mettre à jour</div>
+            </Link>
             <button onClick={() => supprimerAnimaux(props.data.id)}>Supprimer </button>
         </StyledItemAnimaux>
     );
