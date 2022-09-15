@@ -8,8 +8,9 @@ import Notiflix from 'notiflix';
 //Modale pour la connexion
 const Connexion = () => {
 
-    const {modalState, toggleModals, connexion} = useContext(UtilisateurContext)
+    const {modalState, toggleModals, connexion, resetPassword} = useContext(UtilisateurContext)
     const [validation, setvalidation] = useState("")
+    const [isResetPassword, setIsResetPassword] = useState(false)
 
     const inputs = useRef([])
     const formRef = useRef()
@@ -26,13 +27,14 @@ const Connexion = () => {
     //Fonction qui vérifie si la connexion est possible avec les données entrées dans les inputs du form
     const handleForm = async (e) => {
       e.preventDefault()
+      if (!isResetPassword){
         try {
           const creds = await connexion(inputs.current[0].value,inputs.current[1].value)
           //vide les champs du form
           formRef.current.reset()
           setvalidation("")
           toggleModals("close")
-          Notiflix.Notify.success("Vous êtes connecté");
+          Notiflix.Notify.success("Vous êtes connecté")
           navigate("/")
 
         } catch (err) {
@@ -40,10 +42,25 @@ const Connexion = () => {
         }
       
       }
+      else {
+        try {
+          const resetDone = await resetPassword(inputs.current[0].value)
+          formRef.current.reset()
+          setvalidation("")
+          toggleModals("close")
+          Notiflix.Notify.success("Une mail vous a été envoyé")
+          navigate("/")
+        }
+        catch (err) {
+          setvalidation("L'email ne correspond à aucun compte")
+        }
+      }
+    }
 
     //Fonction pour fermer la modale
     const closeModal = () => {
       setvalidation("")
+      setIsResetPassword(false)
       toggleModals("close")
     }
 
@@ -88,7 +105,7 @@ const Connexion = () => {
                           id="connexionEmail"
                         />
                       </div>
-
+                      { !isResetPassword && 
                       <div className="mb-3">
                         <label htmlFor="connexionMdp" className="form-label">
                           Mot de passe
@@ -102,9 +119,11 @@ const Connexion = () => {
                           id="connexionMdp"
                         />
                       </div>
+                      }
                       <p className="text-danger mt-1">{validation}</p>
-                      <button className="btn btn-primary">Se connecter</button>
+                      <button className="btn btn-primary">{ !isResetPassword ? "Se connecter" : "Envoyer l'email" } </button>
                     </form>
+                    <button className="btn btn-primary" onClick={() => {setIsResetPassword(!isResetPassword)}}>{ isResetPassword ? "Se connecter" : "Mot de passe oublié ?" } </button>
                   </div>
                 </div>
               </div>

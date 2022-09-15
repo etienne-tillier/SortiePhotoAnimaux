@@ -14,6 +14,7 @@ import Map from "./pages/Prive/Map/Map.jsx";
 import Erreur from "./pages/Erreur/Erreur.jsx";
 import Home from "./pages/Home/Home"
 import Notiflix from "notiflix";
+import PanelAdmin from "./pages/Admin/PanelAdmin/PanelAdmin.jsx";
 import "./App.css";
 import styled from "styled-components";
 
@@ -57,6 +58,7 @@ const App = () => {
             </Route>
             <Route path="/prive" element={<Prive></Prive>}>
               <Route path="/prive/sorties" element={<Map></Map>}/>
+              <Route path="/prive/sorties/:id" element={<Map></Map>}/>
               <Route path="/prive/formulaireSortie" element={<FormulaireSortie create="true"></FormulaireSortie>}/>
               <Route path="/prive/formulaireSortie/:id" element={<FormulaireSortie create="false"></FormulaireSortie>}/>
               <Route path="/prive/userProfil" element={<UserProfil friend="false"></UserProfil>}/>
@@ -66,6 +68,7 @@ const App = () => {
               <Route path="/admin/formulaireAnimaux" element={<FormulaireAnimaux create="true"></FormulaireAnimaux>}>
                 <Route path="/admin/formulaireAnimaux/:id" element={<FormulaireAnimaux create="false"></FormulaireAnimaux>}/>
               </Route>
+              <Route path="/admin/panelAdmin" element={<PanelAdmin></PanelAdmin>}></Route>
             </Route>
           </Routes>
         </div>
