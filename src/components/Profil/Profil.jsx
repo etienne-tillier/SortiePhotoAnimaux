@@ -13,7 +13,6 @@ import Select from 'react-select'
 const StyledProfil = styled.div`
     height: 100%;
     width: 100%;
-
     display: grid;
     grid-template-areas: "Name Name Selected Selected Selected Selected"
                         "List List Selected Selected Selected Selected"
@@ -30,7 +29,6 @@ const StyledProfil = styled.div`
         width: 100%;
         height: 100%;
         grid-area: Name;
-        background-color: #61B15A;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -45,14 +43,14 @@ const StyledProfil = styled.div`
         width: 100%;
         height: 100%;
         grid-area: Selected;
-        background-color: #61B15A;
     }
 
     .SortiesList{
         width: 100%;
         height: 100%;
         grid-area: List;
-        background-color: #ADCE74;
+        border-right: 1px solid black;
+        border-top: 1px solid black;
 
         .listHead {
             width: 100%;

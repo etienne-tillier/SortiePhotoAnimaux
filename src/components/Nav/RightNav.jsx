@@ -10,16 +10,13 @@ import Notiflix from 'notiflix'
 
 
 const Ul = styled.ul`
-
     list-style: none;
     display: flex;
     flex-flow: row nowrap;
     padding-right: 60px;
     /* transition: 0.3s linear; */
     z-index: 19;
-    li {
-        padding: 15% 10px;
-    }
+    gap: 10px;
 
     .link {
         text-decoration: none;
@@ -34,7 +31,7 @@ const Ul = styled.ul`
     
     .link {color: #0D2538;}         /* Unvisited link  */
     .link:visited {color: #0D2538;} /* Visited link    */
-    .link:hover {color: red;}   /* Mouse over link */
+    .link:hover {color: var(--green3);}   /* Mouse over link */
 
     @media (max-width : 768px){
         flex-flow: column nowrap;
@@ -75,17 +72,31 @@ const RightNav = ( props ) => {
     return (
         <>
             <Ul open={props.open}>
-                <li><Link className='link' to="/" >Animaux</Link></li>
-                <li><Link className='link' to="/prive/sorties">Sorties</Link></li>
-                <li><a className='link' href='https://www.paypal.com/donate/?hosted_button_id=HKSU6YQRD82JA' target="blank">Soutien</a></li>
+                <li>
+                    <Link className='link' to="/listeAnimaux" >Animaux</Link>
+                </li>
+                <li>
+                    <Link className='link' to="/prive/sorties">Sorties</Link>
+                </li>
+                <li>
+                    <a className='link' href='https://www.paypal.com/donate/?hosted_button_id=HKSU6YQRD82JA' target="blank">Soutien</a>
+                </li>
                 {!currentUser ?
                     <>
-                    <li><div className='link' onClick={() => toggleModals("signIn")}>Connexion</div></li>
-                    <li><div className='link'  onClick={() => toggleModals("signUp")}>S'inscrire</div></li>
+                        <li>
+                            <div className='link' onClick={() => toggleModals("signIn")}>Connexion</div>
+                        </li>
+                        <li>
+                            <div className='link'  onClick={() => toggleModals("signUp")}>S'inscrire</div>
+                        </li>
                     </>
                 :   <>
-                    <li><Link className='link' to="/prive/userProfil">Profil</Link></li>    
-                    <li><div className='link'  onClick={() => deconnexion()}>Déconnexion</div></li>
+                        <li>
+                            <Link className='link' to="/prive/userProfil">Profil</Link>
+                        </li>
+                        <li>
+                            <div className='link'  onClick={() => deconnexion()}>Déconnexion</div>
+                        </li>
                     </> }
             </Ul>
         </>

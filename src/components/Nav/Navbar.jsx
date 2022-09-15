@@ -6,41 +6,32 @@ import {Link} from "react-router-dom"
 
 const Nav = styled.nav`
     width: 100%;
-    height: 100%;
+    height: 60px;
     display: flex;
     justify-content: space-between;
-    background-color: #FFF76A !important;
-
+    background-color: var(--green4) !important;
+    align-items: center;
 
     .emplacementLogo{
-        height: 100%;
-        width: 25%;
+      height: 100%;
+      width: 25%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-
-
+  
     .logo{
-        position: relative;
         text-decoration: none;
         font-size: 1.4rem;
-        top: 25%;
-        left: 10%;
-        padding: 20px 20px;
         user-select: none;
     }
 
     .logo:visited {
         color: black;
     }
-
-
-
 `
 
-
-
 const Navbar = () => {
-
-
     return (
         <Nav className='bg-light'>
             <div className='emplacementLogo'>

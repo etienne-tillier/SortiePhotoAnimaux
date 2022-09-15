@@ -7,16 +7,14 @@ import { Carousel } from 'react-responsive-carousel';
 import moment from 'moment'
 import { Link, useNavigate } from 'react-router-dom';
 import Notiflix from 'notiflix';
+import Button from "../Buttons/Button";
 
 const StyledSortieDetail = styled.div`
-
-
-
     min-height: fit-content;
     height: 100%;
     width: 100%;
     border: 1px solid black;
-    background-color: #61B15A;
+    background-color: var(--green4);
     display: grid;
     ${({photos}) => photos > 0 ? "grid-template-areas: " + "'galerie galerie galerie galerie''galerie galerie galerie galerie''galerie galerie galerie galerie ''realisation realisation realisation realisation''desc desc desc desc ''desc desc desc desc ''desc desc desc desc ''modif modif modif modif '" : "grid-template-areas:" + "'realisation realisation realisation realisation' 'desc desc desc desc' 'desc desc desc desc' 'desc desc desc desc' 'modif modif modif modif'"}; 
     gap: 10px;
@@ -236,9 +234,9 @@ useEffect(() => {
                 {((currentUser.uid === utilisateur.id || isAdmin) &&
                 <div className="modification">
                     <Link  className="lien" to={"/prive/formulaireSortie/" + props.id}>
-                        <div className="btn">Modifier</div>
+                        <Button text={"Modifier"}></Button>
                     </Link>
-                    <div onClick={() => props.onDeleteComponent(props.sortie)} className="btn btn-warning">Supprimer</div>
+                    <Button onClick={() => props.onDeleteComponent(props.sortie)} text={"Supprimer"}></Button>
                 </div>
                 )}
             </StyledSortieDetail>

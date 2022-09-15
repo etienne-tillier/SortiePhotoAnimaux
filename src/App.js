@@ -12,6 +12,8 @@ import Footer from "./components/Footer/Footer.jsx";
 import Admin from "./pages/Admin/Admin.jsx";
 import Map from "./pages/Prive/Map/Map.jsx";
 import Erreur from "./pages/Erreur/Erreur.jsx";
+import Home from "./pages/Home/Home"
+import Notiflix from "notiflix";
 import "./App.css";
 import styled from "styled-components";
 
@@ -20,16 +22,22 @@ const StyledApp = styled.div`
   height: 100vh;
   width: 100%;
   display: grid;
-  grid-template-rows: 15% 80% 5%;
+  grid-template-rows: 60px 1fr 5%;
 
   .containerApp{
     width: 100%;
     height: 100%;
+    padding: 0;
+    background-color:var(--background-color);
   }
 
 `
 
 const App = () => {
+  Notiflix.Notify.init({
+    position:"right-bottom",
+    closeButton: true
+  });
   return (
     <React.StrictMode>
       <StyledApp>
@@ -38,7 +46,7 @@ const App = () => {
         <Inscription/>
         <div className="containerApp">
           <Routes>
-            <Route path="/" element={<ListeAnimaux></ListeAnimaux>} />
+            <Route path="/" element={<Home></Home>} />
             <Route path="/listeAnimaux" element={<ListeAnimaux></ListeAnimaux>} />
             <Route path="/erreur">
               <Route path="/erreur/400" element={<Erreur erreur="La syntaxe de la requête est erronée"></Erreur>} />

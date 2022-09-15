@@ -4,15 +4,17 @@ import styled from "styled-components"
 import { Link, useNavigate } from 'react-router-dom';
 import { UtilisateurContext } from '../../context/userContext';
 import Notiflix from 'notiflix';
+import Button from "../Buttons/Button";
 
-const StyledFicheAnimal = styled.div`
-    height: 100%;
-    width: 100%;
-    border: 1px solid black;
-    border-radius: 10px;
+const StyledFicheAnimal = styled.a`
+  -webkit-box-shadow: 0 0 6px -2px rgba(0,0,0,0.78);
+  box-shadow: 0 0 6px -2px rgba(0,0,0,0.78);
+  border-radius: 3px;
+  color: black;
+  text-decoration: none;
 
     span{
-        font-weight bold;
+        font-weight: bold;
     }
 
     a {
@@ -20,10 +22,10 @@ const StyledFicheAnimal = styled.div`
         color: black;
         transition: 0.2s;
 
-        :hover {
-            cursor: pointer;
-            color: white;
-        }
+        //:hover {
+        //    cursor: pointer;
+        //    color: white;
+        //}
     }
 
     .nomespece{
@@ -32,14 +34,11 @@ const StyledFicheAnimal = styled.div`
     }
 
     img {
-        max-width: 300px;
-        height: 200px;
+        max-width: 75%;
+        height: 150px;
         object-fit: cover;
-        margin: 20px 0px;
+        margin: 10px auto;
         display: block;
-        margin-left: auto;
-        margin-right: auto 
-
     }
 
     ul {
@@ -56,7 +55,7 @@ const StyledFicheAnimal = styled.div`
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
-        margin-bottom: 10px;
+        padding-bottom: 10px;
     }
 
     .headerCategorie{
@@ -115,24 +114,24 @@ const FicheAnimal = (props) => {
 
 
     return (
-        <StyledFicheAnimal>
-            <a href={lienWiki} target="_blank"> <h3 className='nomespece'>{props.nomespece}</h3></a>
-            <img src={props.image}/>
-            <div className="caracteristiques">
-                <p className='couleur'><span>Couleur(s)</span> {props.couleur}</p>
-                <p className='taille'><span>Taille</span> {props.taille} cm</p>
-                <p className='poids'><span>Poids</span> {props.poids} kg</p>
-            </div>
-            <p className='headerCategorie'><span>Catégories</span></p>
-            <ul><React.Fragment>{afficherCategories()}</React.Fragment></ul>
-            {( isAdmin &&
-                <div className="modifierAnimal">
-                    <Link to={"/admin/formulaireAnimaux/" + props.id}>
-                        <div className="btn btn-secondary">Mettre à jour</div>
-                    </Link>
-                    <div onClick={supprimerEspece} className="btn btn-secondary">Supprimer</div>
+        <StyledFicheAnimal href={lienWiki} target="_blank" rel="noreferrer">
+                <h3 className='nomespece'>{props.nomespece}</h3>
+                <img src={props.image}/>
+                <div className="caracteristiques">
+                    <p className='couleur'><span>Couleur(s)</span> {props.couleur}</p>
+                    <p className='taille'><span>Taille</span> {props.taille} cm</p>
+                    <p className='poids'><span>Poids</span> {props.poids} kg</p>
                 </div>
-            )}
+                <p className='headerCategorie'><span>Catégories</span></p>
+                <ul><React.Fragment>{afficherCategories()}</React.Fragment></ul>
+                {( isAdmin &&
+                    <div className="modifierAnimal">
+                        <Link to={"/admin/formulaireAnimaux/" + props.id}>
+                            <Button text={"Mettre à jour"}></Button>
+                        </Link>
+                        <Button onClick={supprimerEspece} text={"Supprimer"}></Button>
+                    </div>
+                )}
         </StyledFicheAnimal>
     );
 };

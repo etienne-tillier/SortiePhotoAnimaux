@@ -6,14 +6,14 @@ import axios from 'axios';
 import { UtilisateurContext } from '../../../context/userContext';
 import Notiflix from 'notiflix';
 import MapCoord from '../MapCoord/MapCoord';
+import Button from "../../../components/Buttons/Button";
 
 
 const StyledFormulaireSortie = styled.div`
-
     height: 100%;
     width: 100%; 
     overflow-y: scroll;
-    background-color: #ADCE74;
+    background-color: var(--background-color);
     position: relative;
 
     form {
@@ -345,10 +345,7 @@ const FormulaireSortie = (props) => {
         <>
         {(isMount &&
             <StyledFormulaireSortie>
-                    <form
-                    ref={formRef}
-                    onSubmit={handleForm}
-                    >
+                    <form ref={formRef} onSubmit={handleForm}>
                         <div className='container-form'>
                             <div className='form-sortie'>
                                 <div className="form-group">
@@ -385,11 +382,7 @@ const FormulaireSortie = (props) => {
                                     <input defaultChecked={prive} ref={addInputs} type="checkbox" id="prive" />
                                 </div>
                             </div>
-                                <MapCoord 
-                                    id="map"
-                                    setLatLng={setLatLng}
-                                >
-                                </MapCoord>                             
+                                <MapCoord id="map" setLatLng={setLatLng}></MapCoord>
                         </div>
                             <section className="containerPhoto">
                                 {/* Pour tous les formulaire photo, les affiches */}
@@ -459,7 +452,7 @@ const FormulaireSortie = (props) => {
                                 })}
                             </section>
                         <p className="text-danger mt-1">{validation}</p>
-                        <div className="btn btn-primary" onClick={handleAddClick}>Ajouter une photo</div>
+                        <Button className="btn btn-primary" onClick={handleAddClick} text={"Ajouter une photo"}></Button>
                         <button className="btn btn-primary">{id ? "Modifier" : "Créer"}</button>
                     </form>
             </StyledFormulaireSortie>

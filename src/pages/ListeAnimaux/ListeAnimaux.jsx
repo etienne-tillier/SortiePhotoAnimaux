@@ -7,15 +7,16 @@ import loupeLogo from "../../assets/img/searchIcon.png"
 import { UtilisateurContext } from '../../context/userContext';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Button from "../../components/Buttons/Button";
 
 
 
 const StyledListeAimaux = styled.div`
-
-    height: 100%;
-    width: 100%;
-    background-color: #ADCE74;
-    overflow-y: scroll;
+    //height: 100%;
+    //width: 100%;
+    background-color: var(--background-color);
+    padding: 20px 0;
+    //overflow-y: scroll;
 
     header{
         width: 100%;
@@ -32,43 +33,51 @@ const StyledListeAimaux = styled.div`
         width: 30%;
     }
 
-
-    .btn {
-        background-color: #61B15A;
-        border: 1px solid #FFF76A;
-    }
-
     .liste{
-        width: 100%;
-        height: 90%;
         display: grid;
-        padding: 0 10%;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-gap: 10px;
-        
+        padding: 2% 10%;
+        gap: 10px 1%;
     }
-    @media (max-width: 1490px) {
+
+    #form1{
+      padding: 10px 5px;
+      width: 40vw;
+      border-radius: 4px;
+      border: 0;
+    }
+
+    @media (min-width: 1800px) {
+      .liste {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      }
+    }
+  
+    @media (min-width: 1101px) and (max-width: 1800px) {
         .liste {
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
         }
     }
 
     @media (max-width: 1100px) {
         .liste {
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
         }
     }
 
     @media (max-width: 750px) {
         .liste {
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr 1fr;
         }
     }
 
 
     @media (max-width: 500px) {
         .liste {
-            padding: 20px 0;
+            padding: 30px;
+        }
+
+        .liste {
+          grid-template-columns: 1fr;
         }
 
         header{
@@ -177,7 +186,7 @@ const ListeAnimaux = () => {
                     {(isAdmin &&
                         <>
                             <Link to="/admin/formulaireAnimaux/">
-                                <div className="btn btn-primary">Nouvel Animal</div>
+                                <Button text={"Nouvel Animal"}></Button>
                             </Link>
                         </>
                     )}

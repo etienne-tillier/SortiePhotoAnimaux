@@ -6,15 +6,16 @@ import {useNavigate, useParams} from "react-router-dom"
 import FormData from 'form-data';
 import { UtilisateurContext } from '../../../context/userContext';
 import Notiflix from 'notiflix';
+import Button from "../../../components/Buttons/Button";
 
 
 const StyledFormulaireAnimaux = styled.div`
     width: 100%;
     height: 100%;
-    background-color: #ADCE74;
-    overflow-y: scroll;
+    background-color: var(--background-color);
     display: flex;
     justify-content: center;
+    align-items: center;
 
 
     .btn {
@@ -34,9 +35,37 @@ const StyledFormulaireAnimaux = styled.div`
     }
 
     .form-group {
+        display: flex;
+        flex-direction: column;
         margin-bottom: 10px;
     }
+  
+    .form-container{
+      width: 100vw;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    form, .categories{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 5%;
+      padding: 5%;
+      -webkit-box-shadow: 0 0 6px -2px rgba(0,0,0,0.78);
+      box-shadow: 0 0 6px -2px rgba(0,0,0,0.78);
+      border-radius: 10px;
+    }
 
+  .form-control{
+    margin: 5px 0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border:1px black solid;
+  }
+    
 `
 
 
@@ -256,14 +285,9 @@ const FormulaireAnimaux = (props) => {
         <>
         {(isMount &&
             <StyledFormulaireAnimaux>
-                <div
-                className="form-container"
-                style={{ minWidth: "400px" }}
-                >
-                    <form
-                    ref={formRef}
-                    onSubmit={handleForm}
-                    >
+                <div className="form-container" style={{ minWidth: "400px" }}>
+                    <form ref={formRef} onSubmit={handleForm}>
+                        <h1>{(id ? "Modifier un animal" : "Créer un animal")}</h1>
                         <div className="form-group">
                             <label htmlFor="nomespece">Nom de l'espèce</label>
                             <input defaultValue={nomespece} ref={addInputs} type="text" className="form-control" id="nomespece" placeholder="giraffe" required/>
@@ -292,18 +316,19 @@ const FormulaireAnimaux = (props) => {
                                 classNamePrefix="select"
                             />
                         </div>
-                        <div className="custom-file">
-                            <input onChange={handleChangeFile} ref={addInputs} type="file" className="custom-file-input" id="imageEspece" {...(id ? "required" : "")}/>
+                        <div className="custom-file form-group">
                             <label className="custom-file-label" htmlFor="imageEspece">Choisissez une image</label>
+                            <input onChange={handleChangeFile} ref={addInputs} type="file" className="custom-file-input" id="imageEspece" {...(id ? "required" : "")}/>
+
                         </div>
                         <p className="text-danger mt-1">{validation}</p>
-                        <button className="btn btn-primary">{(id ? "Modifier" : "Créer")}</button>
+                        <Button text={(id ? "Modifier" : "Créer")}></Button>
                     </form>
                     <div className="categories">
                         <div className="form-group ajoutCategorie">
                                 <label htmlFor="newCategorie">Ajouter une catégorie</label>
                                 <input type="text" className="form-control" id="newCategorie" placeholder="Mamifère" required/>
-                                <div onClick={() => ajouterCategorie()} className="btn btn-primary">Nouvelle catégorie</div>
+                                <Button onClick={() => ajouterCategorie()} text={"Nouvelle catégorie"}></Button>
                         </div>
                         <div className="form-group supprimerCategorie">
                         <label htmlFor="categoriesSupp">Supprimer une catégorie</label>
@@ -316,7 +341,7 @@ const FormulaireAnimaux = (props) => {
                                     className="basic-multi-select"
                                     classNamePrefix="select"
                                 />
-                            <div onClick={() => supprimerCategories()} className="btn btn-primary">Supprimer les catégories</div>
+                            <Button onClick={() => supprimerCategories()} text={"Supprimer les catégories"}></Button>
                         </div>
                     </div>
                 </div>

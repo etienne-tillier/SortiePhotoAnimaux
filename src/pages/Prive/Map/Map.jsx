@@ -12,18 +12,15 @@ import icone from "../../../assets/img/icone.png"
 import Select from 'react-select'
 import Notiflix from 'notiflix'
 import InputLocalisation from '../../../components/InputLocalisation/InputLocalisation';
+import Button from "../../../components/Buttons/Button";
+import ModalSortie from "../../../components/ModalSortie/ModalSortie";
 
 
 const StyledMap = styled.div`
-
-
-    height: 100%;
-    width: 100%;
-    overflow-y: scroll;
-    display: grid;
-    grid-template-columns: ${({selectedSortie}) => selectedSortie ? "2fr 1fr" : "1fr"};
-    background-color: #ADCE74;
-    padding: 2%;
+  
+    width: 99vw;
+    height: 75vh;
+    display: grid;   
     gap: 3%;
 
     #googleMap{
@@ -178,14 +175,11 @@ const StyledMap = styled.div`
             margin-left: 1rem;
         }
 
-
     }
 
 `
 //Composant qui gère la carte et les sorties qui y sont présenté à l'intérieur à l'aide des markers
 const Map = (props) => {
-
-    
 
     const [markers, setmarkers] = useState([])
     const [isMount, setisMount] = useState(false)
@@ -194,22 +188,28 @@ const Map = (props) => {
     const [markerPublique, setmarkerPublique] = useState([])
     const [markerPriveData, setmarkerPriveData] = useState([])
     const [markerPubliqueData, setmarkerPubliqueData] = useState([])
-    const [selectedSortie, setselectedSortie] = useState()
-    const [latitude, setlatitude] = useState(48.856);
-    const [longitude, setlongitude] = useState(2.352);
+    const [selectedSortie, setSelectedSortie] = useState()
+    const [latitude, setlatitude] = useState(48.856)
+    const [longitude, setlongitude] = useState(2.352)
     const [zoom, setZoom] = useState(8);
     const [prive, setprive] = useState(false)
     const [animaux, setAnimaux] = useState()
     const [optionSelect, setoptionSelect] = useState([])
     const [optionSelected, setoptionSelected] = useState([])
-    const [ libraries ] = useState(['places']);
+    const [ libraries ] = useState(['places'])
     const [reload, setreload] = useState(null)
     const [markerClicked, setmarkerClicked] = useState(null)
+    const [isModalOpen, setModalOpenness] = useState(false)
 
 
     const { currentUser, isAdmin } = useContext(UtilisateurContext)
     const {navigate} = useNavigate()
 
+    /*useEffect(() => {
+        if(selectedSortie && !isModalOpen){
+            setSelectedSortie(null)
+        }
+    },[isModalOpen]);*/
 
     //On get toutes les sorties
     useEffect(() => {
@@ -315,7 +315,7 @@ const Map = (props) => {
                 setmarkerPrive([])
                 setmarkerPublique([])
                 setreload(sortie)
-                setselectedSortie(null)
+                setSelectedSortie(null)
             } catch (error) {
                 console.log(error.message)
                 navigate("/erreur/404")
@@ -325,10 +325,11 @@ const Map = (props) => {
 
     //Lorsque l'utilisateur clique sur un market (une sortie), elle s'affiche
     const miseAJourSortie = (marker) => {
-        setselectedSortie(marker.sortie)
+        setSelectedSortie(marker.sortie)
         setmarkerClicked(marker)
         setlatitude(marker.sortie.latitude)
         setlongitude(marker.sortie.longitude)
+        setModalOpenness(true)
     }
 
     //Savoir quand l'utilisateur veut avoir que ses sorties ou pas (privé ou non)
@@ -381,6 +382,10 @@ const Map = (props) => {
         lng: parseFloat(longitude)
       }
 
+    const closeModal = (bool) => {
+        setSelectedSortie(bool)
+    }
+
     if (loadError) return "Erreur charmement de la carte"
 
     if (!isLoaded) return "La carte est en chargement"
@@ -400,7 +405,7 @@ const Map = (props) => {
                 <header>
                     <img className="icone" src={icone} alt="test"></img>
                     <Link className="lien" to="/prive/formulaireSortie">
-                        <div className="btn btn-primary">Nouvelle Sortie</div>
+                        <Button text={"Nouvelle Sortie"}></Button>
                     </Link>
                     <InputLocalisation
                         id="inputAddress"
@@ -457,7 +462,7 @@ const Map = (props) => {
                 ))}
             </GoogleMap>
             {(selectedSortie &&
-            <SortieDetail
+            <ModalSortie
                 className="sortie"
                 idutilisateur={selectedSortie.idutilisateur}
                 description={selectedSortie.description}
@@ -466,8 +471,10 @@ const Map = (props) => {
                 photos={selectedSortie.photos}
                 sortie={selectedSortie}
                 onDeleteComponent={onDeleteSortie}
+                //closeModal={() => {setSelectedSortie(null)}}
+                onCloseModal = {closeModal}
                 >
-            </SortieDetail>
+            </ModalSortie>
             )}
             </StyledMap>
             )}
