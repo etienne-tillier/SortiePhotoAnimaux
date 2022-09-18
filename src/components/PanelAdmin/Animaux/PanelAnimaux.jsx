@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import ItemAnimaux from './ItemAnimaux';
 
@@ -12,28 +12,22 @@ const PanelAnimaux = (props) => {
     const [isMount, setisMount] = useState(true)
     const [data, setData] = useState(props.animaux)
 
+        
+    useEffect(() => {
+        setData(props.animaux)
+      }, [props.animaux])
+
+
     const afficherAnimaux = () => {
         return (
             Object.keys(data).map((key) => (
                 <ItemAnimaux className="itemList"
                     data={data[key]}
-                    supprimerList={supprimerAnimauxList}
+                    supprimerList={props.supprimerInList}
                 />
             )
         ))
     }
-
-    const supprimerAnimauxList = (animal) => {
-        const index = data.indexOf(animal)
-        if (index > -1) { 
-            setData( currentData => {
-                return currentData.filter(animalInList => {
-                    return animalInList !== animal
-                })
-            })
-        }
-  }
-
 
 
 

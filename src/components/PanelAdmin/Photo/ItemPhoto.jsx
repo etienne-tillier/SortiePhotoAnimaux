@@ -8,6 +8,10 @@ import { Link } from 'react-router-dom';
 const StyledItemPhoto = styled.div`
     display: flex;
     flex-direction: row;
+
+    .img{
+        height: 100px;
+    }
 `
 
 const ItemPhoto = (props) => {
@@ -40,8 +44,7 @@ const ItemPhoto = (props) => {
     return (
         <StyledItemPhoto>
             <pre>{props.data.id}</pre>
-            <img src={props.data.lienfichier}/>
-            <div className="btn btn-secondary">Mettre à jour</div>
+            <img className='img' src={props.data.lienfichier}/>
             <button onClick={() => supprimerPhoto(props.data.id)}>Supprimer </button>
         </StyledItemPhoto>
     );

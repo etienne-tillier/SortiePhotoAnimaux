@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ListeAnimaux from "./pages/ListeAnimaux/ListeAnimaux.jsx";
 import Inscription from "./pages/Inscription/Inscription.jsx";
 import Connexion from "./pages/Connexion/Connexion.jsx"
+import UpdateUser from "./pages/UpdateUser/UpdateUser.jsx";
 import FormulaireAnimaux from "./pages/Admin/FormulaireAnimaux/FormulaireAnimaux.jsx";
 import FormulaireSortie from "./pages/Prive/FormulaireSortie/FormulaireSortie.jsx";
 import UserProfil from "./pages/Prive/UserProfil/UserProfil.jsx";
@@ -60,7 +61,10 @@ const App = () => {
               <Route path="/admin/formulaireAnimaux" element={<FormulaireAnimaux create="true"></FormulaireAnimaux>}>
                 <Route path="/admin/formulaireAnimaux/:id" element={<FormulaireAnimaux create="false"></FormulaireAnimaux>}/>
               </Route>
-              <Route path="/admin/panelAdmin" element={<PanelAdmin></PanelAdmin>}></Route>
+              <Route path="/admin/panelAdmin" element={<PanelAdmin></PanelAdmin>}>
+                <Route path="/admin/panelAdmin/updateUser/:id" element={<UpdateUser></UpdateUser>}> 
+                </Route>
+              </Route>
             </Route>
           </Routes>
         </div>

@@ -1,4 +1,5 @@
-import React , {useState} from 'react';
+import React , { useEffect,useState} from 'react';
+
 import styled from 'styled-components';
 import ItemCategorie from './ItemCategorie';
 
@@ -12,27 +13,21 @@ const PanelCategorie = (props) => {
     const [isMount, setisMount] = useState(true)
     const [data, setData] = useState(props.categories)
 
+    useEffect(() => {
+        setData(props.categories)
+      }, [props.categories])
+
     const afficherCategorie = () => {
         return (
             Object.keys(data).map((key) => (
                 <ItemCategorie className="itemList"
                     data={data[key]}
-                    supprimerList={supprimerCategorieList}
+                    supprimerList={props.supprimerInList}
                 />
             )
         ))
     }
 
-    const supprimerCategorieList = (categorie) => {
-        const index = data.indexOf(categorie)
-        if (index > -1) { 
-            setData( currentData => {
-                return currentData.filter(categorieInList => {
-                    return categorieInList !== categorie
-                })
-            })
-        }
-  }
 
 
 

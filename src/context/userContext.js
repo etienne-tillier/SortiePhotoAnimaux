@@ -107,6 +107,7 @@ function UtilisateurContextProvider(props) {
   const [modalState, setModalState] = useState({
     signUpModal: false,
     signInModal: false,
+    updateUser: false,
   });
 
 
@@ -116,18 +117,29 @@ function UtilisateurContextProvider(props) {
       setModalState({
         signUpModal: false,
         signInModal: true,
+        updateUser: false,
+        
       });
     }
     if (modal === "signUp") {
       setModalState({
         signUpModal: true,
         signInModal: false,
+        updateUser: false,
+      });
+    }
+    if (modal === "update") {
+      setModalState({
+        signUpModal: false,
+        signInModal: false,
+        updateUser: true,
       });
     }
     if (modal === "close") {
       setModalState({
         signUpModal: false,
         signInModal: false,
+        updateUser: false,
       });
     }
   };
