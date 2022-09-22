@@ -10,6 +10,26 @@ import PanelUtilisateur from '../../../components/PanelAdmin/Utilisateur/PanelUt
 
 const StyledPanelAdmin = styled.div`
 
+    .panelMenu{
+        display: flex;
+        list-style: none;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+        -webkit-box-shadow: 0 4px 7px -2px rgba(0,0,0,0.34);
+        box-shadow: 0 4px 7px -2px rgba(0,0,0,0.34);
+        margin: 0;
+        padding: 10px 0;
+    }
+
+    .itemMenu{
+        font-weight: bold;
+    }
+    
+    .itemMenu:hover{
+        cursor: pointer;
+        color: var(--green3);
+    }
 
 
 `
@@ -34,31 +54,31 @@ const PanelAdmin = () => {
         axios.get(process.env.REACT_APP_API+ "utilisateurs", {
             headers: {
                 authorization: 'Bearer ' + currentUser.accessToken
-              }
+            }
         }).then((users) => {
             setUsers(users.data)
             axios.get(process.env.REACT_APP_API+ "especeAnimal", {
                 headers: {
                     authorization: 'Bearer ' + currentUser.accessToken
-                  }
+                }
             }).then((animaux) => {
                 setAnimaux(animaux.data)
                 axios.get(process.env.REACT_APP_API+ "categorieAnimal", {
                     headers: {
                         authorization: 'Bearer ' + currentUser.accessToken
-                      }
+                    }
                 }).then((categories) => {
                     setCategories(categories.data)
                     axios.get(process.env.REACT_APP_API+ "sorties", {
                         headers: {
                             authorization: 'Bearer ' + currentUser.accessToken
-                          }
+                        }
                     }).then((sorties) => {
                         setSorties(sorties.data)
                         axios.get(process.env.REACT_APP_API+ "photos", {
                             headers: {
                                 authorization: 'Bearer ' + currentUser.accessToken
-                              }
+                            }
                         }).then((photos) => {
                             setPhotos(photos.data)
                             setIsMount(true)
