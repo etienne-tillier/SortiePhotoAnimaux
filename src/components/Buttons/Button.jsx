@@ -8,10 +8,12 @@ const StyledButton = styled.button`
     border-radius: 4px;
     font-size:11px;
     font-weight:bold;
-  
+    align-self: center;
+    justify-self: center;
+    
     :hover{
-      background-color: var(--green2);
-      border: 2px solid var(--green3);
+        background-color: var(--green2);
+        border: 2px solid var(--green3);
     }
 `
 

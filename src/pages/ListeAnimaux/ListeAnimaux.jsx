@@ -40,18 +40,18 @@ const StyledListeAimaux = styled.div`
     }
 
     #form1{
-      padding: 10px 5px;
-      width: 40vw;
-      border-radius: 4px;
-      border: 0;
+        padding: 10px 5px;
+        width: 40vw;
+        border-radius: 4px;
+        border: 0;
     }
 
     @media (min-width: 1800px) {
-      .liste {
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-      }
+        .liste {
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        }
     }
-  
+    
     @media (min-width: 1101px) and (max-width: 1800px) {
         .liste {
             grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -77,7 +77,7 @@ const StyledListeAimaux = styled.div`
         }
 
         .liste {
-          grid-template-columns: 1fr;
+            grid-template-columns: 1fr;
         }
 
         header{
@@ -127,7 +127,7 @@ const ListeAnimaux = () => {
             navigate("/error")
             
         }
-      }, [reload])
+    }, [reload])
 
 
     const afficherAnimaux = () => {

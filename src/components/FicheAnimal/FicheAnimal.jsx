@@ -1,17 +1,21 @@
 import axios from 'axios';
 import React,  { useContext, useState } from 'react';
 import styled from "styled-components"
-import { Link, useNavigate } from 'react-router-dom';
+import {Link, Redirect, useNavigate} from 'react-router-dom';
 import { UtilisateurContext } from '../../context/userContext';
 import Notiflix from 'notiflix';
 import Button from "../Buttons/Button";
 
 const StyledFicheAnimal = styled.a`
-  -webkit-box-shadow: 0 0 6px -2px rgba(0,0,0,0.78);
-  box-shadow: 0 0 6px -2px rgba(0,0,0,0.78);
-  border-radius: 3px;
-  color: black;
-  text-decoration: none;
+    -webkit-box-shadow: 0 0 6px -2px rgba(0,0,0,0.78);
+    box-shadow: 0 0 6px -2px rgba(0,0,0,0.78);
+    border-radius: 3px;
+    color: black;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 0;
+    //align-items: center;
 
     span{
         font-weight: bold;
@@ -29,37 +33,42 @@ const StyledFicheAnimal = styled.a`
     }
 
     .nomespece{
-        padding-top: 10px;
         text-align: center;
+        padding: 5px 0;
+        margin: 0;
     }
 
     img {
         max-width: 75%;
         height: 150px;
         object-fit: cover;
-        margin: 10px auto;
+        margin: 0 auto;
         display: block;
     }
 
     ul {
         padding: 0;
+        margin: 5px 0;
         width: 100%;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: space-evenly;
+        justify-content: center;
+        align-items: center;
         list-style: none;
+        gap: 5px;
     }
 
     .modifierAnimal{
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
-        padding-bottom: 10px;
+        padding-bottom: 5px;
     }
 
     .headerCategorie{
         text-align: center;
+        margin: 0;
     }
 
     .btn-secondary {
@@ -68,6 +77,12 @@ const StyledFicheAnimal = styled.a`
 
     .caracteristiques{
         padding-left: 20px;
+    }
+    
+    .bottomSection{
+        display: flex;
+        flex-direction: column;
+        margin-top: auto;
     }
 
 `
@@ -79,6 +94,7 @@ const FicheAnimal = (props) => {
     const {currentUser,isAdmin} = useContext(UtilisateurContext)
     const [lienWiki, setLienWiki] = useState("https://fr.wikipedia.org/wiki/" + props.nomespece)
     const navigate = useNavigate()
+
 
     const afficherCategories = () => {
         return (
@@ -121,22 +137,24 @@ const FicheAnimal = (props) => {
                 </div>
                 <p className='headerCategorie'><span>Catégories</span></p>
                 <ul><React.Fragment>{afficherCategories()}</React.Fragment></ul>
-                {( isAdmin &&
-                    <div className="modifierAnimal">
-                        <Link to={"/admin/formulaireAnimaux/" + props.id}>
-                            <Button text={"Mettre à jour"}></Button>
-                        </Link>
-                        <Button onClick={supprimerEspece} text={"Supprimer"}></Button>
-                    </div>
-                )}
-            <Button text="Voir les sorties" onClick={()=>{
-
-            }}>
-
-            </Button>
-            <Link to={"/prive/sorties/" + props.id}>
-                Voir les sorties
-            </Link>
+                <div className="bottomSection">
+                    {( isAdmin &&
+                        <div className="modifierAnimal">
+                            <Link to={"/admin/formulaireAnimaux/" + props.id}>
+                                <Button text={"Mettre à jour"}></Button>
+                            </Link>
+                            <Button onClick={supprimerEspece} text={"Supprimer"}></Button>
+                        </div>
+                    )}
+                    <Button
+                        className="sortieButton"
+                        text="Voir les sorties"
+                        onClick={ event => {
+                            event.preventDefault()
+                            navigate("/prive/sorties/" + props.id)
+                        }
+                    }/>
+                </div>
         </StyledFicheAnimal>
     );
 };
