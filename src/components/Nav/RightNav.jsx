@@ -62,7 +62,7 @@ const RightNav = ( props ) => {
     const deconnexion = async () => {
         signOut(auth).then((res) => {
             if (res){
-                Notiflix.Notify.sucess("Vous êtes bien déconnecté", { closeButton: true });
+                Notiflix.Notify.success("Vous êtes bien déconnecté", { closeButton: true });
                 navigate("/")
             }
         })
@@ -102,8 +102,6 @@ const RightNav = ( props ) => {
                         <li><Link className='link' to="/admin/panelAdmin">Panel Admin</Link></li>
                         </>
                     }
-                    <li><Link className='link' to="/prive/userProfil">Profil</Link></li>    
-                    <li><div className='link'  onClick={() => deconnexion()}>Déconnexion</div></li>
                     </> }
             </Ul>
         </>

@@ -110,9 +110,6 @@ const FicheAnimal = (props) => {
     }
 
 
-
-
-
     return (
         <StyledFicheAnimal href={lienWiki} target="_blank" rel="noreferrer">
                 <h3 className='nomespece'>{props.nomespece}</h3>
@@ -132,9 +129,13 @@ const FicheAnimal = (props) => {
                         <Button onClick={supprimerEspece} text={"Supprimer"}></Button>
                     </div>
                 )}
-            )}
+            <Button text="Voir les sorties" onClick={()=>{
+
+            }}>
+
+            </Button>
             <Link to={"/prive/sorties/" + props.id}>
-                        <div className="btn btn-secondary">Voir les sorties</div>
+                Voir les sorties
             </Link>
         </StyledFicheAnimal>
     );
