@@ -3,16 +3,12 @@ import React, { useEffect, useContext} from 'react';
 import styled from 'styled-components';
 import Notiflix from 'notiflix';
 import { UtilisateurContext } from '../../../context/userContext';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import Button from "../../Buttons/Button";
 
 
 
-const StyledItemUtilisateur = styled.div`
-
-    .itemUser {
-        display: flex;
-        flex-direction: row;
-    }
+const StyledItemUtilisateur = styled.tr`
 
 `
 
@@ -22,6 +18,7 @@ const StyledItemUtilisateur = styled.div`
 const ItemUtilisateur = (props) => {
 
     const {currentUser} = useContext(UtilisateurContext)
+    const navigate = useNavigate()
 
 //ajouter suppression firebase dans l'api
     const supprimerUtilisateur = (id) => {
@@ -30,7 +27,8 @@ const ItemUtilisateur = (props) => {
         axios.delete(process.env.REACT_APP_API + "utilisateurs/" + id, {
             headers: {
                 authorization: 'Bearer ' + currentUser.accessToken
-              }})
+            }
+        })
         props.supprimerList(props.data)
         Notiflix.Notify.success("L'utilisateur a bien été supprimé")
         }
@@ -38,11 +36,11 @@ const ItemUtilisateur = (props) => {
 
     return (
         <StyledItemUtilisateur>
-        <div className="itemUser">
-            <pre>{props.data.pseudo} {props.data.email} {props.data.isadmin}</pre>
-            <Link to={"/admin/panelAdmin/updateUser/" + props.data.id} >Modifier</Link>
-            <button onClick={() => supprimerUtilisateur(props.data.id)}>Supprimer </button>
-        </div>
+                <td>{props.data.pseudo}</td>
+                <td>{props.data.email}</td>
+                <td>{props.data.isAdmin}</td>
+                <td><Button onClick={() => {navigate("/admin/panelAdmin/updateUser/" + props.data.id)}} text="Modifier" /></td>
+                <td><Button onClick={() => supprimerUtilisateur(props.data.id)} text="Supprimer" /></td>
         </StyledItemUtilisateur>
     );
 };
