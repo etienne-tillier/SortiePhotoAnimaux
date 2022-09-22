@@ -3,6 +3,7 @@ import React, { useEffect, useContext} from 'react';
 import styled from 'styled-components';
 import Notiflix from 'notiflix';
 import { UtilisateurContext } from '../../../context/userContext';
+import { Link } from 'react-router-dom';
 
 
 
@@ -39,7 +40,7 @@ const ItemUtilisateur = (props) => {
         <StyledItemUtilisateur>
         <div className="itemUser">
             <pre>{props.data.pseudo} {props.data.email} {props.data.isadmin}</pre>
-            <button>Modifier </button>
+            <Link to={"/admin/panelAdmin/updateUser/" + props.data.id} >Modifier</Link>
             <button onClick={() => supprimerUtilisateur(props.data.id)}>Supprimer </button>
         </div>
         </StyledItemUtilisateur>

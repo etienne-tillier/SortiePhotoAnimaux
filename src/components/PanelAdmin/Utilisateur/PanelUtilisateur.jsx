@@ -12,9 +12,10 @@ const PanelUtilisateur = (props) => {
     const [isMount, setisMount] = useState(true)
     const [data, setData] = useState(props.users)
 
+        
     useEffect(() => {
-        console.log(props.users)
-      }, [])
+        setData(props.users)
+      }, [props.users])
 
     
       const afficherUtilisateurs = () => {
@@ -22,22 +23,12 @@ const PanelUtilisateur = (props) => {
             Object.keys(data).map((key) => (
                 <ItemUtilisateur className="itemList"
                     data={data[key]}
-                    supprimerList={supprimerUtilisateurList}
+                    supprimerList={props.supprimerInList}
                 />
             )
         ))
       }
 
-      const supprimerUtilisateurList = (user) => {
-            const index = data.indexOf(user)
-            if (index > -1) { 
-                setData( currentData => {
-                    return currentData.filter(userInList => {
-                        return userInList !== user
-                    })
-                })
-            }
-      }
 
 
     return (

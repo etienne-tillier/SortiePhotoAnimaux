@@ -109,6 +109,51 @@ const PanelAdmin = () => {
     }
 
 
+    const supprimerUtilisateurList = (user) => {
+        const index = users.indexOf(user)
+        if (index > -1) { 
+            setUsers( currentData => {
+                return currentData.filter(userInList => {
+                    return userInList !== user
+                })
+            })
+        }
+  }
+
+  const supprimerAnimauxList = (animal) => {
+    const index = animaux.indexOf(animal)
+    if (index > -1) { 
+        setAnimaux( currentData => {
+            return currentData.filter(animalInList => {
+                return animalInList !== animal
+            })
+        })
+    }
+}
+
+const supprimerPhotoList = (photo) => {
+    const index = photos.indexOf(photo)
+    if (index > -1) { 
+        setPhotos( currentData => {
+            return currentData.filter(photoInList => {
+                return photoInList !== photo
+            })
+        })
+    }
+}
+
+const supprimerCategorieList = (categorie) => {
+    const index = categories.indexOf(categorie)
+    console.log(index)
+    if (index > -1) { 
+        setCategories( currentData => {
+            return currentData.filter(categorieInList => {
+                return categorieInList !== categorie
+            })
+        })
+    }
+}
+
 
 
     return (
@@ -126,24 +171,28 @@ const PanelAdmin = () => {
                     {isUsers && 
                         <PanelUtilisateur
                             users={users}
+                            supprimerInList={supprimerUtilisateurList}
                         >
                         </PanelUtilisateur>
                     }
                     {isAnimaux && 
                         <PanelAnimaux
                             animaux={animaux}
+                            supprimerInList={supprimerAnimauxList}
                         >
                         </PanelAnimaux>
                     }
                     {isPhotos && 
                         <PanelPhoto
                             photos={photos}
+                            supprimerInList={supprimerPhotoList}
                         >
                         </PanelPhoto>
                     }
                     {isCategories && 
                         <PanelCategorie
                             categories={categories}
+                            supprimerInList={supprimerCategorieList}
                         >
                         </PanelCategorie>
                     }

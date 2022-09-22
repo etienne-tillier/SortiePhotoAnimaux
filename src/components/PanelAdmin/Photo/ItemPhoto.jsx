@@ -9,9 +9,10 @@ const StyledItemPhoto = styled.div`
     display: flex;
     flex-direction: row;
     
-    .imgAnimal{
+    .imgAnimal {
         width: 50%;
     }
+
 `
 
 const ItemPhoto = (props) => {
@@ -45,7 +46,6 @@ const ItemPhoto = (props) => {
         <StyledItemPhoto>
             <pre>{props.data.id}</pre>
             <img className="imgAnimal" alt="image d'animal" src={props.data.lienfichier}/>
-            <div className="btn btn-secondary">Mettre à jour</div>
             <button onClick={() => supprimerPhoto(props.data.id)}>Supprimer </button>
         </StyledItemPhoto>
     );
