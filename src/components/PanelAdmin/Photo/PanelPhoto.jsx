@@ -3,7 +3,17 @@ import styled from 'styled-components';
 import ItemPhoto from './ItemPhoto';
 
 const StyledPanelPhoto = styled.div`
-
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+    gap: 2.5%;
+    
+    > * {
+        width: 30%;
+    }
 `
 
 
@@ -15,7 +25,7 @@ const PanelPhoto = (props) => {
     
     useEffect(() => {
         setData(props.photos)
-      }, [props.photos])
+    }, [props.photos])
 
 
     const afficherPhotos = () => {
@@ -38,9 +48,7 @@ const PanelPhoto = (props) => {
         <>
         {isMount && 
         <StyledPanelPhoto>
-            <ul className='listePhoto'>
-                {afficherPhotos()}
-            </ul>
+            {afficherPhotos()}
         </StyledPanelPhoto>
         }
         </>

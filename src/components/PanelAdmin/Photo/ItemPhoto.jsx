@@ -3,14 +3,29 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { UtilisateurContext } from '../../../context/userContext';
 import Notiflix from 'notiflix';
+import xMark from "../../../assets/img/xmark.svg"
 import { Link } from 'react-router-dom';
 
 const StyledItemPhoto = styled.div`
+    position: relative;
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    -webkit-box-shadow: 0 0 6px -2px rgba(0,0,0,0.78);
+    box-shadow: 0 0 6px -2px rgba(0,0,0,0.78);
     
     .imgAnimal {
-        width: 50%;
+        max-width: 100%;
+        max-height: 300px;
+    }
+    
+    .xMark{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 40px;
     }
 
 `
@@ -21,7 +36,7 @@ const ItemPhoto = (props) => {
 
     useEffect(() => {
         console.log(props.data)
-      }, [])
+    }, [])
 
     const supprimerPhoto = (id) => {
         const del = window.confirm("Voulez vous vraiment supprimer cette photo ?")
@@ -44,9 +59,9 @@ const ItemPhoto = (props) => {
 
     return (
         <StyledItemPhoto>
-            <pre>{props.data.id}</pre>
+            {/*<pre>{props.data.id}</pre>*/}
             <img className="imgAnimal" alt="image d'animal" src={props.data.lienfichier}/>
-            <button onClick={() => supprimerPhoto(props.data.id)}>Supprimer </button>
+            <img className="xMark" src={xMark} onClick={() => supprimerPhoto(props.data.id)} />
         </StyledItemPhoto>
     );
 };
