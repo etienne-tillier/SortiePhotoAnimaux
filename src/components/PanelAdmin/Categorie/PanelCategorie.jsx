@@ -2,6 +2,7 @@ import React , { useEffect,useState} from 'react';
 
 import styled from 'styled-components';
 import ItemCategorie from './ItemCategorie';
+import Table from "../../Table/Table";
 
 const StyledPanelCategorie = styled.div`
 
@@ -15,7 +16,7 @@ const PanelCategorie = (props) => {
 
     useEffect(() => {
         setData(props.categories)
-      }, [props.categories])
+    }, [props.categories])
 
     const afficherCategorie = () => {
         return (
@@ -37,9 +38,9 @@ const PanelCategorie = (props) => {
         <>
         {isMount && 
         <StyledPanelCategorie>
-            <ul className='listeCategorie'>
+            <Table headers={["Nom de la catégorie" , "Modifier", "Supprimer"]}>
                 {afficherCategorie()}
-            </ul>
+            </Table>
         </StyledPanelCategorie>
         }
         </>

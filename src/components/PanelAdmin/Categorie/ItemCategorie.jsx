@@ -3,10 +3,9 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { UtilisateurContext } from '../../../context/userContext';
 import Notiflix from 'notiflix';
+import Button from "../../Buttons/Button";
 
-const StyledItemCategorie = styled.div`
-    display: flex;
-    flex-direction: row;
+const StyledItemCategorie = styled.tr`
 `
 
 const ItemCategorie = (props) => {
@@ -20,25 +19,25 @@ const ItemCategorie = (props) => {
                 headers: {
                     authorization: 'Bearer ' + currentUser.accessToken
                 }
-                }).then((resp) => {
-                    if (resp.status == 200){
-                        props.supprimerList(props.data)
-                        Notiflix.Notify.success("La catégorie a bien été supprimé")
-                    }
-                    else {
-                        Notiflix.Notify.success("La catégorie n'a pas pu être supprimé")
-                    }
-                })
+            }).then((resp) => {
+                if (resp.status == 200) {
+                    props.supprimerList(props.data)
+                    Notiflix.Notify.success("La catégorie a bien été supprimé")
+                } else {
+                    Notiflix.Notify.success("La catégorie n'a pas pu être supprimé")
+                }
+            })
         }
     }
 
     return (
         <StyledItemCategorie>
-            <pre>{props.data.nomcategorie} </pre>
-            <button>Modifier </button>
-            <button onClick={() => supprimerCategorie(props.data.id)}>Supprimer </button>
+            <td>{props.data.nomcategorie}</td>
+            {/*TODO faire marcher le bouton modifier*/}
+            <td><Button text="Modifier" /></td>
+            <td><Button onClick={() => supprimerCategorie(props.data.id)} text="Supprimer" /></td>
         </StyledItemCategorie>
-    );
-};
+    )
+}
 
-export default ItemCategorie;
+export default ItemCategorie
