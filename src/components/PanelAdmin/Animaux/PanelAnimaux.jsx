@@ -1,6 +1,7 @@
 import React , {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import ItemAnimaux from './ItemAnimaux';
+import Table from "../../Table/Table";
 
 const StyledPanelAnimaux = styled.div`
 
@@ -36,9 +37,9 @@ const PanelAnimaux = (props) => {
         <>
         {isMount && 
         <StyledPanelAnimaux>
-            <ul className='listeAnimaux'>
+            <Table headers={["id", "Nom d'èspece", "Modifier", "Supprimer"]}>
                 {afficherAnimaux()}
-            </ul>
+            </Table>
         </StyledPanelAnimaux>
         }
         </>

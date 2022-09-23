@@ -3,16 +3,16 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { UtilisateurContext } from '../../../context/userContext';
 import Notiflix from 'notiflix';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import Button from "../../Buttons/Button";
 
-const StyledItemAnimaux = styled.div`
-    display: flex;
-    flex-direction: row;
+const StyledItemAnimaux = styled.tr`
 `
 
 const ItemAnimaux = (props) => {
 
     const {currentUser} = useContext(UtilisateurContext)
+    const navigate = useNavigate()
 
     const supprimerAnimaux = (id) => {
         const del = window.confirm("Voulez vous vraiment supprimer cet animal ?")
@@ -35,11 +35,10 @@ const ItemAnimaux = (props) => {
 
     return (
         <StyledItemAnimaux>
-            <pre>{props.data.id} {props.data.nomespece} </pre>
-            <Link to={"/admin/formulaireAnimaux/" + props.data.id}>
-                <div className="btn btn-secondary">Mettre à jour</div>
-            </Link>
-            <button onClick={() => supprimerAnimaux(props.data.id)}>Supprimer </button>
+            <td>{props.data.id}</td>
+            <td> {props.data.nomespece} </td>
+            <td><Button onClick={() => {navigate("/admin/formulaireAnimaux/" + props.data.id)}} text="Modifier" /></td>
+            <td><Button onClick={() => supprimerAnimaux(props.data.id)} text="Supprimer" /></td>
         </StyledItemAnimaux>
     );
 };
