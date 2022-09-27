@@ -158,6 +158,20 @@ const ModalSortie = (props) => {
     const { currentUser, isAdmin } = useContext(UtilisateurContext)
     const {navigate} = useNavigate()
 
+    useEffect(() => {
+        getUserFromId(props.idutilisateur)
+        if(props.photos.length > 0){
+            setCurrentPicture(props.photos[currentPictureIndex].lienfichier)
+
+            setCurrentPictureDescription(props.photos[currentPictureIndex].description)
+            setCurrentPictureCamera(props.photos[currentPictureIndex].camera)
+            setCurrentPictureObjectif(props.photos[currentPictureIndex].objectif)
+            setCurrentPictureISO(props.photos[currentPictureIndex].iso)
+            setCurrentPictureOuverture(props.photos[currentPictureIndex].ouverture)
+            setCurrentPictureVitesse(props.photos[currentPictureIndex].vitesse)
+        }
+    }, [])
+
     const monthInLetters = (month) => {
         switch (month){
             case 0:
@@ -248,19 +262,7 @@ const ModalSortie = (props) => {
         }
     }
 
-    useEffect(() => {
-        getUserFromId(props.idutilisateur)
-        if(props.photos.length > 0){
-            setCurrentPicture(props.photos[currentPictureIndex].lienfichier)
 
-            setCurrentPictureDescription(props.photos[currentPictureIndex].description)
-            setCurrentPictureCamera(props.photos[currentPictureIndex].camera)
-            setCurrentPictureObjectif(props.photos[currentPictureIndex].objectif)
-            setCurrentPictureISO(props.photos[currentPictureIndex].iso)
-            setCurrentPictureOuverture(props.photos[currentPictureIndex].ouverture)
-            setCurrentPictureVitesse(props.photos[currentPictureIndex].vitesse)
-        }
-    }, [])
 
     //{props.photos}
     //{props.sortie.latitude}

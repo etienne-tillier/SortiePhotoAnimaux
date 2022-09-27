@@ -164,11 +164,21 @@ const supprimerPhotoList = (photo) => {
 
 const supprimerCategorieList = (categorie) => {
     const index = categories.indexOf(categorie)
-    console.log(index)
     if (index > -1) { 
         setCategories( currentData => {
             return currentData.filter(categorieInList => {
                 return categorieInList !== categorie
+            })
+        })
+    }
+}
+
+const supprimerSortieInList = (sortie) => {
+    const index = sorties.indexOf(sortie)
+    if (index > -1) { 
+        setSorties( currentData => {
+            return currentData.filter(sortieInList => {
+                return sortieInList !== sortie
             })
         })
     }
@@ -219,6 +229,7 @@ const supprimerCategorieList = (categorie) => {
                     {isSorties && 
                         <PanelSortie
                             sorties={sorties}
+                            supprimerInList={supprimerSortieInList}
                         >
                         </PanelSortie>
                     }
