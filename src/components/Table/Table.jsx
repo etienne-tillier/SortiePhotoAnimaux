@@ -5,7 +5,6 @@ const StyledTable = styled.div`
     table{
         border-collapse: collapse;
         width: 100%;
-        margin-top: 10px;
     }
     tr:nth-child(even) {
         background-color: #98ffbe;
@@ -18,12 +17,12 @@ const StyledTable = styled.div`
         border: 1px solid black;
     }
     th{
-        border: 1px solid black;
+        //border: 1px solid black;
         background-color: var(--green3);
     }
     
     td{
-        border: 1px solid black;
+        //border: 1px solid black;
         text-align: center;
     }
     

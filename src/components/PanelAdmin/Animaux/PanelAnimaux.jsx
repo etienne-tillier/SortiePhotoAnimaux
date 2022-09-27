@@ -4,7 +4,7 @@ import ItemAnimaux from './ItemAnimaux';
 import Table from "../../Table/Table";
 
 const StyledPanelAnimaux = styled.div`
-
+    margin: 10px 10%;
 `
 
 
@@ -16,7 +16,7 @@ const PanelAnimaux = (props) => {
         
     useEffect(() => {
         setData(props.animaux)
-      }, [props.animaux])
+    }, [props.animaux])
 
 
     const afficherAnimaux = () => {

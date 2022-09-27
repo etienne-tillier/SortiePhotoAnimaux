@@ -17,15 +17,16 @@ import ModalSortie from "../../../components/ModalSortie/ModalSortie";
 
 
 const StyledMap = styled.div`
-  
-    width: 99vw;
-    height: 75vh;
+    width: 100%;
+    height: 100%;
     display: grid;   
     gap: 3%;
 
     #googleMap{
         display: block;
         border: solid black 1px;
+        width: 100%;
+        height: 100%;
     }
 
     .sortie {
@@ -176,7 +177,6 @@ const StyledMap = styled.div`
         }
 
     }
-
 `
 //Composant qui gère la carte et les sorties qui y sont présenté à l'intérieur à l'aide des markers
 const Map = (props) => {

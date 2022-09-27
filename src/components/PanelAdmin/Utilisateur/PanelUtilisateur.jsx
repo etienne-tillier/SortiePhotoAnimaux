@@ -5,7 +5,7 @@ import ItemUtilisateur from './ItemUtilisateur';
 import Table from "../../Table/Table";
 
 const StyledPanelUtilisateur = styled.div`
-
+    margin: 10px 10%;
 `
 
 const PanelUtilisateur = (props) => {

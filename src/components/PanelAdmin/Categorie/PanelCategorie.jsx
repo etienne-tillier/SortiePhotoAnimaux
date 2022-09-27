@@ -5,7 +5,7 @@ import ItemCategorie from './ItemCategorie';
 import Table from "../../Table/Table";
 
 const StyledPanelCategorie = styled.div`
-
+    margin: 10px 10%;
 `
 
 

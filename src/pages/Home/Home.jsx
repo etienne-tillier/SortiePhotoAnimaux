@@ -41,7 +41,7 @@ const Home = (props) => {
     return (
         <StyledHome>
             <div className="leftPart">
-                <h1>Bienvenue dans le monde la photo animalière !</h1>
+                <h1>Bienvenue dans le monde de la photo animalière !</h1>
             </div>
 
             <img src={require("../../assets/img/imgBanner.png")} alt="Banner img" id="BannerImg"/>

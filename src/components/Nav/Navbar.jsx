@@ -13,13 +13,13 @@ const Nav = styled.nav`
     align-items: center;
 
     .emplacementLogo{
-      height: 100%;
-      width: 25%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+        height: 100%;
+        width: 25%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-  
+    
     .logo{
         text-decoration: none;
         font-size: 1.4rem;
