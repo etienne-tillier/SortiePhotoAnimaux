@@ -24,7 +24,6 @@ function UtilisateurContextProvider(props) {
   //Eventlistener quand quelqu'un se connecte ou se déconnecte via l'api firebase
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-        console.log(currentUser)
         setcurrentUser(currentUser)
     })
 
