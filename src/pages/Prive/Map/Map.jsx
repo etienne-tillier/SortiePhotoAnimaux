@@ -17,166 +17,154 @@ import ModalSortie from "../../../components/ModalSortie/ModalSortie";
 
 
 const StyledMap = styled.div`
+  width: 100%;
+  height: 100%;
+  display: grid;
+  gap: 3%;
+
+  #googleMap{
+    display: block;
+    border: solid black 1px;
     width: 100%;
     height: 100%;
-    display: grid;   
-    gap: 3%;
+  }
 
-    #googleMap{
-        display: block;
-        border: solid black 1px;
-        width: 100%;
-        height: 100%;
-    }
-
-    .sortie {
-        display: block;
-        width: fit-content;
-        height: fit-content;
-    }
+  .sortie {
+    display: block;
+    width: fit-content;
+    height: fit-content;
+  }
 
 
-    #googleMap header .btn {
-        width: 100%;
-    }
+  #googleMap header .btn {
+    width: 100%;
+  }
 
-    .btn {
-        display: block;
-        margin: 15px auto;
-        border: 1px solid #FFF76A;
-        grid-area: button;
-    }
+  .basic-multi-select {
+    width: 75%;
+  }
 
-    .btn-primary {
-        background-color: #61B15A;
-    }
+  .lien {
+    width: 30%;
+    text-decoration: none;
+    grid-area: button;
+  }
 
-    .basic-multi-select {
-        width: 75%;
+  .containerMapSortie{
+    width:100%;
+    height: 100%;
+
+  }
+
+  .form-group{
+  }
+
+  .form-group > label {
+    font-weight: bold;
+  }
+
+  #select{
+    grid-area: search;
+  }
+
+  .checkbox {
+    width: 15%;
+    grid-area: checkbox;
+  }
+
+  .checkbox input {
+    margin-left: 0.5rem;
+  }
+
+  .icone{
+    width: 80px;
+    grid-area: icon;
+
+  }
+
+
+  header{
+    width: 100vw;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    gap: 2%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(110,110,110,0.65);
+    -webkit-box-shadow: 0 0 24px 2px rgba(0,0,0,0.3);
+    box-shadow: 0 0 24px 2px rgba(0,0,0,0.3);
+  }
+
+  h1{
+    color: #281414;
+    user-select: none;
+  }
+
+  @media (max-width: 1270px) {
+    header{
+      width: 95%;
     }
 
     .lien {
-        width: 30%;
-        text-decoration: none;
-        grid-area: button;
+      width: 40%;
     }
 
-    .containerMapSortie{
-        width:100%;
-        height: 100%;
+    .basic-multi-select {
+      width: 65%;
+    }
 
+  }
+
+  @media (max-width: 900px) {
+
+    display: flex;
+    flex-direction: column;
+
+    .lien {
+      width: 35%;
+    }
+
+    .basic-multi-select {
+      width: 55%;
+    }
+
+    #googleMap{
+    }
+
+
+
+
+  }
+  @media (max-width: 584px) {
+
+    header{
+      gap: 0;
     }
 
     .form-group{
-        margin-top: 0.9rem;
+      margin: 0;
     }
 
-    .form-group > label {
-        font-weight: bold;
+    .lien {
+      width: 100%;
     }
 
-    #select{
-        grid-area: search;
+    .basic-multi-select {
+      width: 90%;
     }
 
     .checkbox {
-        width: 15%;
-        margin-top: 1.1rem;
-        grid-area: checkbox; 
+      margin-top: 1.3rem;
+      width: 90%;
+      margin-left: 1rem;
     }
 
-    .checkbox input {
-        margin-left: 0.5rem;
-    }
-
-    .icone{
-        width: 80px;
-        grid-area: icon;
-
-    }
-
-
-    header{
-        width: 90%;
-        height: 80px;
-        display: flex;
-        gap: 2%;
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
-        z-index: 10;
-        margin: 0;
-        padding: 0;
-    }
-
-    h1{
-        color: #281414;
-        user-select: none;
-    }
-
-    @media (max-width: 1270px) {
-        header{
-            width: 95%;
-        }
-
-        .lien {
-            width: 40%;
-        }
-
-        .basic-multi-select {
-            width: 65%;
-         }
-
-    }
-
-    @media (max-width: 900px) {
-
-        display: flex;
-        flex-direction: column;
-
-        .lien {
-            width: 35%;
-        }
-
-        .basic-multi-select {
-            width: 55%;
-         }
-         
-         #googleMap{
-         }
-
-         
-        
-
-    }
-    @media (max-width: 584px) {
-
-        header{
-            display: grid;
-            gap: 0;
-            grid-template-areas: 'icon search search search'
-                                'icon button button checkbox';
-        }
-
-        .form-group{
-            margin: 0;
-        }
-
-        .lien {
-            width: 100%;
-        }
-
-        .basic-multi-select {
-            width: 90%;
-        }
-
-        .checkbox {
-            margin-top: 1.3rem;
-            width: 90%;
-            margin-left: 1rem;
-        }
-
-    }
+  }
 `
 //Composant qui gère la carte et les sorties qui y sont présenté à l'intérieur à l'aide des markers
 const Map = (props) => {
@@ -203,7 +191,7 @@ const Map = (props) => {
 
 
     const { currentUser, isAdmin } = useContext(UtilisateurContext)
-    const {navigate} = useNavigate()
+    const navigate = useNavigate()
     const { id } = useParams();
 
     /*useEffect(() => {
@@ -218,10 +206,10 @@ const Map = (props) => {
             axios.get(process.env.REACT_APP_API+ "sorties", {
                 headers: {
                     authorization: 'Bearer ' + currentUser.accessToken
-                  }
+                }
             }).then((sorties) => {
                 setsortiesData(sorties.data)
-                for (let sortie of sorties.data){ 
+                for (let sortie of sorties.data){
                     //si la sortie est à l'utilisateur (marker bleu)
                     if (sortie.idutilisateur === currentUser.uid){
                         setmarkerPriveData((current) => [...current,{
@@ -229,13 +217,13 @@ const Map = (props) => {
                             lng: parseFloat(sortie.longitude),
                             key: sortie.id,
                             sortie: sortie}
-                    ])
+                        ])
                         setmarkerPrive((current) => [...current,{
                             lat: parseFloat(sortie.latitude),
                             lng: parseFloat(sortie.longitude),
                             key: sortie.id,
                             sortie: sortie}
-                    ])}
+                        ])}
                     //sinon si c'est un admin ou que la sortie n'est pas privé (marker orange)
                     else if (isAdmin || !sortie.prive){
                         setmarkerPubliqueData((current) => [...current,{
@@ -243,13 +231,13 @@ const Map = (props) => {
                             lng: parseFloat(sortie.longitude),
                             key: sortie.id,
                             sortie: sortie}
-                    ])
+                        ])
                         setmarkerPublique((current) => [...current,{
                             lat: parseFloat(sortie.latitude),
                             lng: parseFloat(sortie.longitude),
                             key: sortie.id,
                             sortie: sortie}
-                    ])}
+                        ])}
                 }
                 if (id){
                     axios.get(process.env.REACT_APP_API+ "especeAnimal/" + id).then((animal) => {
@@ -267,18 +255,18 @@ const Map = (props) => {
             console.log(error.message)
             navigate("/erreur/404")
         }
-      }, [reload])
+    }, [reload])
 
     //Pour localiser sur la map la personne
-    useEffect(() => { 
+    useEffect(() => {
         navigator.geolocation.getCurrentPosition((position) => {
             setlatitude(position.coords.latitude);
             setlongitude(position.coords.longitude);
         })
-     }, [])
+    }, [])
 
-     //Get les espèces pour le select dans le header de la map
-     useEffect(() => {
+    //Get les espèces pour le select dans le header de la map
+    useEffect(() => {
         try {
             axios.get(process.env.REACT_APP_API+"especeAnimal").then((especes) => {
                 setAnimaux(especes.data)
@@ -290,7 +278,7 @@ const Map = (props) => {
                         }
                     ])
                 }
-            })  
+            })
         } catch (error) {
             console.log(error.message)
             navigate("/erreur/404")
@@ -310,7 +298,7 @@ const Map = (props) => {
             setmarkerPrive(markerPriveData)
             setmarkerPublique(markerPubliqueData)
         }
-      }, [optionSelected])
+    }, [optionSelected])
 
 
 
@@ -392,7 +380,7 @@ const Map = (props) => {
     const center = {
         lat: parseFloat(latitude),
         lng: parseFloat(longitude)
-      }
+    }
 
     const closeModal = (bool) => {
         setSelectedSortie(bool)
@@ -404,96 +392,74 @@ const Map = (props) => {
 
     return (
         <>
-        {( isMount &&
-        <StyledMap selectedSortie={selectedSortie}>
-            <GoogleMap
-                id="googleMap"
-                mapContainerStyle={mapContainerStyle}
-                zoom={zoom}
-                center={center}
-                options={options}
-                // extraMapTypes= {['roadmap','satellite']}
-            >
-                <header>
-                    <img className="icone" src={icone} alt="test"></img>
-                    <Link className="lien" to="/prive/formulaireSortie">
-                        <Button text={"Nouvelle Sortie"}></Button>
-                    </Link>
-                    <InputLocalisation
-                        id="inputAddress"
-                        setLatitude={setlatitude}
-                        setLongitude={setlongitude}
-                        setZoom={setZoom}
-                        className="form-group"
-                    >
-                    </InputLocalisation>
-                    <Select
-                        value={optionSelected}
-                        id="select"
-                        options={optionSelect}
-                        isMulti
-                        onChange={setoptionSelected}
-                        className="basic-multi-select form-group"
-                        classNamePrefix="select"
-                    >
-                    </Select>
-                    <div className="form-group checkbox">
-                        <label htmlFor="prive">Prive</label>
-                        <input onChange={(e) => handleCheckBox(e)} type="checkbox" id="prive" />
-                    </div>
-                </header>{(!prive &&
-                <>
-                {markerPublique.map((marker) => (
-                    <Marker
-                        key={marker.key}
-                        position={{lat: marker.lat, lng: marker.lng}}
-                        onClick={() => miseAJourSortie(marker)}
-                        icon={{
-                            url: publiqueIcon,
-                            scaledSize: new window.google.maps.Size(30, 30),
-                            origin: new window.google.maps.Point(0, 0),
-                            anchor: new window.google.maps.Point(15, 15)
-                        }}
-                    >
-                    </Marker>
-                ))}
-                </>
-                )}
-                {markerPrive.map((marker) => (
-                    <Marker
-                        key={marker.key}
-                        position={{lat: marker.lat, lng: marker.lng}}
-                        onClick={() => miseAJourSortie(marker)}
-                        icon={{
-                            url: utilisateurIcon,
-                            scaledSize: new window.google.maps.Size(30, 30),
-                            origin: new window.google.maps.Point(0, 0),
-                            anchor: new window.google.maps.Point(15, 15)
-                        }}
-                    >
-                    </Marker>
-                ))}
-            </GoogleMap>
-            {(selectedSortie &&
-            <ModalSortie
-                className="sortie"
-                idutilisateur={selectedSortie.idutilisateur}
-                description={selectedSortie.description}
-                id={selectedSortie.id}
-                date={selectedSortie.date}
-                photos={selectedSortie.photos}
-                sortie={selectedSortie}
-                onDeleteComponent={onDeleteSortie}
-                //closeModal={() => {setSelectedSortie(null)}}
-                onCloseModal = {closeModal}
-                >
-            </ModalSortie>
-            )}
-            </StyledMap>
+            {( isMount &&
+                <StyledMap selectedSortie={selectedSortie}>
+                    <GoogleMap id="googleMap" mapContainerStyle={mapContainerStyle} zoom={zoom} center={center} options={options}> {/**extraMapTypes= {['roadmap','satellite']}**/}
+                        <header>
+                            <img className="icone" src={icone} alt="logo du site"></img>
+                            {/*<Link className="lien" to="/prive/formulaireSortie">*/}
+                            <Button text={"Nouvelle Sortie"} onClick={() => navigate("/prive/formulaireSortie")}></Button>
+                            {/*</Link>*/}
+                            <InputLocalisation id="inputAddress" setLatitude={setlatitude} setLongitude={setlongitude} setZoom={setZoom} className="form-group" />
+                            <Select value={optionSelected} id="select" options={optionSelect} isMulti onChange={setoptionSelected} className="basic-multi-select form-group" classNamePrefix="select" />
+                            <div className="form-group checkbox">
+                                <label htmlFor="prive">Prive</label>
+                                <input onChange={(e) => handleCheckBox(e)} type="checkbox" id="prive" />
+                            </div>
+                        </header>
+                        {(!prive &&
+                            <>
+                                {markerPublique.map((marker) => (
+                                    <Marker
+                                        key={marker.key}
+                                        position={{lat: marker.lat, lng: marker.lng}}
+                                        onClick={() => miseAJourSortie(marker)}
+                                        icon={{
+                                            url: publiqueIcon,
+                                            scaledSize: new window.google.maps.Size(30, 30),
+                                            origin: new window.google.maps.Point(0, 0),
+                                            anchor: new window.google.maps.Point(15, 15)
+                                        }}
+                                    >
+                                    </Marker>
+                                ))}
+                            </>
+                        )}
+                        {markerPrive.map((marker) => (
+                            <Marker
+                                key={marker.key}
+                                position={{lat: marker.lat, lng: marker.lng}}
+                                onClick={() => miseAJourSortie(marker)}
+                                icon={{
+                                    url: utilisateurIcon,
+                                    scaledSize: new window.google.maps.Size(30, 30),
+                                    origin: new window.google.maps.Point(0, 0),
+                                    anchor: new window.google.maps.Point(15, 15)
+                                }}
+                            >
+                            </Marker>
+                        ))}
+                    </GoogleMap>
+                    {(selectedSortie &&
+                        <ModalSortie
+                            className="sortie"
+                            idutilisateur={selectedSortie.idutilisateur}
+                            description={selectedSortie.description}
+                            id={selectedSortie.id}
+                            date={selectedSortie.date}
+                            photos={selectedSortie.photos}
+                            sortie={selectedSortie}
+                            onDeleteComponent={onDeleteSortie}
+                            //closeModal={() => {setSelectedSortie(null)}}
+                            onCloseModal = {closeModal}
+                        >
+                        </ModalSortie>
+                    )}
+                </StyledMap>
             )}
         </>
     );
 };
 
-  
+
 export default Map;
