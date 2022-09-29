@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 const StyledModalSortie = styled.div`
-  position: absolute;
+  position: fixed;
   background-color: hsl(0, 0%, 50%, 0.85);
   top: 0;
   left: 0;
