@@ -58,7 +58,7 @@ const StyledInscription = styled.div`
   }
 `
 
-const Inscription = () => {
+const Inscription = (props) => {
 
     const {modalState, toggleModals, inscription, inscriptionBD} = useContext(UtilisateurContext)
     const [validation, setvalidation] = useState("")
@@ -78,6 +78,7 @@ const Inscription = () => {
 
     //Fonction qui vérifie la validité des inputs avant de procéder à l'inscription
     const handleForm = async (e) => {
+        //faire modif si props.modif
         e.preventDefault()
         if (inputs.current[0].value.length < 6){
             setvalidation("Pseudo de 6 caractères minimum")

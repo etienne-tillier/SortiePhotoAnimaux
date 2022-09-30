@@ -20,6 +20,7 @@ const ItemUtilisateur = (props) => {
     const {currentUser} = useContext(UtilisateurContext)
     const navigate = useNavigate()
 
+
 //ajouter suppression firebase dans l'api
     const supprimerUtilisateur = (id) => {
         const supp = window.confirm("Voulez vous vraiment supprimer cet utilisateur ?")
@@ -38,7 +39,7 @@ const ItemUtilisateur = (props) => {
         <StyledItemUtilisateur>
                 <td>{props.data.pseudo}</td>
                 <td>{props.data.email}</td>
-                <td>{props.data.isAdmin}</td>
+                <td>{props.data.isadmin ? "Oui" : "Non"}</td>
                 <td><Button onClick={() => {navigate("/admin/panelAdmin/updateUser/" + props.data.id)}} text="Modifier" /></td>
                 <td><Button onClick={() => supprimerUtilisateur(props.data.id)} text="Supprimer" /></td>
         </StyledItemUtilisateur>
